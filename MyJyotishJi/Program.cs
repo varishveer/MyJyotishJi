@@ -1,3 +1,5 @@
+using BusinessAccessLayer.Abstraction;
+using BusinessAccessLayer.Implementation;
 using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); });
+builder.Services.AddScoped<IAccountServices,AccountServices>();
 
 var app = builder.Build();
 

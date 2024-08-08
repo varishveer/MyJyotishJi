@@ -11,9 +11,4 @@
     <ProjectReference Include="..\ModelAccessLayer\ModelAccessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Abstraction\" />
-    <Folder Include="Implementation\" />
-  </ItemGroup>
-
 </Project>

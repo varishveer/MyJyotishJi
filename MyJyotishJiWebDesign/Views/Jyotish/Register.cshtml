@@ -1,0 +1,190 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "Extra";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/MyJyotishJiWebDesign.styles.css" asp-append-version="true" />
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .outerDiv {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-form {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+    .form-control, .form-control select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+        .form-control[type="file"] {
+            border: none;
+        }
+
+    .form-group img {
+        margin-top: 10px;
+        max-width: 150px;
+        border-radius: 50%;
+    }
+
+    .checkbox-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        font-size: 16px;
+        padding: 10px;
+        text-align: center;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .policy-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #777;
+        text-align: center;
+    }
+
+        .policy-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .policy-text a:hover {
+                text-decoration: underline;
+            }
+</style>
+<div class="outerDiv">
+    <h1 class="text-center mb-4">Profile Form</h1>
+    <form class="profile-form">
+        <div class="form-group">
+            <label for="profile-picture">Profile Picture:</label>
+            <input type="file" id="profile-picture" name="profile-picture" class="form-control">
+            <img src="profile-pic-placeholder.png" alt="Profile Picture" id="profile-picture-preview">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="My Jyotish" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="email@gmail.com" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" value="7985738573" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" class="form-control">
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Languages:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="languages" value="Hindi" checked> Hindi</label>
+                <label><input type="checkbox" name="languages" value="English" checked> English</label>
+                <label><input type="checkbox" name="languages" value="Spanish"> Spanish</label>
+                <label><input type="checkbox" name="languages" value="French"> French</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Expertise:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox"checked> Horoscope</label>
+                <label><input type="checkbox"checked> Vastu</label>
+                <label><input type="checkbox" > Tarot</label>
+                <label><input type="checkbox"> Face Reading</label>
+            </div>
+        </div>
+
+       
+
+       
+
+       
+
+        <div class="form-group">
+            <label for="experience">Professional Experience:</label>
+            <input type="text" id="experience" name="experience" value="5 Year" class="form-control">
+        </div>
+
+
+        
+
+       
+
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="Sector 66, Noida" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" value="1995-10-19" class="form-control">
+        </div>
+
+        <div class="text-center">
+            <a href="/Jyotish/Login" class="btn btn-success">
+                Submit
+            </a>
+        </div>
+    </form>
+
+    <div class="policy-text">
+        <p>By submitting this form, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.</p>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
