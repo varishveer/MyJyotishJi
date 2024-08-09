@@ -16,6 +16,7 @@ namespace ModelAccessLayer.Models
         [Required]
         public string FirstName { get; set; }
         public string? LastName { get; set; }
+        
         public string? Mobile { get; set; }
         public DateOnly? DoB { get; set; }
         public string? Password { get; set; }
@@ -28,6 +29,7 @@ namespace ModelAccessLayer.Models
         public string? City { get; set; }
         public int? Pincode { get; set; }
         public string? ProfilePictureUrl { get; set; }
+        public string Pending { get; set; }
 
     }
 }

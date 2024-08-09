@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class JyotishViewModel
+    public class PendingJyotishViewModel
     {
         
         public int Id { get; set; }
@@ -26,21 +26,12 @@ namespace ModelAccessLayer.ViewModels
         public string Email { get; set; }
         [Required]
         public string Mobile { get; set; }
-        [Required]
-        public string ProfileImageUrl { get; set; }
+      
+        public string? ProfileImageUrl { get; set; }
+        public IFormFile? Image { get; set; }
 
         
 
-        public int? Experience { get; set; }
-        public string? Pooja { get; set; }
-        public string? Password { get; set; }
-        public bool? Call { get; set; }
-        public int? CallCharges { get; set; }
-        public bool? Chat { get; set; }
-        public int? ChatCharges { get; set; }
-        public string? Address { get; set; }
-
-        public string? TimeTo { get; set; }
-        public string? TimeFrom { get; set; }
+       
     }
 }

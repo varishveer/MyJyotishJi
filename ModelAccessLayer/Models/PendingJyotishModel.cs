@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class JyotishModel
+    public class PendingJyotishModel
     {
         [Key]
         public int Id { get; set; }
@@ -25,23 +25,9 @@ namespace ModelAccessLayer.Models
         public string Email { get; set; }
         [Required]
         public string Mobile { get; set; }
-        [Required]
+        
         public string ProfileImageUrl { get; set; }
         public string Role { get; set; }
-        
-        public int? Experience { get; set; }
-        public string? Pooja { get; set; }
-        public string? Password { get; set; }
-        public bool? Call { get; set; } 
-        public int? CallCharges { get; set; }
-        public bool? Chat { get; set; }
-        public int? ChatCharges { get; set; }
-        public string? Address { get; set; }
-
-        public TimeOnly? TimeTo { get; set; }
-        public TimeOnly? TimeFrom { get; set; }
-
-
-
+        public string Status { get; set; }
     }
 }

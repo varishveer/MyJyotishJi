@@ -1,10 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessAccessLayer.Abstraction;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace MyJyotishJiWebDesign.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult Login() {  return View(); }
+        private readonly IAccountServices _account;
+        public AdminController(IAccountServices account) 
+        { 
+            _account = account;
+        }
+        public IActionResult Login()
+        { return View(); }
+        [HttpPost]
+        public IActionResult AdminLogin(string username, string password)
+        { 
+            var result =_account.SignInAdmin(username, password);
+            if (result == "Login Successfull")
+            {
+                return Json(new { success = true, redirectUrl = Url.Action("Dashboard", "Admin") });
+            }
+
+            return Json(new { success = false, errorMessage = "Login failed. Please check your username and password." });
+        }
         public IActionResult Dashboard() { return View();}
         public IActionResult JyotishList() { return View(); }
         public IActionResult UserList() { return View(); }

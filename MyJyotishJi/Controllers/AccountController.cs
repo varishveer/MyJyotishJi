@@ -11,16 +11,19 @@ namespace MyJyotishJiApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountServices _account;
-        public AccountController(IAccountServices account)
+        private readonly IWebHostEnvironment _environment;
+        public AccountController(IAccountServices account , IWebHostEnvironment environment)
         {
             _account = account;
+            _environment = environment;
         }
 
         [HttpPost("registerJyotish")]
-        public IActionResult RegisterJyotish(JyotishViewModel jyotishViewModel) 
+        public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
-            
-            bool Result = _account.SignUpJyotish(jyotishViewModel);
+            string? path = _environment.ContentRootPath;
+
+            bool Result = _account.SignUpJyotish(jyotishViewModel,path);
             if (Result == true)
             { return Ok(); }
             else

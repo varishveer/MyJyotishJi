@@ -1,5 +1,7 @@
 ﻿using BusinessAccessLayer.Abstraction;
 using DataAccessLayer.DbServices;
+using DataAccessLayer.Migrations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.VisualBasic;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
@@ -18,11 +20,26 @@ namespace BusinessAccessLayer.Implementation
         {
             _context = context;
         }
-        public bool SignUpJyotish(JyotishViewModel jyotishView)
+
+
+        public bool SignUpJyotish(PendingJyotishViewModel jyotishView , string? path)
         {
+
+            Random random = new Random();
+            // Generate a random number between 1000000000 and 9999999999
+            long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
+            var filePath = "/Assets/Images/" + randomNumber + jyotishView.Image.FileName;
+
+            var fullPath = path + filePath;
+            UploadFile(jyotishView.Image, fullPath);
+            var IsEmailValid = _context.JyotishRecords.Where(x=> x.Email == jyotishView.Email).FirstOrDefault();
+            var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+            if(IsEmailValid != null|| IsMobileValid !=null)
+            { return false; }
+
             const string DateFormat = "yyyy-MM-dd";
            
-            JyotishModel jyotish = new JyotishModel() 
+            PendingJyotishModel jyotish = new PendingJyotishModel() 
             { 
                 Name = jyotishView.Name,
                 DateOfBirth = DateOnly.ParseExact(jyotishView.DateOfBirth, DateFormat, null),
@@ -31,14 +48,21 @@ namespace BusinessAccessLayer.Implementation
                 Expertise = jyotishView.Expertise,
                 Email = jyotishView.Email,
                 Mobile = jyotishView.Mobile,
-                ProfileImageUrl = jyotishView.ProfileImageUrl,
-                Password = "test"
+                ProfileImageUrl = filePath,
+                Role = "Pending Jyotish",
+                Status = "Pending",
+
             };
 
 
-            _context.JyotishRecords.Add(jyotish);
+            _context.PendingJyotishRecords.Add(jyotish);
             _context.SaveChanges();
             return true;
+        }
+        public void UploadFile(IFormFile file, string fullPath)
+        {
+            FileStream stream = new FileStream(fullPath, FileMode.Create);
+            file.CopyTo(stream);
         }
 
         public string SignInJyotish(JyotishLoginModel jyotishLogin)
@@ -60,13 +84,19 @@ namespace BusinessAccessLayer.Implementation
            
         }
 
-        public bool SignUpAdmin(AdminModel admin) 
+        public bool SignUpAdmin(AdminModel admin)
         {
+
+            var IsEmailValid = _context.AdminRecords.Where(x => x.Email == admin.Email).FirstOrDefault();
+           
+            if (IsEmailValid != null )
+            { return false; }
             AdminModel _admin = new AdminModel() 
             { 
                 Name = admin.Name,
                 Email = admin.Email,
                 Password = admin.Password,
+                Role = "Admin",
             };
             _context.AdminRecords.Add(_admin);
             _context.SaveChanges();

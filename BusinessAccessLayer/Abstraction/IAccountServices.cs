@@ -11,7 +11,7 @@ namespace BusinessAccessLayer.Abstraction
     public interface IAccountServices
     {
 
-        public bool SignUpJyotish(JyotishViewModel jyotishView);
+        public bool SignUpJyotish(PendingJyotishViewModel jyotishView ,string? path);
         public string SignInJyotish(JyotishLoginModel jyotishLogin);
         public bool SignUpAdmin(AdminModel admin);
         public string SignInAdmin(string email , string password);

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ModelAccessLayer\ModelAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Images\" />
+  </ItemGroup>
+
 </Project>

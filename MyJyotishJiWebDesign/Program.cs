@@ -1,8 +1,15 @@
+using BusinessAccessLayer.Abstraction;
+using BusinessAccessLayer.Implementation;
+using DataAccessLayer.DbServices;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<ApplicationContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); });
+builder.Services.AddScoped<IAdminServices, AdminServices>();
+builder.Services.AddScoped<IAccountServices, AccountServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

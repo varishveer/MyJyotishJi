@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class AdminModel
+    public class AppointmentModel
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Mobile { get; set; }
+        public string ProfileImageUrl {  get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set;  }
+        public int JyotishId { get; set; }
+        public int UserId { get; set; }
+
     }
 }
