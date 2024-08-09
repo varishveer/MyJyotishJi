@@ -1,10 +1,10 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace MyJyotishJi.Controllers
+namespace MyJyotishJiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,42 +15,57 @@ namespace MyJyotishJi.Controllers
         {
             _account = account;
         }
-    
 
-        // GET: api/<AccountController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpPost("registerJyotish")]
+        public IActionResult RegisterJyotish(JyotishViewModel jyotishViewModel) 
         {
-            return new string[] { "value1", "value2" };
+            
+            bool Result = _account.SignUpJyotish(jyotishViewModel);
+            if (Result == true)
+            { return Ok(); }
+            else
+            {
+                return BadRequest();
+            }
+            
+        }
+        [HttpPost("loginJyotish")]
+        public IActionResult LoginJyotish(JyotishLoginModel jyotishLogin)
+        {
+            string Result = _account.SignInJyotish(jyotishLogin);
+            if (Result == "Login Successfull")
+            { return Ok(); }
+            else
+            {
+                return BadRequest(Result);
+            }
+
         }
 
-       
-
-        // GET api/<AccountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("loginAdmin")]
+        public IActionResult LoginAdmin( string email, string password)
         {
-            return "value";
+            string Result = _account.SignInAdmin(email, password);
+            if (Result == "Login Successfull")
+            { return Ok(); }
+            else
+            {
+                return BadRequest(Result);
+            }
+
         }
-
-        // POST api/<AccountController>
-        [HttpPost]
-        public void Post(UserTempModel userTemp)
+        [HttpPost("registerAdmin")]
+        public IActionResult RegisterAdmin(AdminModel admin)
         {
-            _account.SignUp(userTemp);
-           
-        }
 
-        // PUT api/<AccountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            bool Result = _account.SignUpAdmin(admin);
+            if (Result == true)
+            { return Ok(); }
+            else
+            {
+                return BadRequest();
+            }
 
-        // DELETE api/<AccountController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using DataAccessLayer.DbServices;
+using Microsoft.VisualBasic;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.DbServices;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -18,78 +18,76 @@ namespace BusinessAccessLayer.Implementation
         {
             _context = context;
         }
-
-        public bool SignUp(UserTempModel userTemp)
+        public bool SignUpJyotish(JyotishViewModel jyotishView)
         {
-            userTemp.StoredTime = DateTime.Now;
-            userTemp.Otp = SendEmailOpt(userTemp.Email, userTemp.FirstName);
-            _context.UserTemp.Add(userTemp);
+            const string DateFormat = "yyyy-MM-dd";
+           
+            JyotishModel jyotish = new JyotishModel() 
+            { 
+                Name = jyotishView.Name,
+                DateOfBirth = DateOnly.ParseExact(jyotishView.DateOfBirth, DateFormat, null),
+                Gender = jyotishView.Gender,
+                Language= jyotishView.Language,
+                Expertise = jyotishView.Expertise,
+                Email = jyotishView.Email,
+                Mobile = jyotishView.Mobile,
+                ProfileImageUrl = jyotishView.ProfileImageUrl,
+                Password = "test"
+            };
+
+
+            _context.JyotishRecords.Add(jyotish);
             _context.SaveChanges();
             return true;
         }
-        public  int SendEmailOpt(string Email, string Name)
+
+        public string SignInJyotish(JyotishLoginModel jyotishLogin)
         {
-
-            int sixDigitNumber = new Random().Next(100000, 999999);
-            // Sender's email address and credentials
-            string senderEmail = "varishveer123@gmail.com";
-            string senderPassword = "vjcx xhzp oumw xhdh";
-
-            // Recipient's email address
-            string recipientEmail = Email;
-
-            // SMTP server address and port number
-            string smtpServer = "smtp.gmail.com";
-            int smtpPort = 587; // Use 587 for TLS or 465 for SSL
-
-            // Create a new SMTP client
-            using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
+            var Record =_context.JyotishRecords.Where(x => x.Email == jyotishLogin.Email).FirstOrDefault();
+            if (Record != null)
             {
-                client.EnableSsl = true; // Enable SSL/TLS
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(senderEmail, senderPassword);
-
-                // Create a new email message
-                MailMessage message = new MailMessage(senderEmail, recipientEmail)
+                if (Record.Password == jyotishLogin.Password)
                 {
-                    Subject = "My Jyotish Ji",
-                    Body = "Hello " + Name + ", Your verification code is " + sixDigitNumber + "."
-                };
-                // Send the email
-                client.Send(message);
-                return sixDigitNumber;
-            }
-        }
-
-        public string Verification(UserTempModel userTemp)
-        {
-            UserTempModel user = _context.UserTemp.Where(x => x.Email == userTemp.Email).FirstOrDefault();
-            if (userTemp != null && user != null)
-            {
-                if (user.Email == userTemp.Email)
-                {
-                    if (user.Otp == userTemp.Otp)
-                    {
-                        UserModel userModel = new UserModel()
-                        {
-                            Email = userTemp.Email,
-                            FirstName = userTemp.FirstName
-                        };
-                        _context.Users.Add(userModel);
-                        _context.SaveChanges();
-                        return "Success";
-
-                    }
-                    else
-                    { return "Invalid Otp"; }
+                    return "Login Successfull";
                 }
                 else
-                { return "Invalid Email"; }
-                
+                {
+                    return "Incorrect Password";
+                }
             }
-            else 
-            { return "Invalid Data"; }
-            
+            else
+            { return "Invalid Email"; }
+           
+        }
+
+        public bool SignUpAdmin(AdminModel admin) 
+        {
+            AdminModel _admin = new AdminModel() 
+            { 
+                Name = admin.Name,
+                Email = admin.Email,
+                Password = admin.Password,
+            };
+            _context.AdminRecords.Add(_admin);
+            _context.SaveChanges();
+            return true;
+        }
+        public string SignInAdmin(string email, string password) 
+        {
+            var _admin = _context.AdminRecords.Where(x => x.Email == email).FirstOrDefault();
+            if (_admin != null) 
+            {
+                if (_admin.Password == password)
+                {
+                    return "Login Successfull";
+                }
+                else
+                {
+                    return "Incorrect Password";
+                }
+            }
+            else
+            { return "Invalid Email"; }
         }
     }
 }

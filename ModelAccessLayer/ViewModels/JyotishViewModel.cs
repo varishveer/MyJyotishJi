@@ -1,20 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public class JyotishModel
+    public class JyotishViewModel
     {
-        [Key]
+        
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public DateOnly DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
         [Required]
         public string Gender { get; set; }
         [Required]
@@ -27,20 +28,19 @@ namespace ModelAccessLayer.Models
         public string Mobile { get; set; }
         [Required]
         public string ProfileImageUrl { get; set; }
+
         
+
         public int? Experience { get; set; }
         public string? Pooja { get; set; }
         public string? Password { get; set; }
-        public bool? Call { get; set; } 
+        public bool? Call { get; set; }
         public int? CallCharges { get; set; }
         public bool? Chat { get; set; }
         public int? ChatCharges { get; set; }
         public string? Address { get; set; }
 
-        public TimeOnly? TimeTo { get; set; }
-        public TimeOnly? TimeFrom { get; set; }
-
-
-
+        public string? TimeTo { get; set; }
+        public string? TimeFrom { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240809065012_JyotishVi")]
+    partial class JyotishVi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,14 +64,14 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool?>("Call")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("CallCharges")
-                        .HasColumnType("int");
+                    b.Property<string>("CallCharges")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Chat")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ChatCharges")
-                        .HasColumnType("int");
+                    b.Property<string>("ChatCharges")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -77,8 +80,8 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
+                    b.Property<string>("Experience")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Expertise")
                         .IsRequired()

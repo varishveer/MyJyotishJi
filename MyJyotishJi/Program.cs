@@ -12,7 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); });
-builder.Services.AddScoped<IAccountServices,AccountServices>();
+
+builder.Services.AddScoped<IAccountServices, AccountServices>();
 
 var app = builder.Build();
 
