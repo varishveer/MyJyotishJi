@@ -1,4 +1,4 @@
-﻿using BusinessAccessLayer.Abstraction;
+﻿
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -6,17 +6,13 @@ namespace MyJyotishJiWebDesign.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IAccountServices _account;
-        public AdminController(IAccountServices account) 
-        { 
-            _account = account;
-        }
+       
         public IActionResult Login()
         { return View(); }
         [HttpPost]
         public IActionResult AdminLogin(string username, string password)
-        { 
-            var result =_account.SignInAdmin(username, password);
+        {
+            var result = "";
             if (result == "Login Successfull")
             {
                 return Json(new { success = true, redirectUrl = Url.Action("Dashboard", "Admin") });
@@ -33,7 +29,7 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult ExpertiseList() { return View(); }
         public IActionResult AdminProfile() { return View(); }
         public IActionResult EditProfile() { return View(); }
-        public IActionResult UpcommingAppointments() { return View(); }
+        public IActionResult PendingJyotish() { return View(); }
 
         public IActionResult AddPooja() { return View(); }
         public IActionResult AddExpertise() { return View(); }

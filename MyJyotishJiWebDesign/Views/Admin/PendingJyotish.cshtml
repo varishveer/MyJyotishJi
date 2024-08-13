@@ -1,43 +1,15 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+
 @{
     Layout = "AdminLayout";
 }
-
-@* 
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Appointments</h6>
-        </div>
-        <div id="buttonContainer1">
+            <h6 class="mb-0">Pending Jyotish</h6>
 
         </div>
         <div class="table-responsive">
-            
-
-            <table id="DataTable" class="table text-start align-middle table-bordered table-hover mb-0" style="width:100%;">
-                <!-- Table headers will be inserted dynamically -->
-            </table>
-        </div>
-    </div>
-</div> *@
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Include DataTables CSS -->
-<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet">
-
-
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Appointments</h6>
-        </div>
-        <div id="buttonContainer1">
-        </div>
-        <div class="table-responsive">
-
 
             <table id="DataTable" class="table text-start align-middle table-bordered table-hover mb-0" style="width:100%;">
                 <!-- Table headers will be inserted dynamically -->
@@ -52,23 +24,23 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Include DataTables JS -->
 <script src="https://cdn.datatables.net/2.1.3/js/jquery.dataTables.min.js"></script>
-
 <script>
     $(document).ready(function () {
         function fetchData() {
             $.ajax({
-                url: "https://localhost:7118/api/Admin/Appointment",
+                url: "https://localhost:7118/api/Admin/PendingJyotish",
                 type: 'GET',
                 success: function (result) {
-                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>expertise</th><th>address</th><th>Action</th></tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
-                        htmls += `<td class="text-center">${item.dateTime}</td>`;
+                        htmls += `<td class="text-center">${item.id}</td>`;
                         htmls += `<td class="text-center">${item.name}</td>`;
-                        htmls += `<td class="text-center">${item.amount}</td>`;
-                        htmls += `<td class="text-center">${item.problem}</td>`;
-                        htmls += `<td class="text-center">${item.solution}</td>`;
+                        htmls += `<td class="text-center">${item.mobile}</td>`;
+                        htmls += `<td class="text-center">${item.expertise}</td>`;
+                        htmls += `<td class="text-center">${item.address}</td>`;
+
                         htmls += `<td class="text-center">Action</td>`;
                         htmls += '</tr>';
                     });

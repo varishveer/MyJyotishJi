@@ -33,9 +33,9 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.Users.ToList();
             return Records;
         }
-        public List<UserModel> GetAllTeamMember()
+        public List<TeamMemberModel> GetAllTeamMember()
         {
-            var Records = _context.Users.ToList();
+            var Records = _context.TeamMemberRecords.ToList();
             return Records;
         }
 
@@ -63,8 +63,11 @@ namespace BusinessAccessLayer.Implementation
             };
             _context.PendingJyotishRecords.Update(Jyotish);
             _context.JyotishRecords.Add(model);
-            _context.SaveChanges(); 
-            return true;
+            var result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else { return false; }
+            
         }
 
         public bool RejectJyotish(int JyotishId)

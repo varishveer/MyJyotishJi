@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -7,21 +8,22 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.Models
 {
-    public class AppointmentModel
+    public class TeamMemberModel
     {
         [Key]
         public int Id { get; set; }
-        public string Mode { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Mobile { get; set; }
-        public DateTime DateTime { get; set; }
-      
+        [Required]
+        public string ProfilePictureUrl {  get; set; }
+        [Required]
         public string Email { get; set; }
-        public int JyotishId { get; set; }
-        public int UserId { get; set; }
-        public string Problem { get; set; }
-        public string Solution { get; set; }
-        public string Status { get; set; }
-        public int Amount { get; set; }
+        [Required]
+        public int JyotishId {  get; set; }
+        [Required]
+        public string Role { get; set; }
+
     }
 }

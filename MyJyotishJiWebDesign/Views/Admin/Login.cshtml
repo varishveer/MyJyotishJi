@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "Extra";
 }
-<link href="img/favicon.ico" rel="icon">
+<link href="~/Img/" rel="icon">
 
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,14 +13,14 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-<link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+<link href="~/css/style.css" rel="stylesheet">
 <div class="container-xxl position-relative bg-white d-flex p-0">
 
     <!-- Sign In Start -->
@@ -36,11 +36,11 @@
                     </div>
                     <form id="loginForm">
                         <div class="form-floating mb-3">
-                            <input type="text" name="username" class="form-control" id="username" placeholder="name@example.com">
-                            <label for="username">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <label for="email">Email address</label>
                         </div>
                         <div class="form-floating mb-4">
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
                             <label for="password">Password</label>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -53,7 +53,6 @@
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
                         <p class="text-center mb-0">Don't have an Account? <a href="#">Sign Up</a></p>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -77,30 +76,94 @@
 <script>
     $(document).ready(function () {
         $('#loginForm').submit(function (e) {
-            e.preventDefault(); // prevent the form from submitting normally
+            e.preventDefault(); // Prevent the form from submitting normally
 
-            var username = $('#username').val();
+            var email = $('#email').val();
             var password = $('#password').val();
 
             $.ajax({
-                url: "/Admin/AdminLogin",
+                url: "https://localhost:7118/Api/Account/loginAdmin",
                 type: 'POST',
-                data: {
-                    username: username,
+                contentType: 'application/json', // Specify that the content type is JSON
+                data: JSON.stringify({
+                    email: email,
                     password: password
-                },
+                }),
                 success: function (response) {
                     if (response.success) {
-                        window.location.href = response.redirectUrl;
+                       
+                        console.log("Login successful");
+                        window.location.href = "/Admin/Dashboard";
                     } else {
-                        alert(response.errorMessage);
+                        console.log("Invalid credentials");
+                        alert("Invalid credentials");
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
+                    console.error("Error:", xhr.responseText);
                 }
             });
         });
     });
 
+
 </script>
+
+@* <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('https://localhost:7118/Api/Account/loginAdmin', { // Adjust URL as needed
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('jwtToken', data.token);
+                document.getElementById('response').textContent = 'Login successful! Token stored.';
+            } else {
+                document.getElementById('response').textContent = 'Login failed.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('response').textContent = 'An error occurred.';
+        }
+    });
+
+    async function fetchSecureData() {
+        const token = localStorage.getItem('jwtToken');
+
+        if (token) {
+            try {
+                const response = await fetch('https://localhost:5001/securedata', { // Adjust URL as needed
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+                } else {
+                    document.getElementById('response').textContent = 'Failed to fetch secure data.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').textContent = 'An error occurred.';
+            }
+        } else {
+            document.getElementById('response').textContent = 'No token found. Please log in.';
+        }
+    }
+
+    // Example call to fetch secure data
+    // fetchSecureData();
+</script> *@

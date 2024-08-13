@@ -12,7 +12,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<JyotishModel> GetAllJyotish();
         public List<PendingJyotishModel> GetAllPendingJyotish();
         public List<UserModel> GetAllUser();
-        public List<UserModel> GetAllTeamMember();
+        public List<TeamMemberModel> GetAllTeamMember();
         public List<AppointmentModel> GetAllAppointment();
         public bool ApproveJyotish(int JyotishId);
         public bool RejectJyotish(int JyotishId);

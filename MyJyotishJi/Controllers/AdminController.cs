@@ -19,13 +19,13 @@ namespace MyJyotishJiApi.Controllers
         public IActionResult AllJyotishRecord()
         {
             var Records = _admin.GetAllJyotish();
-            return Ok(Records);
+            return Ok(new { Success = true, data = Records });
         }
         [HttpGet("PendingJyotish")]
         public IActionResult AllPendingJyotishRecord()
         {
             var Records = _admin.GetAllPendingJyotish();
-            return Ok(Records);
+            return Ok(new { Success = true, data = Records });
         }
         [HttpGet("User")]
         public IActionResult AllUser()
@@ -42,9 +42,11 @@ namespace MyJyotishJiApi.Controllers
         [HttpGet("Appointment")]
         public IActionResult AllAppointment()
         {
-            var Records = _admin.GetAllAppointment();
-            return Ok(Records);
+            List<AppointmentModel> Records = _admin.GetAllAppointment();
+
+            return Ok(new { Success = true, data = Records });
         }
+
         [HttpPut("ApproveJyotish")]
         public IActionResult ApproveJyotish(int Id)
         {

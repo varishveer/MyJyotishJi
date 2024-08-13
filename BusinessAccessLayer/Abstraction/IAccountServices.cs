@@ -12,7 +12,7 @@ namespace BusinessAccessLayer.Abstraction
     {
 
         public bool SignUpJyotish(PendingJyotishViewModel jyotishView ,string? path);
-        public string SignInJyotish(JyotishLoginModel jyotishLogin);
+        public string SignInJyotish(LoginModel jyotishLogin);
         public bool SignUpAdmin(AdminModel admin);
         public string SignInAdmin(string email , string password);
     }

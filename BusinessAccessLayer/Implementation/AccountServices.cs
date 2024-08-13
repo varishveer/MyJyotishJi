@@ -24,18 +24,19 @@ namespace BusinessAccessLayer.Implementation
 
         public bool SignUpJyotish(PendingJyotishViewModel jyotishView , string? path)
         {
+            var IsEmailValid = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
+            var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+            if (IsEmailValid != null || IsMobileValid != null)
+            { return false; }
 
             Random random = new Random();
             // Generate a random number between 1000000000 and 9999999999
             long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
-            var filePath = "/Assets/Images/" + randomNumber + jyotishView.Image.FileName;
+            var filePath = "/Assets/Images/Jyotish/" + randomNumber + jyotishView.Image.FileName;
 
             var fullPath = path + filePath;
             UploadFile(jyotishView.Image, fullPath);
-            var IsEmailValid = _context.JyotishRecords.Where(x=> x.Email == jyotishView.Email).FirstOrDefault();
-            var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
-            if(IsEmailValid != null|| IsMobileValid !=null)
-            { return false; }
+          
 
             const string DateFormat = "yyyy-MM-dd";
            
@@ -65,14 +66,14 @@ namespace BusinessAccessLayer.Implementation
             file.CopyTo(stream);
         }
 
-        public string SignInJyotish(JyotishLoginModel jyotishLogin)
+        public string SignInJyotish(LoginModel jyotishLogin)
         {
             var Record =_context.JyotishRecords.Where(x => x.Email == jyotishLogin.Email).FirstOrDefault();
             if (Record != null)
             {
                 if (Record.Password == jyotishLogin.Password)
                 {
-                    return "Login Successfull";
+                    return "Login Successful";
                 }
                 else
                 {
@@ -109,7 +110,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 if (_admin.Password == password)
                 {
-                    return "Login Successfull";
+                    return "Login Successful";
                 }
                 else
                 {

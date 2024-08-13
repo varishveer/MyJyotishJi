@@ -17,7 +17,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<UserModel> Users { get; set; }
         //public DbSet<UserTempModel> TempUser { get; set;  }
         public DbSet<AppointmentModel> AppointmentRecords { get; set; }
-
+        public DbSet<TeamMemberModel> TeamMemberRecords { get; set; }
 
     }
 }

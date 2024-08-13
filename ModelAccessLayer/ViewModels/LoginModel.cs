@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class JyotishLoginModel
+    public class LoginModel
     {
         [Required]
         public string Email { get; set; }

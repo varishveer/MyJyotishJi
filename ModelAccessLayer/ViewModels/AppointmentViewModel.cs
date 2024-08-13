@@ -5,23 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public class AppointmentModel
+    public class AppointmentViewModel
     {
-        [Key]
-        public int Id { get; set; }
+        [Required]
         public string Mode { get; set; }
-        public string Name { get; set; }
+        [Required]
+        public string Name { get; set;  }
+        [Required]
         public string Mobile { get; set; }
+        [Required]
         public DateTime DateTime { get; set; }
       
-        public string Email { get; set; }
-        public int JyotishId { get; set; }
-        public int UserId { get; set; }
+        [Required]
+        public string Email {  get; set; }
+        [Required]
+        public string JyotishEmail { get; set; }
+        [Required]
         public string Problem { get; set; }
-        public string Solution { get; set; }
-        public string Status { get; set; }
+        [Required]
         public int Amount { get; set; }
     }
 }

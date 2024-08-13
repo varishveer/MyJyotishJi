@@ -13,9 +13,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessAccessLayer\BusinessAccessLayer.csproj" />
-    <ProjectReference Include="..\ModelAccessLayer\ModelAccessLayer.csproj" />
-  </ItemGroup>
-
 </Project>
