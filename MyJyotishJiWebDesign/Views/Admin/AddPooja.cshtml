@@ -71,7 +71,7 @@
 <div class="outerDiv">
     <div class="container">
         <h1>Edit Pooja Information</h1>
-        <form class="pooja-form">
+        <form id="PoojaForm" class="pooja-form">
             <div class="form-group">
                 <label for="pooja">Pooja:</label>
                 <textarea id="pooja" name="pooja" rows="6" placeholder="Enter Pooja details here..."></textarea>
@@ -80,3 +80,40 @@
         </form>
     </div>
 </div>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#PoojaForm').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            var pooja = $('#pooja').val();
+           
+
+            $.ajax({
+                url: "https://localhost:7118/Api/Admin/AddPooja",
+                type: 'POST',
+                contentType: 'application/json', // Specify that the content type is JSON
+                data: JSON.stringify({
+                    name: pooja,
+                   
+                }),
+                success: function (response) {
+                    if (response.success) {
+
+                       
+                        window.location.href = "/Admin/PoojaList";
+                    } else {
+                       
+                        alert("Pooja Not Added");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>

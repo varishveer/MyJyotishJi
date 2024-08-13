@@ -37,7 +37,7 @@
                 url: "https://localhost:7118/api/Admin/Jyotish",
                 type: 'GET',
                 success: function (result) {
-                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Expertise</th><th>Language</th></tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
@@ -45,9 +45,9 @@
                         htmls += `<td class="text-center">${item.name}</td>`;
                         htmls += `<td class="text-center">${item.mobile}</td>`;
                         htmls += `<td class="text-center">${item.expertise}</td>`;
-                        htmls += `<td class="text-center">${item.address}</td>`;
+                        htmls += `<td class="text-center">${item.language}</td>`;
                         
-                        htmls += `<td class="text-center">Action</td>`;
+                      
                         htmls += '</tr>';
                     });
 

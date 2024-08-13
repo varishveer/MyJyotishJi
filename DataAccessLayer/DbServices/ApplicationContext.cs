@@ -18,6 +18,8 @@ namespace DataAccessLayer.DbServices
         //public DbSet<UserTempModel> TempUser { get; set;  }
         public DbSet<AppointmentModel> AppointmentRecords { get; set; }
         public DbSet<TeamMemberModel> TeamMemberRecords { get; set; }
+        public DbSet<PoojaModel> PoojaRecords { get; set; }
+        public DbSet<ExpertiseModel> ExpertiseRecords { get; set; } 
 
     }
 }

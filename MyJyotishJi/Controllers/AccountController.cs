@@ -3,6 +3,7 @@ using BusinessAccessLayer.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
@@ -19,12 +20,13 @@ namespace MyJyotishJiApi.Controllers
     {
         private readonly IAccountServices _account;
         private readonly IWebHostEnvironment _environment;
-
+        private readonly IConfiguration _config;
        
-        public AccountController(IAccountServices account , IWebHostEnvironment environment)
+        public AccountController(IAccountServices account , IWebHostEnvironment environment, IConfiguration configuration)
         {
             _account = account;
             _environment = environment;
+            _config = configuration;
            
         }
 
@@ -66,7 +68,7 @@ namespace MyJyotishJiApi.Controllers
         }*/
 
         
-        [Authorize]
+        
         [HttpPost("registerJyotish")]
         public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
@@ -85,23 +87,57 @@ namespace MyJyotishJiApi.Controllers
             }
             
         }
-        /*[HttpPost("loginJyotish")]
+
+        /* [AllowAnonymous]
+         [HttpPost]
+         public IActionResult LoginJyotish(LoginModel jyotishLogin)
+         {
+             var response = Unauthorized();
+             string Result = _account.SignInJyotish(jyotishLogin);
+             if (Result == "Login Successful")
+             {
+
+                 var tokenString = GeneratedJsonWebToken(jyotishLogin);
+                 var result = new { Success = true,token = tokenString };
+                 return Ok(result);
+
+             }
+             else
+             {
+                 return response;
+             }
+
+         }*/
+        /*private string GeneratedJsonWebToken(LoginModel jyotishLogin) 
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new  SigningCredentials(securityKey ,SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+            new Claim (JwtRegisteredClaimNames.Email, jyotishLogin.Email)
+            };
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"],claims,expires:DateTime.Now.AddMinutes(30),signingCredentials:credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }*/
+
+        [HttpPost("loginJyotish")]
         public IActionResult LoginJyotish(LoginModel jyotishLogin)
         {
             string Result = _account.SignInJyotish(jyotishLogin);
             if (Result == "Login Successful")
             {
-               
+
                 var result = new { Success = true };
                 return Ok(result);
-                
+
             }
             else
             {
                 return BadRequest(Result);
             }
 
-        }*/
+        }
 
         [HttpPost("loginAdmin")]
         public IActionResult LoginAdmin(LoginModel login)
@@ -109,6 +145,7 @@ namespace MyJyotishJiApi.Controllers
             string Result = _account.SignInAdmin(login.Email, login.Password);
             if (Result == "Login Successful")
             {
+               /* var tokenString = GeneratedJsonWebToken(login);*/
                 var result = new { Success = true };
                 return Ok(result);
             }
@@ -118,6 +155,7 @@ namespace MyJyotishJiApi.Controllers
             }
 
         }
+        
         [HttpPost("registerAdmin")]
         public IActionResult RegisterAdmin(AdminModel admin)
         {

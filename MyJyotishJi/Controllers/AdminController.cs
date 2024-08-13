@@ -31,13 +31,15 @@ namespace MyJyotishJiApi.Controllers
         public IActionResult AllUser()
         {
             var Records = _admin.GetAllUser();
-            return Ok(Records);
+
+            return Ok(new { Success = true, data = Records });
+
         }
         [HttpGet("TeamMember")]
         public IActionResult AllTeamMember()
         {
             var Records = _admin.GetAllTeamMember();
-            return Ok(Records);
+            return Ok(new { Success = true, data = Records });
         }
         [HttpGet("Appointment")]
         public IActionResult AllAppointment()
@@ -47,19 +49,55 @@ namespace MyJyotishJiApi.Controllers
             return Ok(new { Success = true, data = Records });
         }
 
-        [HttpPut("ApproveJyotish")]
+        [HttpPost("ApproveJyotish")]
         public IActionResult ApproveJyotish(int Id)
         {
             var Records = _admin.ApproveJyotish(Id);
-            return Ok(Records);
+            return Ok(new { Success = true, data = Records });
         }
-        [HttpPut("RejectJyotish")]
+        [HttpPost("RejectJyotish")]
         public IActionResult RejectJyotish(int Id)
         {
             var Records = _admin.RejectJyotish(Id);
-            return Ok(Records);
+            return Ok(new { Success = true, data = Records });
         }
 
-      
+        [HttpPost("AddPooja")]
+        public IActionResult AddPooja(PoojaModel pooja)
+        {
+            var result = _admin.AddPooja(pooja);
+            if (result == true)
+            {
+                return Ok(new { success = true });
+            }
+            else { return BadRequest(); }
+        }
+
+        [HttpPost("AddExpertise")]
+        public IActionResult AddExpertise(ExpertiseModel expertise)
+        {
+            var result = _admin.AddExpertise(expertise);
+            if (result == true)
+            {
+                return Ok(new { success = true });
+            }
+            else { return BadRequest(); }
+        }
+
+        [HttpGet("PoojaList")]
+        public IActionResult PoojaList()
+        {
+            var Records = _admin.GetAllPooja();
+            return Ok(new { Success = true, data = Records });
+
+        }
+        [HttpGet("ExpertiseList")]
+        public IActionResult ExpertiseList()
+        {
+            var Records = _admin.GetAllExpertise();
+            return Ok(new { Success = true, data = Records });
+
+        }
+
     }
 }

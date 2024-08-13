@@ -16,5 +16,9 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentModel> GetAllAppointment();
         public bool ApproveJyotish(int JyotishId);
         public bool RejectJyotish(int JyotishId);
+        public bool AddPooja(PoojaModel _pooja);
+        public bool AddExpertise(ExpertiseModel _expertise);
+        public List<ExpertiseModel> GetAllExpertise();
+        public List<PoojaModel> GetAllPooja();
     }
 }

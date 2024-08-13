@@ -71,7 +71,7 @@
 <div class="outerDiv">
     <div class="container">
         <h1>Edit Expertise Information</h1>
-        <form class="Expertise-form">
+        <form id="ExpertiseFrom" class="Expertise-form">
             <div class="form-group">
                 <label for="Expertise">Expertise:</label>
                 <textarea id="Expertise" name="Expertise" rows="6" placeholder="Enter Expertise details here..."></textarea>
@@ -80,3 +80,42 @@
         </form>
     </div>
 </div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#ExpertiseFrom').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            var Expertise = $('#Expertise').val();
+
+
+            $.ajax({
+                url: "https://localhost:7118/Api/Admin/AddExpertise",
+                type: 'POST',
+                contentType: 'application/json', // Specify that the content type is JSON
+                data: JSON.stringify({
+                    id : 0,
+                    name: Expertise,
+
+                }),
+                success: function (response) {
+                    if (response.success) {
+
+
+                        window.location.href = "/Admin/ExpertiseList";
+                    } else {
+
+                        alert("Expertise Not Added");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+</script>

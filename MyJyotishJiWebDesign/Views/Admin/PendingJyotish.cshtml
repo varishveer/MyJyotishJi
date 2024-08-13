@@ -3,6 +3,17 @@
 @{
     Layout = "AdminLayout";
 }
+
+<style>
+    .approveButton {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+        .approveButton:hover {
+            transform: scale(1.1);
+        }
+</style>
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -31,7 +42,7 @@
                 url: "https://localhost:7118/api/Admin/PendingJyotish",
                 type: 'GET',
                 success: function (result) {
-                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>expertise</th><th>address</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Expertise</th><th>Language</th><th>Gender</th><th>Action</th></tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
@@ -39,9 +50,14 @@
                         htmls += `<td class="text-center">${item.name}</td>`;
                         htmls += `<td class="text-center">${item.mobile}</td>`;
                         htmls += `<td class="text-center">${item.expertise}</td>`;
-                        htmls += `<td class="text-center">${item.address}</td>`;
+                        htmls += `<td class="text-center">${item.language}</td>`;
+                        htmls += `<td class="text-center">${item.gender}</td>`;
 
-                        htmls += `<td class="text-center">Action</td>`;
+                        htmls += `<td class="text-center"><svg class="approveButton" data-id="${item.id}" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+        <path fill="currentColor" d="m10.6 13.8l-2.15-2.15q-.275-.275-.7-.275t-.7.275t-.275.7t.275.7L9.9 15.9q.3.3.7.3t.7-.3l5.65-5.65q.275-.275.275-.7t-.275-.7t-.7-.275t-.7.275zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+        </svg></i> <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M8.25 21L3 15.75v-7.5L8.25 3h7.5L21 8.25v7.5L15.75 21zm.9-4.75L12 13.4l2.85 2.85l1.4-1.4L13.4 12l2.85-2.85l-1.4-1.4L12 10.6L9.15 7.75l-1.4 1.4L10.6 12l-2.85 2.85zM9.1 19h5.8l4.1-4.1V9.1L14.9 5H9.1L5 9.1v5.8zm2.9-7" />
+    </svg></i></td>`;
                         htmls += '</tr>';
                     });
 
@@ -57,5 +73,75 @@
 
         // Load all records by default
         fetchData();
+    });
+</script>
+
+<script>
+    $(document).on('click', '.approveButton', function () {
+        // Get the ID from the data-id attribute of the clicked SVG
+        debugger;
+        var Id = $(this).data('id');
+
+        // Check if ID is not empty
+        // if (Id) {
+        //     // API URL - replace this with your actual API endpoint
+        //     var apiUrl = 'https://localhost:7118/Api/Admin/ApproveJyotish';
+
+        //     // Prepare the data to be sent in the POST request
+           
+
+        //     // Make a POST API call using fetch
+        //     fetch(apiUrl, {
+        //         method: 'POST', // HTTP method
+        //         headers: {
+        //             'Content-Type': 'application/json' // Indicates the content type
+        //         },
+        //         body: Id 
+        //     })
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error('Network response was not ok');
+        //             }
+        //             return response.json(); // Parse the JSON from the response
+        //         })
+        //         .then(data => {
+        //             // Handle the response data here
+        //             console.log('Success:', data);
+        //         })
+        //         .catch((error) => {
+        //             // Handle any errors here
+        //             console.error('Error:', error);
+        //         });
+        // } else {
+        //     alert('No ID provided');
+        // }
+
+
+
+
+
+        $.ajax({
+            url: "https://localhost:7118/Api/Admin/ApproveJyotish",
+            type: 'POST',
+            contentType: 'application/json', // Specify that the content type is JSON
+            data: JSON.stringify({
+                id: Id,
+                
+
+            }),
+            success: function (response) {
+                if (response.success) {
+
+
+                    window.location.href = "/Admin/JyotishList";
+                } else {
+
+                    alert("Expertise Not Added");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", xhr.responseText);
+            }
+        });
     });
 </script>

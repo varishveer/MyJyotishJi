@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DbServices;
 using ModelAccessLayer.Models;
+using DataAccessLayer.Migrations;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -78,6 +79,45 @@ namespace BusinessAccessLayer.Implementation
             _context.PendingJyotishRecords.Remove(Jyotish);
             _context.SaveChanges();
             return true;
+        }
+
+        public bool AddPooja(PoojaModel _pooja)
+        {
+            var isPoojaValid = _context.PoojaRecords.Where(x => x.Name == _pooja.Name).FirstOrDefault();
+            if (isPoojaValid != null) { return false; }
+            _pooja.DateAdded = DateTime.Now;
+            _context.PoojaRecords.Add(_pooja);
+            var result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else
+            { return false; }
+            
+        }
+        public bool AddExpertise(ExpertiseModel _expertise)
+        {
+            var isExpertiseValid = _context.ExpertiseRecords.Where(x => x.Name == _expertise.Name).FirstOrDefault();
+            if (isExpertiseValid != null) { return false; }
+            _expertise.DateAdded = DateTime.Now;
+            _context.ExpertiseRecords.Add(_expertise);
+            var result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else
+            { return false; }
+
+        }
+
+        public List<PoojaModel> GetAllPooja()
+        {
+            var records = _context.PoojaRecords.ToList();
+            return records;
+        }
+
+        public List<ExpertiseModel> GetAllExpertise()
+        {
+            var records = _context.ExpertiseRecords.ToList();
+            return records;
         }
     }
 }

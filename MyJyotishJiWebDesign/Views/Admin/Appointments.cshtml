@@ -5,28 +5,8 @@
     Layout = "AdminLayout";
 }
 
-@* 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Appointments</h6>
-        </div>
-        <div id="buttonContainer1">
 
-        </div>
-        <div class="table-responsive">
-            
 
-            <table id="DataTable" class="table text-start align-middle table-bordered table-hover mb-0" style="width:100%;">
-                <!-- Table headers will be inserted dynamically -->
-            </table>
-        </div>
-    </div>
-</div> *@
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Include DataTables CSS -->
-<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css" rel="stylesheet">
 
 
 <div class="container-fluid pt-4 px-4">
@@ -48,10 +28,7 @@
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Include Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Include DataTables JS -->
-<script src="https://cdn.datatables.net/2.1.3/js/jquery.dataTables.min.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -60,7 +37,7 @@
                 url: "https://localhost:7118/api/Admin/Appointment",
                 type: 'GET',
                 success: function (result) {
-                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th><th>Action</th></tr></thead><tbody>';
+                    let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th></tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
                         htmls += '<tr>';
@@ -69,20 +46,20 @@
                         htmls += `<td class="text-center">${item.amount}</td>`;
                         htmls += `<td class="text-center">${item.problem}</td>`;
                         htmls += `<td class="text-center">${item.solution}</td>`;
-                        htmls += `<td class="text-center">Action</td>`;
+                        
                         htmls += '</tr>';
                     });
 
                     htmls += '</tbody>';
                     $('#DataTable').html(htmls);
-
+                    $('#DataTable').DataTable();
                 },
                 error: function (errormessage) {
                     console.error('Error fetching data:', errormessage.responseText);
                 }
             });
         }
-
+       // let table = new DataTable('#DataTable');
         // Load all records by default
         fetchData();
     });

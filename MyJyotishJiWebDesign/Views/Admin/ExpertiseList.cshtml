@@ -9,42 +9,51 @@
         <h2 class="mb-4">Expertise List</h2>
         <a href="/Admin/AddExpertise"> <button class="btn btn-success">Add New</button></a>
        
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Expertise</th>
-                    <th scope="col">Date Added</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Vastu</td>
-                    <td>2023-01-15</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Card</td>
-                    <td>2023-02-10</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Palmistry</td>
-                    <td>2023-03-05</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Horoscope</td>
-                    <td>2023-04-18</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Face reading</td>
-                    <td>2023-05-23</td>
-                </tr>
-            </tbody>
+        <table id="DataTable" class="table table-bordered">
+            
         </table>
     </div>
 
 </div>
+
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/2.1.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function fetchData() {
+            $.ajax({
+                url: "https://localhost:7118/api/Admin/ExpertiseList",
+                type: 'GET',
+                success: function (result) {
+                    let htmls = '<thead><tr><th>Id</th><th>Expertise</th><th>DateAdded</th></thead><tbody>';
+
+                    $.each(result.data, function (key, item) {
+                        htmls += '<tr>';
+                        htmls += `<td class="text-center">${item.id}</td>`;
+                        htmls += `<td class="text-center">${item.name}</td>`;
+                        htmls += `<td class="text-center">${item.dateAdded}</td>`;
+
+
+
+                        htmls += '</tr>';
+                    });
+
+                    htmls += '</tbody>';
+                    $('#DataTable').html(htmls);
+
+                },
+                error: function (errormessage) {
+                    console.error('Error fetching data:', errormessage.responseText);
+                }
+            });
+        }
+
+        // Load all records by default
+        fetchData();
+    });
+</script>
