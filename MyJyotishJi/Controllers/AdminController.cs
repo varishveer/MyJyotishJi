@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 
 namespace MyJyotishJiApi.Controllers
 {
@@ -15,6 +17,26 @@ namespace MyJyotishJiApi.Controllers
         {
             _admin = admin;
         }
+        [HttpGet("Profile")]
+        public IActionResult Profile([FromQuery] string email)
+        {
+            var record = _admin.Profile(email);
+            if (record == null)
+            {
+                return BadRequest();
+            }
+            else
+            { return Ok(new {Success = true, data = record }); }
+           
+        }
+        [HttpGet("Dashboard")]
+        public IActionResult Dashboard()
+        {
+            var record = _admin.Dashboard();
+            if (record == null) { return BadRequest(); }
+            else { return Ok(new { success = true, data = record }); }
+        }
+
         [HttpGet("Jyotish")]
         public IActionResult AllJyotishRecord()
         {
@@ -50,16 +72,29 @@ namespace MyJyotishJiApi.Controllers
         }
 
         [HttpPost("ApproveJyotish")]
-        public IActionResult ApproveJyotish(int Id)
+        public IActionResult ApproveJyotish(IdViewModel model)
         {
-            var Records = _admin.ApproveJyotish(Id);
-            return Ok(new { Success = true, data = Records });
+            var Records = _admin.ApproveJyotish(model);
+            if(Records == true)
+            { return Ok(new { Success = true }); }
+            else { return BadRequest(); }
+            
         }
         [HttpPost("RejectJyotish")]
-        public IActionResult RejectJyotish(int Id)
+        public IActionResult RejectJyotish(IdViewModel model)
         {
-            var Records = _admin.RejectJyotish(Id);
-            return Ok(new { Success = true, data = Records });
+            var Records = _admin.RejectJyotish(model);
+            if (Records == true)
+            { return Ok(new { Success = true }); }
+            else { return BadRequest(); }
+        }
+        [HttpPost("RemoveJyotish")]
+        public IActionResult RemoveJyotish(IdViewModel model)
+        {
+            var Records = _admin.RemoveJyotish(model);
+            if (Records == true)
+            { return Ok(new { Success = true }); }
+            else { return BadRequest(); }
         }
 
         [HttpPost("AddPooja")]

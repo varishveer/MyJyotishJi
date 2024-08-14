@@ -9,17 +9,9 @@ namespace MyJyotishJiWebDesign.Controllers
        
         public IActionResult Login()
         { return View(); }
-        [HttpPost]
-        public IActionResult AdminLogin(string username, string password)
-        {
-            var result = "";
-            if (result == "Login Successfull")
-            {
-                return Json(new { success = true, redirectUrl = Url.Action("Dashboard", "Admin") });
-            }
-
-            return Json(new { success = false, errorMessage = "Login failed. Please check your username and password." });
-        }
+       
+        public IActionResult AdminLogin()
+        { return View(); }
         public IActionResult Dashboard() { return View();}
         public IActionResult JyotishList() { return View(); }
         public IActionResult UserList() { return View(); }

@@ -1,4 +1,5 @@
 ﻿using ModelAccessLayer.Models;
+using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace BusinessAccessLayer.Abstraction
         public List<UserModel> GetAllUser();
         public List<TeamMemberModel> GetAllTeamMember();
         public List<AppointmentModel> GetAllAppointment();
-        public bool ApproveJyotish(int JyotishId);
-        public bool RejectJyotish(int JyotishId);
+        public bool ApproveJyotish(IdViewModel JyotishId);
+        public bool RejectJyotish(IdViewModel JyotishId);
+        public bool RemoveJyotish(IdViewModel JyotishId);
         public bool AddPooja(PoojaModel _pooja);
         public bool AddExpertise(ExpertiseModel _expertise);
         public List<ExpertiseModel> GetAllExpertise();
         public List<PoojaModel> GetAllPooja();
+        public AdminModel Profile(string email);
+        public AdminDashboardViewModal Dashboard();
     }
 }

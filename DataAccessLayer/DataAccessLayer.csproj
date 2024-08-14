@@ -19,4 +19,8 @@
     <ProjectReference Include="..\ModelAccessLayer\ModelAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

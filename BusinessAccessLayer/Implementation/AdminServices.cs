@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DbServices;
 using ModelAccessLayer.Models;
-using DataAccessLayer.Migrations;
+
+using ModelAccessLayer.ViewModels;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -45,24 +46,32 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.AppointmentRecords.ToList();
             return Records;
         }
-        public bool ApproveJyotish(int JyotishId )
+        public bool ApproveJyotish(IdViewModel JyotishId )
         {
-            var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId).FirstOrDefault();
+            var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
             if (Jyotish == null)
             { return false; }
+            var IsJyotishExist = _context.JyotishRecords.Where(x => x.Mobile == Jyotish.Mobile).Where(x => x.Email == Jyotish.Email).FirstOrDefault();
+            if (IsJyotishExist != null)
+            {
+                return false;
+            }
             Jyotish.Status = "Approved";
+          
             JyotishModel model = new JyotishModel()
             { 
                 Name = Jyotish.Name,
-                DateOfBirth = Jyotish.DateOfBirth,
+                DateOfBirth = Jyotish.DateOfBirth ,
                 Gender = Jyotish.Gender,
                 Language = Jyotish.Language,
                 Expertise = Jyotish.Expertise,
                 Email = Jyotish.Email,
                 Mobile = Jyotish.Mobile,
                 ProfileImageUrl = Jyotish.ProfileImageUrl,
+                Role = "Jyotish"
             };
             _context.PendingJyotishRecords.Update(Jyotish);
+            _context.SaveChanges();
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
@@ -71,22 +80,42 @@ namespace BusinessAccessLayer.Implementation
             
         }
 
-        public bool RejectJyotish(int JyotishId)
+        public bool RejectJyotish(IdViewModel JyotishId)
         {
-            var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId).FirstOrDefault();
+            var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
             if (Jyotish == null)
             { return false; }
+            Jyotish.Status = "Rejected";
+            _context.PendingJyotishRecords.Update(Jyotish);
+            var result = _context.SaveChanges();
+            if (result > 0) { return true; }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveJyotish(IdViewModel JyotishId) 
+        {
+            var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
+            if (Jyotish == null || Jyotish.Status != "Rejected")
+            { return false; }
             _context.PendingJyotishRecords.Remove(Jyotish);
-            _context.SaveChanges();
-            return true;
+            var result = _context.SaveChanges();
+            if (result > 0) { return true; }
+            else
+            {
+                return false;
+            }
+
         }
 
         public bool AddPooja(PoojaModel _pooja)
         {
-            var isPoojaValid = _context.PoojaRecords.Where(x => x.Name == _pooja.Name).FirstOrDefault();
+            var isPoojaValid = _context.Pooja.Where(x => x.Name == _pooja.Name).FirstOrDefault();
             if (isPoojaValid != null) { return false; }
             _pooja.DateAdded = DateTime.Now;
-            _context.PoojaRecords.Add(_pooja);
+            _context.Pooja.Add(_pooja);
             var result = _context.SaveChanges();
             if (result > 0)
             { return true; }
@@ -110,7 +139,7 @@ namespace BusinessAccessLayer.Implementation
 
         public List<PoojaModel> GetAllPooja()
         {
-            var records = _context.PoojaRecords.ToList();
+            var records = _context.Pooja.ToList();
             return records;
         }
 
@@ -118,6 +147,43 @@ namespace BusinessAccessLayer.Implementation
         {
             var records = _context.ExpertiseRecords.ToList();
             return records;
+        }
+
+        public AdminModel Profile(string email)
+        {
+            var record = _context.AdminRecords.Where(x => x.Email == email).FirstOrDefault();
+            if (record == null)
+            {
+                return null;
+              
+            }
+            else
+            {
+                return record;
+            }
+        }
+        public AdminDashboardViewModal Dashboard()
+        {
+            int Users = _context.Users.Count();
+            int Jyotish = _context.JyotishRecords.Count();
+            int Pending = _context.PendingJyotishRecords.Count();
+            int Reject = _context.PendingJyotishRecords.Where(x => x.Status == "Rejected").Count();
+            AdminDashboardViewModal model = new AdminDashboardViewModal() 
+            {
+                TotalUsers = Users,
+                TotalJyotish = Jyotish,
+                RejectedJyotish = Reject,
+                PendingJyotish = Pending
+            };
+
+            if (model == null)
+            {
+                return null;
+            }
+            else
+            {
+                return model;
+            }
         }
     }
 }

@@ -59,13 +59,34 @@
     <div class="container">
         <div class="profile-header">
             <div class="profile-picture">
-                <img src="~/Img/Astrologer.jpg" alt="Profile Picture">
+                <img src="~/Img/Sample.jpg" alt="Profile Picture">
             </div>
-            <div class="profile-info">
-                <h1>John Doe</h1>
-                <p>Email: john.doe@example.com</p>
-                <p>Mobile: +123 456 7890</p>
+            <div id="DetailsDiv" class="profile-info">
+                
+              
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+      
+        var email = localStorage.getItem('userEmail');
+        $.ajax({
+            url: `https://localhost:7118/api/Admin/Profile?email=${encodeURIComponent(email)}`,
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    let details = `<h1>Name: ${response.data.name}</h1><p>Email: ${response.data.email}</p>`;
+                    $('#DetailsDiv').html(details);
+                } else {
+                    console.error('Failed to retrieve profile:', response);
+                }
+            },
+            error: function (errormessage) {
+                console.error('Error fetching data:', errormessage.responseText);
+            }
+        });
+    });
+</script>
