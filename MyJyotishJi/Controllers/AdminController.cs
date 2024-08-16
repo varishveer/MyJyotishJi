@@ -155,5 +155,23 @@ namespace MyJyotishJiApi.Controllers
             var Records = _admin.CallingRecord();
             return Ok(new { Success = true, data = Records });
         }
+        [HttpGet("AppointmentDetail")]
+        public IActionResult AppointmentDetail(IdViewModel model) 
+        {
+            var Record = _admin.AppointmentDetails(model.Id);
+            if(Record == null)
+            { return BadRequest(); }
+            else 
+            { return Ok(new {data = Record}); }
+        }
+        [HttpPost("UpdateAppointment")]
+        public IActionResult UpdateAppointment(AppointmentModel model)
+        {
+            var Record = _admin.UpdateAppointment(model);
+            if (Record == false)
+            { return BadRequest(); }
+            else
+            { return Ok(Record); }
+        }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
+using NuGet.Protocol.Plugins;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -47,7 +48,7 @@ namespace MyJyotishJiApi.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, login.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("UserId", login.Email.ToString())
-            };
+                };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var signIn = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
@@ -96,34 +97,33 @@ namespace MyJyotishJiApi.Controllers
             string Result = _account.SignInJyotish(jyotishLogin);
             if (Result == "Login Successful")
             {
+                var claims = new[]
+                {
+                new Claim(JwtRegisteredClaimNames.Sub, jyotishLogin.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserId", jyotishLogin.Email.ToString())
+                };
 
-                var result = new { Success = true };
-                return Ok(result);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+                var token = new JwtSecurityToken(
+                   _config["Jwt:Issuer"],
+                    _config["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.UtcNow.AddMinutes(30),
+                    signingCredentials: signIn);
+
+                var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return Ok(new { Token = tokenValue, User = jyotishLogin.Email });
             }
-            else
-            {
-                return BadRequest(Result);
-            }
+
+            return Unauthorized();
 
         }
 
-       /* [HttpPost("loginAdmin")]
-        public IActionResult LoginAdmin(LoginModel login)
-        {
-            string Result = _account.SignInAdmin(login.Email, login.Password);
-            if (Result == "Login Successful")
-            {
-               *//* var tokenString = GeneratedJsonWebToken(login);*//*
-                var result = new { Success = true };
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(Result);
-            }
-
-        }*/
+      
         [Authorize]
         [HttpPost("registerAdmin")]
         public IActionResult RegisterAdmin(AdminModel admin)

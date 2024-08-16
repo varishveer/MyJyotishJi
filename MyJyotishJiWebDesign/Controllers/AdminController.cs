@@ -31,6 +31,8 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult PoojaRecord() {  return View(); }
         public IActionResult ChattingRecord() { return View(); }
         public IActionResult CallingRecord() { return View(); }
+        public IActionResult AppointmentDetail() { return View(); }
+        public IActionResult UpdateAppointment() { return View(); }
 
 
 

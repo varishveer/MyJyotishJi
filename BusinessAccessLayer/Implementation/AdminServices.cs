@@ -202,5 +202,25 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.CallingRecords.ToList();
             return Records;
         }
+        public AppointmentModel AppointmentDetails(int id)
+        {
+            AppointmentModel Record =  _context.AppointmentRecords.Where(x=>x.Id == id).FirstOrDefault();
+            if (Record == null)
+            { return null; }
+            else { return Record; }
+        }
+
+        public bool UpdateAppointment(AppointmentModel model)
+        {
+           var isDetailsValid = _context.AppointmentRecords.Where(x => x.Id == model.Id).FirstOrDefault();
+            if (isDetailsValid == null)
+            { return false; }
+            _context.AppointmentRecords.Update(model);
+            var result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else
+            { return false; }
+        }
     }
 }

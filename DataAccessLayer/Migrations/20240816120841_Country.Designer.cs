@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240816120841_Country")]
+    partial class Country
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,7 +180,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ChatingRecords");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.City", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.CityModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +200,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("City");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.Country", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.CountryModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -446,7 +449,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("PoojaRecord");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.State", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.StateModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

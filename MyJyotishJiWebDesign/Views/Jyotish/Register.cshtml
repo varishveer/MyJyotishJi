@@ -96,7 +96,7 @@
 </style>
 <div class="outerDiv">
     <h1 class="text-center mb-4">Profile Form</h1>
-    <form class="profile-form">
+    <form id="registrationForm" class="Registration-form">
         <div class="form-group">
             <label for="profile-picture">Profile Picture:</label>
             <input type="file" id="profile-picture" name="profile-picture" class="form-control">
@@ -146,26 +146,33 @@
                 <label><input type="checkbox"> Face Reading</label>
             </div>
         </div>
-
-       
-
-       
-
-       
-
         <div class="form-group">
             <label for="experience">Professional Experience:</label>
             <input type="text" id="experience" name="experience" value="5 Year" class="form-control">
         </div>
-
-
-        
-
-       
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <select id="country" name="country" class="form-control">
+                <option value="">Select Country</option>
+            </select>
+        </div>
 
         <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" name="state" class="form-control" disabled>
+                <option value="">Select State</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select id="city" name="city" class="form-control" disabled>
+                <option value="">Select City</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" value="Sector 66, Noida" class="form-control">
+            <input type="text" id="address" name="address"  class="form-control">
         </div>
 
         <div class="form-group">
@@ -188,3 +195,98 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+
+<script>
+    async function loadCountries() {
+        try {
+            const response = await fetch('https://countriesnow.space/api/v0.1/countries');
+            const data = await response.json();
+
+            const countryDropdown = document.getElementById('country');
+            countryDropdown.innerHTML = '<option value="">Select Country</option>';
+
+            data.data.forEach(country => {
+                countryDropdown.innerHTML += `<option value="${country.country_code}">${country.name}</option>`;
+            });
+        } catch (error) {
+            console.error('Error fetching countries:', error);
+        }
+    }
+
+    // Load states based on selected country
+    async function loadStates(countryCode) {
+        try {
+            const response = await fetch(`https://countriesnow.space/api/v0.1/countries/states`);
+            const data = await response.json();
+            const stateDropdown = document.getElementById('state');
+            stateDropdown.innerHTML = '<option value="">Select State</option>';
+            const states = data.data[countryCode] || [];
+            states.forEach(state => {
+                stateDropdown.innerHTML += `<option value="${state.state_code}">${state.name}</option>`;
+            });
+            stateDropdown.disabled = false;
+        } catch (error) {
+            console.error('Error fetching states:', error);
+        }
+    }
+
+    // Load cities based on selected state
+    async function loadCities(stateCode) {
+        try {
+            const response = await fetch(`https://countriesnow.space/api/v0.1/countries/cities`);
+            const data = await response.json();
+            const cityDropdown = document.getElementById('city');
+            cityDropdown.innerHTML = '<option value="">Select City</option>';
+            const cities = data.data[stateCode] || [];
+            cities.forEach(city => {
+                cityDropdown.innerHTML += `<option value="${city}">${city}</option>`;
+            });
+            cityDropdown.disabled = false;
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+        }
+    }
+
+    // Event listeners
+    document.getElementById('country').addEventListener('change', function () {
+        const countryCode = this.value;
+        if (countryCode) {
+            loadStates(countryCode);
+        }
+    });
+
+    document.getElementById('state').addEventListener('change', function () {
+        const stateCode = this.value;
+        if (stateCode) {
+            loadCities(stateCode);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadCountries);
+</script>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const form = event.target;
+        const formData = new FormData(form); // Collect form data including file inputs
+
+        // Send the form data to the server
+        fetch('https://localhost:7118/Api/Account/login', { // Replace with your API endpoint
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Form submitted successfully!');
+                // Optionally, reset the form or redirect to another page
+                form.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the form.');
+            });
+    });
+</script>

@@ -27,5 +27,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<PoojaRecordModel> PoojaRecord();
         public List<ChattingModel> ChattingRecord();
         public List<CallingModel> CallingRecord();
+        public AppointmentModel AppointmentDetails(int id);
+        public bool UpdateAppointment(AppointmentModel model);
     }
 }
