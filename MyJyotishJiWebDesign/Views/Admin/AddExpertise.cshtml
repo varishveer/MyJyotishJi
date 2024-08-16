@@ -94,6 +94,11 @@
             $.ajax({
                 url: "https://localhost:7118/Api/Admin/AddExpertise",
                 type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
                     id : 0,

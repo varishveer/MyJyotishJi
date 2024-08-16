@@ -117,5 +117,16 @@ namespace BusinessAccessLayer.Implementation
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
         }
+        public bool CreateAPooja(PoojaRecordModel model)
+        {
+            var isPoojaValid = _context.Pooja.Where(x => x.Name == model.Name).FirstOrDefault();
+            if (isPoojaValid != null)
+            { return false; }
+            _context.PoojaRecord.Add(model);
+            int result = _context.SaveChanges();
+            if (result > 0)
+            { return true; }
+            else { return false; }
+        }
     }
 }

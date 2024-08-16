@@ -30,6 +30,11 @@
             $.ajax({
                 url: "https://localhost:7118/api/Admin/Jyotish",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
                     let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Expertise</th><th>Language</th></tr></thead><tbody>';
 

@@ -15,5 +15,6 @@ namespace BusinessAccessLayer.Abstraction
         public string AddAppointment(AppointmentViewModel appointment);
         public List<TeamMemberModel> TeamMember(int JyotishId);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
+        public bool CreateAPooja(PoojaRecordModel model);
     }
 }

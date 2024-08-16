@@ -24,5 +24,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<PoojaModel> GetAllPooja();
         public AdminModel Profile(string email);
         public AdminDashboardViewModal Dashboard();
+        public List<PoojaRecordModel> PoojaRecord();
+        public List<ChattingModel> ChattingRecord();
+        public List<CallingModel> CallingRecord();
     }
 }

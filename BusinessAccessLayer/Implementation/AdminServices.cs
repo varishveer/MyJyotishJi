@@ -47,6 +47,7 @@ namespace BusinessAccessLayer.Implementation
             return Records;
         }
         public bool ApproveJyotish(IdViewModel JyotishId )
+        
         {
             var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
             if (Jyotish == null)
@@ -184,6 +185,22 @@ namespace BusinessAccessLayer.Implementation
             {
                 return model;
             }
+        }
+
+        public List<PoojaRecordModel> PoojaRecord()
+        {
+            var Records = _context.PoojaRecord.ToList();
+            return Records;
+        }
+        public List<ChattingModel> ChattingRecord()
+        {
+            var Records = _context.ChatingRecords.ToList();
+            return Records;
+        }
+        public List<CallingModel> CallingRecord()
+        {
+            var Records = _context.CallingRecords.ToList();
+            return Records;
         }
     }
 }

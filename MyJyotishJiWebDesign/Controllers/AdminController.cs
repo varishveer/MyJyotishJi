@@ -28,6 +28,9 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult JyotishDetails() { return View(); }
         public IActionResult UserDetails() { return View(); }
         public IActionResult EditUpcommingAppointment() { return View(); }
+        public IActionResult PoojaRecord() {  return View(); }
+        public IActionResult ChattingRecord() { return View(); }
+        public IActionResult CallingRecord() { return View(); }
 
 
 

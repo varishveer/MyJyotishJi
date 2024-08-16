@@ -10,7 +10,7 @@
 <div class="container-fluid pt-4 px-4">
     <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Jyotish List</h6>
+            <h6 class="mb-0">User List</h6>
 
         </div>
         <div class="table-responsive">
@@ -24,9 +24,15 @@
 <script>
     $(document).ready(function () {
         function fetchData() {
+            const Token = localStorage.getItem("Token");
             $.ajax({
                 url: "https://localhost:7118/api/Admin/User",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
                     let htmls = '<thead><tr><th>Id</th><th>FirstName</th><th>LastName</th><th>Mobile</th><th>Email</th></tr></thead><tbody>';
 

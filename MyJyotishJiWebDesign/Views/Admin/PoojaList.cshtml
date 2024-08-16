@@ -27,9 +27,15 @@
 <script>
     $(document).ready(function () {
         function fetchData() {
+            
             $.ajax({
                 url: "https://localhost:7118/api/Admin/PoojaList",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
                     let htmls = '<thead><tr><th>Id</th><th>Pooja</th><th>DateAdded</th></thead><tbody>';
 

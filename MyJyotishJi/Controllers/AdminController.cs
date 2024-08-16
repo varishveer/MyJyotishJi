@@ -135,6 +135,25 @@ namespace MyJyotishJiApi.Controllers
             return Ok(new { Success = true, data = Records });
 
         }
+        [HttpGet("PoojaRecord")]
+        public IActionResult PoojaRecord()
+        {
+            var Records = _admin.PoojaRecord();
+            return Ok(new { Success = true, data = Records });
+        }
 
+        [HttpGet("ChattingRecord")]
+        public IActionResult ChattingRecord()
+        {
+            var Records = _admin.ChattingRecord();
+            return Ok(new { Success = true, data = Records });
+        }
+
+        [HttpGet("CallingRecord")]
+        public IActionResult CallingRecord()
+        {
+            var Records = _admin.CallingRecord();
+            return Ok(new { Success = true, data = Records });
+        }
     }
 }

@@ -38,6 +38,11 @@
             $.ajax({
                 url: "https://localhost:7118/api/Admin/Appointment",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
                     let htmls = '<thead><tr><th>Date Time</th><th>Name</th><th>Amount</th><th>Problem</th><th>Solution</th></tr></thead><tbody>';
 

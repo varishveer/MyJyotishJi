@@ -88,38 +88,7 @@ namespace MyJyotishJiApi.Controllers
             
         }
 
-        /* [AllowAnonymous]
-         [HttpPost]
-         public IActionResult LoginJyotish(LoginModel jyotishLogin)
-         {
-             var response = Unauthorized();
-             string Result = _account.SignInJyotish(jyotishLogin);
-             if (Result == "Login Successful")
-             {
-
-                 var tokenString = GeneratedJsonWebToken(jyotishLogin);
-                 var result = new { Success = true,token = tokenString };
-                 return Ok(result);
-
-             }
-             else
-             {
-                 return response;
-             }
-
-         }*/
-        /*private string GeneratedJsonWebToken(LoginModel jyotishLogin) 
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new  SigningCredentials(securityKey ,SecurityAlgorithms.HmacSha256);
-            var claims = new[] {
-            new Claim (JwtRegisteredClaimNames.Email, jyotishLogin.Email)
-            };
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"],claims,expires:DateTime.Now.AddMinutes(30),signingCredentials:credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }*/
+        
 
         [HttpPost("loginJyotish")]
         public IActionResult LoginJyotish(LoginModel jyotishLogin)

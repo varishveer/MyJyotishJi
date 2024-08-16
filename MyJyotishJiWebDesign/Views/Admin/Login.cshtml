@@ -82,7 +82,7 @@
             var password = $('#password').val();
             localStorage.setItem('userEmail', email);   
             $.ajax({
-                url: "https://localhost:7118/Api/Account/loginAdmin",
+                url: "https://localhost:7118/Api/Account/login",
                 type: 'POST',
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
@@ -90,10 +90,10 @@
                     password: password
                 }),
                 success: function (response) {
-                    
-                       
-                        console.log("Login successful");
-                        window.location.href = "/Admin/Dashboard";
+
+                    localStorage.setItem("Token", response.token);
+                   
+                    window.location.href = "/Admin/Dashboard";
                    
                         
                     
@@ -110,61 +110,3 @@
 
 </script>
 
-@* <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch('https://localhost:7118/Api/Account/loginAdmin', { // Adjust URL as needed
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('jwtToken', data.token);
-                document.getElementById('response').textContent = 'Login successful! Token stored.';
-            } else {
-                document.getElementById('response').textContent = 'Login failed.';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('response').textContent = 'An error occurred.';
-        }
-    });
-
-    async function fetchSecureData() {
-        const token = localStorage.getItem('jwtToken');
-
-        if (token) {
-            try {
-                const response = await fetch('https://localhost:5001/securedata', { // Adjust URL as needed
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-                } else {
-                    document.getElementById('response').textContent = 'Failed to fetch secure data.';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('response').textContent = 'An error occurred.';
-            }
-        } else {
-            document.getElementById('response').textContent = 'No token found. Please log in.';
-        }
-    }
-
-    // Example call to fetch secure data
-    // fetchSecureData();
-</script> *@

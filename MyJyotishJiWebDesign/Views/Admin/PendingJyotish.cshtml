@@ -49,7 +49,16 @@
             $.ajax({
                 url: "https://localhost:7118/api/Admin/PendingJyotish",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
+                    // Destroy the existing DataTable instance if it exists
+                    if ($.fn.DataTable.isDataTable('#DataTable')) {
+                        $('#DataTable').DataTable().clear().destroy();
+                    }
                     let htmls = '<thead><tr><th>Id</th><th>Name</th><th>Mobile</th><th>Expertise</th><th>Language</th><th>Gender</th><th>Action</th> <th>Status</th> </tr></thead><tbody>';
 
                     $.each(result.data, function (key, item) {
@@ -128,6 +137,11 @@
                 $.ajax({
                     url: "https://localhost:7118/Api/Admin/RemoveJyotish",
                     type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                        'Content-Type': 'application/json', // Example of a content type header
+
+                    },
                     contentType: 'application/json', // Specify that the content type is JSON
                     data: JSON.stringify({
                         id: Id,
@@ -180,6 +194,11 @@
                 $.ajax({
                     url: "https://localhost:7118/Api/Admin/RejectJyotish",
                     type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                        'Content-Type': 'application/json', // Example of a content type header
+
+                    },
                     contentType: 'application/json', // Specify that the content type is JSON
                     data: JSON.stringify({
                         id: Id,
@@ -229,6 +248,11 @@
                 $.ajax({
                     url: "https://localhost:7118/Api/Admin/ApproveJyotish",
                     type: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                        'Content-Type': 'application/json', // Example of a content type header
+
+                    },
                     contentType: 'application/json', // Specify that the content type is JSON
                     data: JSON.stringify({
                         id: Id,

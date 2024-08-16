@@ -27,6 +27,11 @@
             $.ajax({
                 url: "https://localhost:7118/api/Admin/ExpertiseList",
                 type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
+                    'Content-Type': 'application/json', // Example of a content type header
+
+                },
                 success: function (result) {
                     let htmls = '<thead><tr><th>Id</th><th>Expertise</th><th>DateAdded</th></thead><tbody>';
 
