@@ -21,9 +21,14 @@ builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IJyotishServices, JyotishServices>();
 
 
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+builder.Services.AddAuthentication(options =>
 {
-    o.TokenValidationParameters = new TokenValidationParameters
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
 
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
@@ -36,7 +41,7 @@ builder.Services.AddScoped<IJyotishServices, JyotishServices>();
     };
 });
 
-builder.Services.AddAuthorization();*/
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {

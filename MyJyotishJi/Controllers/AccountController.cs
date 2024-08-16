@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
@@ -31,43 +32,42 @@ namespace MyJyotishJiApi.Controllers
         }
 
 
-       /* private readonly string _secretKey = "c2VjdXJlc2VjdXJlc2VjdXJlc2VjdXJlc2VjdXJlc2VjdXJlcw=="; // Replace with your key
-        private readonly string _issuer = "your-app"; // Placeholder value
-        private readonly string _audience = "your-app"; // Placeholder value
+        
 
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginModel loginModel)
+        public IActionResult Login([FromBody] LoginModel login)
         {
             // Validate the user credentials (use real validation in a production app)
-            string Result = _account.SignInJyotish(loginModel);
+            string Result = _account.SignInAdmin(login.Email, login.Password);
             if (Result == "Login Successful")
             {
                 var claims = new[]
                 {
-                new Claim(JwtRegisteredClaimNames.Sub, loginModel.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, login.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserId", login.Email.ToString())
             };
 
-                var key = Convert.FromBase64String(_secretKey);
-                var creds = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                var signIn = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(
-                    issuer: _issuer,
-                    audience: _audience,
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: creds);
+                   _config["Jwt:Issuer"],
+                    _config["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.UtcNow.AddMinutes(30),
+                    signingCredentials: signIn);
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
-                return Ok(new { Token = tokenString });
+                return Ok(new { Token = tokenValue, User = login.Email });
             }
 
             return Unauthorized();
-        }*/
+        }
 
-        
+
         
         [HttpPost("registerJyotish")]
         public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
@@ -139,13 +139,13 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
-        [HttpPost("loginAdmin")]
+       /* [HttpPost("loginAdmin")]
         public IActionResult LoginAdmin(LoginModel login)
         {
             string Result = _account.SignInAdmin(login.Email, login.Password);
             if (Result == "Login Successful")
             {
-               /* var tokenString = GeneratedJsonWebToken(login);*/
+               *//* var tokenString = GeneratedJsonWebToken(login);*//*
                 var result = new { Success = true };
                 return Ok(result);
             }
@@ -154,8 +154,8 @@ namespace MyJyotishJiApi.Controllers
                 return BadRequest(Result);
             }
 
-        }
-        
+        }*/
+        [Authorize]
         [HttpPost("registerAdmin")]
         public IActionResult RegisterAdmin(AdminModel admin)
         {

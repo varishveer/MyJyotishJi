@@ -25,8 +25,10 @@ namespace BusinessAccessLayer.Implementation
         public bool SignUpJyotish(PendingJyotishViewModel jyotishView , string? path)
         {
             var IsEmailValid = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
+            var IsEmailValidPending = _context.PendingJyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             var IsMobileValid = _context.JyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
-            if (IsEmailValid != null || IsMobileValid != null)
+            var IsMobileValidPending = _context.PendingJyotishRecords.Where(x => x.Mobile == jyotishView.Mobile).FirstOrDefault();
+            if (IsEmailValid != null || IsMobileValid != null || IsMobileValidPending != null || IsEmailValidPending != null)
             { return false; }
 
             Random random = new Random();
