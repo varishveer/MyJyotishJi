@@ -16,5 +16,6 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile AddressProof { get; set; }
         public IFormFile TenthCertificate { get; set; }
         public IFormFile TwelveCertificate { get; set; }
+        public string ProfessionalCertificate { get; set; }
     }
 }

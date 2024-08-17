@@ -15,6 +15,7 @@ namespace ModelAccessLayer.Models
         public string AddressProof { get; set; }
         public string TenthCertificate { get; set; }
         public string TwelveCertificate { get; set; }
+        public string ProfessionalCertificate { get; set; }
         public int JyotishId { get; set; }
         public JyotishModel Jyotish { get; set; }
     }
