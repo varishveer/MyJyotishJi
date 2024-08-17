@@ -9,6 +9,7 @@ using ModelAccessLayer.Models;
 
 using ModelAccessLayer.ViewModels;
 
+
 namespace BusinessAccessLayer.Implementation
 {
     public class AdminServices:IAdminServices
@@ -221,6 +222,56 @@ namespace BusinessAccessLayer.Implementation
             { return true; }
             else
             { return false; }
+        }
+
+        public bool AddCountry(ModelAccessLayer.Models.Country _country)
+        {
+            var isCountryValid = _context.Countries.Where(x => x.Name == _country.Name);
+            if (isCountryValid != null)
+            { return false; }
+            else
+            {
+                _context.Countries.Add(_country);
+                var reuslt = _context.SaveChanges();
+                if (reuslt != 0)
+                { return true; }
+                else
+                { return false; }
+            }
+        }
+        public bool AddState(ModelAccessLayer.Models.State _state)
+        {
+            var isStateValid = _context.States.Where(x => x.Name == _state.Name);
+            var isCountryValid = _context.Countries.Where(x => x.Id == _state.CountryId);
+            if (isStateValid != null && isCountryValid == null)
+            { return false; }
+            else
+            {
+                _context.States.Add(_state);
+                var reuslt = _context.SaveChanges();
+                if (reuslt != 0)
+                { return true; }
+                else
+                { return false; }
+            }
+        }
+
+        public bool AddCity(City _city) 
+        {
+
+            var isCityValid = _context.Cities.Where(x => x.Name == _city.Name);
+            var isStateValid = _context.States.Where(x => x.Id == _city.StateId);
+            if (isCityValid != null && isStateValid == null)
+            { return false; }
+            else
+            {
+                _context.Cities.Add(_city);
+                var reuslt = _context.SaveChanges();
+                if (reuslt != 0)
+                { return true; }
+                else
+                { return false; }
+            }
         }
     }
 }

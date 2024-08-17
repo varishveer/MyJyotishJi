@@ -28,8 +28,8 @@ namespace MyJyotishJiApi.Controllers
                 return BadRequest();
             }
             else
-            { return Ok(new {Success = true, data = record }); }
-           
+            { return Ok(new { Success = true, data = record }); }
+
         }
         [HttpGet("Dashboard")]
         public IActionResult Dashboard()
@@ -77,10 +77,10 @@ namespace MyJyotishJiApi.Controllers
         public IActionResult ApproveJyotish(IdViewModel model)
         {
             var Records = _admin.ApproveJyotish(model);
-            if(Records == true)
+            if (Records == true)
             { return Ok(new { Success = true }); }
             else { return BadRequest(); }
-            
+
         }
         [HttpPost("RejectJyotish")]
         public IActionResult RejectJyotish(IdViewModel model)
@@ -156,13 +156,13 @@ namespace MyJyotishJiApi.Controllers
             return Ok(new { Success = true, data = Records });
         }
         [HttpGet("AppointmentDetail")]
-        public IActionResult AppointmentDetail(IdViewModel model) 
+        public IActionResult AppointmentDetail(IdViewModel model)
         {
             var Record = _admin.AppointmentDetails(model.Id);
-            if(Record == null)
+            if (Record == null)
             { return BadRequest(); }
-            else 
-            { return Ok(new {data = Record}); }
+            else
+            { return Ok(new { data = Record }); }
         }
         [HttpPost("UpdateAppointment")]
         public IActionResult UpdateAppointment(AppointmentModel model)
@@ -172,6 +172,36 @@ namespace MyJyotishJiApi.Controllers
             { return BadRequest(); }
             else
             { return Ok(Record); }
+        }
+
+        [HttpPost("AddCountry")]
+        public IActionResult AddCountry(Country country)
+        {
+            var result = _admin.AddCountry(country);
+            if(result == false) 
+            { return BadRequest(); }
+            else { return Ok(); }
+           
+        }
+
+        [HttpPost("AddState")]
+        public IActionResult AddState(State state)
+        {
+            var result = _admin.AddState(state);
+            if (result == false)
+            { return BadRequest(); }
+            else { return Ok(); }
+
+        }
+
+        [HttpPost("AddCity")]
+        public IActionResult AddCity(City city)
+        {
+            var result = _admin.AddCity(city);
+            if (result == false)
+            { return BadRequest(); }
+            else { return Ok(); }
+
         }
     }
 }

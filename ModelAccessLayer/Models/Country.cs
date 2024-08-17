@@ -12,6 +12,7 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<State> States { get; set; }
+        public string CountryCode { get; set;}
+       /* public ICollection<State> States { get; set; }*/
     }
 }

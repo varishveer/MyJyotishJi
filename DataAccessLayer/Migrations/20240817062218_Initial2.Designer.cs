@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240816120841_Country")]
-    partial class Country
+    [Migration("20240817062218_Initial2")]
+    partial class Initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,7 +180,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ChatingRecords");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.CityModel", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,10 +197,10 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.CountryModel", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,13 +208,17 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.ExpertiseModel", b =>
@@ -449,7 +453,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("PoojaRecord");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.StateModel", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -466,7 +470,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("State");
+                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.TeamMemberModel", b =>

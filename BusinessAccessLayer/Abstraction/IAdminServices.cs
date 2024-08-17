@@ -29,5 +29,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<CallingModel> CallingRecord();
         public AppointmentModel AppointmentDetails(int id);
         public bool UpdateAppointment(AppointmentModel model);
+        public bool AddCountry(Country _country);
+        public bool AddState(State _state);
+        public bool AddCity(City _city);
     }
 }

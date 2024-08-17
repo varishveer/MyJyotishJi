@@ -128,7 +128,21 @@ namespace BusinessAccessLayer.Implementation
             { return true; }
             else { return false; }
         }
+        public List<Country> CountryList() 
+        {
+            var Record = _context.Countries.ToList();
+            return Record;
+        }
+        public List<State> StateList(int Id) 
+        { 
+            var Record = _context.States.Where(x => x.CountryId == Id).ToList();
+            return Record;
+        }
+        public List<City> CityList(int Id) 
+        {
+            var Record = _context.Cities.Where(x=>x.StateId == Id).ToList();
+            return Record;
+        }
 
-      
     }
 }

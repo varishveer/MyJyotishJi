@@ -10,7 +10,7 @@ namespace MyJyotishGApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+   
     public class JyotishController : ControllerBase
     {
         private readonly IJyotishServices _jyotish;
@@ -50,6 +50,24 @@ namespace MyJyotishGApi.Controllers
         {
             var records = _jyotish.TeamMember(JyotishId);
             return Ok(records);
+        }
+        [HttpGet("Country")]
+        public IActionResult Country() 
+        {
+            var Record = _jyotish.CountryList();
+            return Ok(new { data = Record });
+        }
+        [HttpGet("State")]
+        public IActionResult State(IdViewModel model)
+        {
+            var Record = _jyotish.StateList(model.Id);
+            return Ok(new { data = Record });
+        }
+        [HttpGet("City")]
+        public IActionResult City(IdViewModel model)
+        {
+            var Record = _jyotish.CityList(model.Id);
+            return Ok(new { data = Record });
         }
     }
 }
