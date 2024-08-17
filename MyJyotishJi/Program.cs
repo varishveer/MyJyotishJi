@@ -19,6 +19,8 @@ builder.Services.AddDbContext<ApplicationContext>(options => { options.UseSqlSer
 builder.Services.AddScoped<IAdminServices, AdminServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IJyotishServices, JyotishServices>();
+builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
+
 
 
 builder.Services.AddAuthentication(options =>

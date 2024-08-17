@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace ModelAccessLayer.ViewModels
     {
         [Key]
         public int Id { get; set; }
-        public string IdProof { get; set; }
-        public string AddressProof { get; set; }
-        public string TenthCertificate { get; set; }
-        public string TwelveCertificate { get; set; }
+        public IFormFile IdProof { get; set; }
+        public IFormFile AddressProof { get; set; }
+        public IFormFile TenthCertificate { get; set; }
+        public IFormFile TwelveCertificate { get; set; }
     }
 }
