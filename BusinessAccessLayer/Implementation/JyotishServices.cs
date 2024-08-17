@@ -144,5 +144,11 @@ namespace BusinessAccessLayer.Implementation
             return Record;
         }
 
+        public List<ExpertiseModel> ExpertiseList()
+        {
+            var Records = _context.ExpertiseRecords.ToList();
+            return Records; 
+        }
+
     }
 }

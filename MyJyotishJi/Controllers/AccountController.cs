@@ -73,9 +73,9 @@ namespace MyJyotishJiApi.Controllers
         [HttpPost("registerJyotish")]
         public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
-            string? path = _environment.ContentRootPath;
+           /* string? path = _environment.ContentRootPath;*/
 
-            bool Result = _account.SignUpJyotish(jyotishViewModel,path);
+            bool Result = _account.SignUpJyotish(jyotishViewModel);
             if (Result == true)
             {
 

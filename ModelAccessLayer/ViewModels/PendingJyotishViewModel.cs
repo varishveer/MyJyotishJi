@@ -15,7 +15,9 @@ namespace ModelAccessLayer.ViewModels
         [Required]
         public string Name { get; set; }
         [Required]
-        public string DateOfBirth { get; set; }
+        public string Mobile { get; set; }
+        [Required]
+        public string Email { get; set; }
         [Required]
         public string Gender { get; set; }
         [Required]
@@ -23,16 +25,15 @@ namespace ModelAccessLayer.ViewModels
         [Required]
         public string Expertise { get; set; }
         [Required]
-        public string Email { get; set; }
+        public int Country { get; set; }
         [Required]
-        public string Mobile { get; set; }
-        public string Country { get; set; }
-        public string State { get; set; }
-        public string City { get; set; }
-        public string Address { get; set; }
+        public int State { get; set; }
+        [Required]
+        public int City { get; set; }
+       
       
-        public string? ProfileImageUrl { get; set; }
-        public IFormFile? Image { get; set; }
+      /*  public string? ProfileImageUrl { get; set; }
+        public IFormFile? Image { get; set; }*/
 
         
 

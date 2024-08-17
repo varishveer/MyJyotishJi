@@ -22,7 +22,7 @@ namespace BusinessAccessLayer.Implementation
         }
 
 
-        public bool SignUpJyotish(PendingJyotishViewModel jyotishView , string? path)
+        public bool SignUpJyotish(PendingJyotishViewModel jyotishView )
         {
             var IsEmailValid = _context.JyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
             var IsEmailValidPending = _context.PendingJyotishRecords.Where(x => x.Email == jyotishView.Email).FirstOrDefault();
@@ -31,27 +31,31 @@ namespace BusinessAccessLayer.Implementation
             if (IsEmailValid != null || IsMobileValid != null || IsMobileValidPending != null || IsEmailValidPending != null)
             { return false; }
 
-            Random random = new Random();
-            // Generate a random number between 1000000000 and 9999999999
-            long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
-            var filePath = "/Assets/Images/Jyotish/" + randomNumber + jyotishView.Image.FileName;
+            /* Random random = new Random();
+             // Generate a random number between 1000000000 and 9999999999
+             long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
+             var filePath = "/Assets/Images/Jyotish/" + randomNumber + jyotishView.Image.FileName;
 
-            var fullPath = path + filePath;
-            UploadFile(jyotishView.Image, fullPath);
-          
+             var fullPath = path + filePath;
+             UploadFile(jyotishView.Image, fullPath);*/
 
-            const string DateFormat = "yyyy-MM-dd";
-           
+
+            var CountryName = _context.Countries.Where(x => x.Id == jyotishView.Country).FirstOrDefault();
+            var StateName = _context.States.Where(x => x.Id == jyotishView.State).FirstOrDefault();
+            var CityName = _context.Cities.Where(x => x.Id == jyotishView.City).FirstOrDefault();
             PendingJyotishModel jyotish = new PendingJyotishModel() 
             { 
                 Name = jyotishView.Name,
-                DateOfBirth = DateOnly.ParseExact(jyotishView.DateOfBirth, DateFormat, null),
+                Mobile = jyotishView.Mobile,
+                Email = jyotishView.Email,
                 Gender = jyotishView.Gender,
                 Language= jyotishView.Language,
                 Expertise = jyotishView.Expertise,
-                Email = jyotishView.Email,
-                Mobile = jyotishView.Mobile,
-                ProfileImageUrl = filePath,
+                Country = CountryName.Name,
+                State = StateName.Name,
+                City = CityName.Name,    
+               
+               
                 Role = "Pending Jyotish",
                 Status = "Pending",
 
@@ -59,14 +63,15 @@ namespace BusinessAccessLayer.Implementation
 
 
             _context.PendingJyotishRecords.Add(jyotish);
-            _context.SaveChanges();
-            return true;
+            var result = _context.SaveChanges();
+            if (result > 0) { return true; }
+            return false;
         }
-        public void UploadFile(IFormFile file, string fullPath)
+       /* public void UploadFile(IFormFile file, string fullPath)
         {
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
-        }
+        }*/
 
         public string SignInJyotish(LoginModel jyotishLogin)
         {

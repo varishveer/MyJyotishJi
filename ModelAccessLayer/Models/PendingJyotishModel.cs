@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,6 @@ namespace ModelAccessLayer.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public DateOnly DateOfBirth { get; set; }
-        [Required]
         public string Gender { get; set; }
         [Required]
         public string Language { get; set; }
@@ -25,8 +24,15 @@ namespace ModelAccessLayer.Models
         public string Email { get; set; }
         [Required]
         public string Mobile { get; set; }
-        
-        public string ProfileImageUrl { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public string State { get; set; }
+        [Required]
+        public string City { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        [AllowNull]
+        public string? ProfileImageUrl { get; set; }
         public string Role { get; set; }
         public string Status { get; set; }
     }

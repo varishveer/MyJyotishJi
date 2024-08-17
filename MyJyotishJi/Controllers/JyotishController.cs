@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModelAccessLayer.ViewModels;
+using System.Net;
 
 namespace MyJyotishGApi.Controllers
 {
@@ -58,16 +59,25 @@ namespace MyJyotishGApi.Controllers
             return Ok(new { data = Record });
         }
         [HttpGet("State")]
-        public IActionResult State(IdViewModel model)
+        public IActionResult State(int Id)
         {
-            var Record = _jyotish.StateList(model.Id);
+            var Record = _jyotish.StateList(Id);
             return Ok(new { data = Record });
         }
         [HttpGet("City")]
-        public IActionResult City(IdViewModel model)
+        public IActionResult City(int Id)
         {
-            var Record = _jyotish.CityList(model.Id);
+            var Record = _jyotish.CityList(Id);
             return Ok(new { data = Record });
         }
+
+        [HttpGet("Expertise")]
+        public IActionResult Expertise()
+        {
+            var Records = _jyotish.ExpertiseList();
+            return Ok(new { data = Records });
+        }
+
+        
     }
 }

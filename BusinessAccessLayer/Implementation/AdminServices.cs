@@ -8,6 +8,8 @@ using DataAccessLayer.DbServices;
 using ModelAccessLayer.Models;
 
 using ModelAccessLayer.ViewModels;
+using System.Net.Mail;
+using System.Net;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -47,6 +49,17 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.AppointmentRecords.ToList();
             return Records;
         }
+        static string PasswordMethod(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            char[] buffer = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                buffer[i] = chars[random.Next(chars.Length)];
+            }
+            return new string(buffer);
+        }
         public bool ApproveJyotish(IdViewModel JyotishId )
         
         {
@@ -59,25 +72,32 @@ namespace BusinessAccessLayer.Implementation
                 return false;
             }
             Jyotish.Status = "Approved";
-          
+
+            string pass = PasswordMethod(8);
             JyotishModel model = new JyotishModel()
             { 
                 Name = Jyotish.Name,
-                DateOfBirth = Jyotish.DateOfBirth ,
+               
                 Gender = Jyotish.Gender,
                 Language = Jyotish.Language,
                 Expertise = Jyotish.Expertise,
                 Email = Jyotish.Email,
                 Mobile = Jyotish.Mobile,
-                ProfileImageUrl = Jyotish.ProfileImageUrl,
-                Role = "Jyotish"
+             
+                Role = "Jyotish",
+                Password= pass,
             };
             _context.PendingJyotishRecords.Update(Jyotish);
             _context.SaveChanges();
             _context.JyotishRecords.Add(model);
             var result = _context.SaveChanges();
             if (result > 0)
-            { return true; }
+            {
+                string message = "Hey "+ Jyotish.Name+ ", Your Account has been Activated Successfully. And your password is" + pass+".";
+                string subject = " My Jyotish G";
+                SendEmail(message, Jyotish.Email, subject);
+                return true;
+            }
             else { return false; }
             
         }
@@ -90,10 +110,58 @@ namespace BusinessAccessLayer.Implementation
             Jyotish.Status = "Rejected";
             _context.PendingJyotishRecords.Update(Jyotish);
             var result = _context.SaveChanges();
-            if (result > 0) { return true; }
+            if (result > 0) 
+            {
+                
+                
+                return true; 
+            }
             else
             {
                 return false;
+            }
+        }
+
+        public void SendEmail(string MessageBody, string Mail,string Subjectbody)
+        {
+            try
+            {
+                // Sender's email address and credentials
+                string senderEmail = "varishveer123@gmail.com";
+                string senderPassword = "vjcx xhzp oumw xhdh";
+
+                // Recipient's email address
+                string recipientEmail = Mail;
+
+                // SMTP server address and port number
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 587; // Use 587 for TLS or 465 for SSL
+
+                // Create a new SMTP client
+                using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
+                {
+                    client.EnableSsl = true; // Enable SSL/TLS
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                    // Create a new email message
+                    MailMessage message = new MailMessage(senderEmail, recipientEmail)
+                    {
+                        Subject = Subjectbody,
+                        Body = MessageBody,
+                    };
+
+                    // Send the email
+                    client.Send(message);
+
+                    Console.WriteLine("Email sent successfully.");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send email. Error message: {ex.Message}");
             }
         }
 
@@ -273,5 +341,6 @@ namespace BusinessAccessLayer.Implementation
                 { return false; }
             }
         }
+
     }
 }

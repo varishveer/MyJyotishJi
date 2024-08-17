@@ -19,7 +19,8 @@ namespace BusinessAccessLayer.Abstraction
         public List<Country> CountryList();
         public List<State> StateList(int Id);
         public List<City> CityList(int Id);
+        public List<ExpertiseModel> ExpertiseList();
 
-        
+
     }
 }
