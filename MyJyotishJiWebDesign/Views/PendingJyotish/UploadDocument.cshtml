@@ -4,15 +4,96 @@
 @{
     Layout = "PendingJyotishLayout";
 }
-<div class="container">
-    <div class="bg-light rounded h-100 p-4">
-        <h6 class="mb-4">File Input</h6>
-        <form>
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Default file input example</label>
-            <input class="form-control" type="file" id="formFile">
+<div class=" ">
+    <div class="row w-100  ">
+        <div class="col-sm-12 col-xl-6 mx-auto">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Upload Documents</h6>
+                <form id="uploadForm">
+                    <div class="mb-3">
+                        <label for="idProof" class="form-label">ID Proof</label>
+                        <input class="form-control" type="file" id="idProof" name="IdProof">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addressProof" class="form-label">Address Proof</label>
+                        <input class="form-control" type="file" id="addressProof" name="AddressProof">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenthCertificate" class="form-label">Tenth Certificate</label>
+                        <input class="form-control" type="file" id="tenthCertificate" name="TenthCertificate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="twelveCertificate" class="form-label">Twelve Certificate</label>
+                        <input class="form-control" type="file" id="twelveCertificate" name="TwelveCertificate">
+                    </div>
+                    <div class="mb-3">
+                        <label for="professionalCertificate" class="form-label">Professional Certificate</label>
+                        <input class="form-control" type="file" id="professionalCertificate" name="ProfessionalCertificate">
+                    </div>
+                    <input type="hidden" id="jyotishEmail" name="JyotishEmail" value="">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
         </div>
-        <button type="submit" >Submit</button>
-        </form>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const email = localStorage.getItem('PendingEamil');
+        $('#jyotishEmail').val(email);
+
+        $('#uploadForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if at least one image file is selected
+            const idProofFile = document.getElementById('idProof').files.length > 0;
+            const addressProofFile = document.getElementById('addressProof').files.length > 0;
+            const tenthCertificateFile = document.getElementById('tenthCertificate').files.length > 0;
+            const twelveCertificateFile = document.getElementById('twelveCertificate').files.length > 0;
+            const professionalCertificateFile = document.getElementById('professionalCertificate').files.length > 0;
+
+            const isAnyImageSelected = idProofFile || addressProofFile || tenthCertificateFile || twelveCertificateFile || professionalCertificateFile;
+
+            if (!isAnyImageSelected) {
+                alert('Please select at least one image file to upload.');
+                return;
+            }
+            debugger;
+            // Create a FormData object from the form
+            const formData = new FormData($(this)[0]);
+            let file = $("#idProof")[0].files[0];
+            formData.append("IdProof", file);
+            // Add the email from the hidden field
+            formData.append('JyotishEmail', email);
+
+            const token = localStorage.getItem('Token3');
+
+            // Send the data via AJAX
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: formData,
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
+                success: function (result) {
+                    // Handle success
+                    console.log('Success:', result);
+                    alert('Files and data uploaded successfully!');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle errors
+                    console.error('Error:', textStatus, errorThrown);
+                    alert('There was a problem with your submission.');
+                }
+            });
+        });
+    });
+
+
+
+</script>

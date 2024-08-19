@@ -8,8 +8,11 @@ using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessAccessLayer.Implementation
 {
@@ -53,9 +56,10 @@ namespace BusinessAccessLayer.Implementation
                 Expertise = jyotishView.Expertise,
                 Country = CountryName.Name,
                 State = StateName.Name,
-                City = CityName.Name,    
-               
-               
+                City = CityName.Name,
+                Password = Guid.NewGuid().ToString("N").Substring(0, 8),
+
+
                 Role = "Pending Jyotish",
                 Status = "Pending",
 
@@ -64,7 +68,14 @@ namespace BusinessAccessLayer.Implementation
 
             _context.PendingJyotishRecords.Add(jyotish);
             var result = _context.SaveChanges();
-            if (result > 0) { return true; }
+            if (result > 0) 
+            {
+                var message = "Dear Jyotish ," +
+                    "/n Your account has been successfully created and your Credential are below , \n Email : " + jyotish.Email + "\n Password: " + jyotish.Password;
+                var subject = "MyJyotishG Account Credential";
+                SendEmail(message,jyotish.Email , subject);
+                return true;
+            }
             return false;
         }
        /* public void UploadFile(IFormFile file, string fullPath)
@@ -127,5 +138,84 @@ namespace BusinessAccessLayer.Implementation
             else
             { return "Invalid Email"; }
         }
+
+        public bool SendEmail(string MessageBody, string Mail, string Subjectbody)
+        {
+            try
+            {
+                // Sender's email address and app-specific password
+                string senderEmail = "variveersingh123@gmail.com";
+                string senderPassword = "htjp emoj tahk qqaj"; // Ensure this is an app-specific password if 2FA is enabled
+
+                // Recipient's email address
+                string recipientEmail = Mail;
+
+                // SMTP server details
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 587; // Use port 587 for TLS
+
+                // Create and configure the SMTP client
+                using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
+                {
+                    client.EnableSsl = true; // Ensure SSL/TLS is enabled
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+                    // Create the email message
+                    MailMessage message = new MailMessage(senderEmail, recipientEmail)
+                    {
+                        Subject = Subjectbody,
+                        Body = MessageBody,
+                    };
+
+                    // Send the email
+                    client.Send(message);
+
+                    // If no exception is thrown, email was sent successfully
+                    Console.WriteLine("Email sent successfully.");
+                    return true;
+                }
+            }
+            catch (SmtpException smtpEx)
+            {
+                // Handle specific SMTP errors
+                Console.WriteLine($"SMTP error: {smtpEx.StatusCode} - {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle other general errors
+                Console.WriteLine($"Failed to send email. Error message: {ex.Message}");
+            }
+
+            // If we reach here, it means the email sending failed
+            return false;
+        }
+
+        public string SignInPendingJyotish(string email, string password)
+        {
+            var _pJyotish = _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefault();
+            if (_pJyotish != null)
+            {
+                if (_pJyotish.Password == password)
+                {
+                    return "Login Successful";
+                }
+                else
+                {
+                    return "Incorrect Password";
+                }
+            }
+            else
+            { return "Invalid Email"; }
+        }
+
+        public async Task<string> PJUserName(string Email)
+        {
+            var model = await _context.PendingJyotishRecords.Where(x => x.Email == Email).FirstOrDefaultAsync();
+            if (model == null) { return null; }
+            else { return model.Name; }
+            
+        }
+
     }
 }

@@ -5,3 +5,107 @@
     Layout = "PendingJyotishLayout";
 }
 
+<style>
+    .image-container {
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+</style>
+<div class="container mt-5">
+    
+    <div id="loading" class="alert alert-info" role="alert">
+        Documents
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="image-container bg-light rounded">
+                <label for="idProof" class="form-label">ID Proof:</label>
+                <img id="idProof" alt="ID Proof">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="image-container bg-light rounded">
+                <label for="addressProof" class="form-label">Address Proof:</label>
+                <img id="addressProof" alt="Address Proof">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="image-container bg-light rounded">
+                <label for="tenthCertificate" class="form-label">Tenth Certificate:</label>
+                <img id="tenthCertificate" alt="Tenth Certificate">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="image-container bg-light rounded">
+                <label for="twelveCertificate" class="form-label">Twelve Certificate:</label>
+                <img id="twelveCertificate" alt="Twelve Certificate">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="image-container bg-light rounded">
+                <label for="professionalCertificate" class="form-label">Professional Certificate:</label>
+                <img id="professionalCertificate" alt="Professional Certificate">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to fetch document images and send an email
+    async function fetchDocuments() {
+        const email = localStorage.getItem('userEmail');
+        if (!email) {
+            document.getElementById('statusMessage').textContent = 'No email address found in localStorage.';
+            return;
+        }
+
+        try {
+            // Fetch document images
+            const token = localStorage.getItem('Token3');
+            const imageApiUrl = `https://localhost:7118/Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
+            const response = await fetch(imageApiUrl{
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Add the Authorization header
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch document images');
+            }
+            const data = await response.json();
+
+            // Set the image sources
+            document.getElementById('idProof').src = data.idProof || 'placeholder.png';
+            document.getElementById('addressProof').src = data.addressProof || 'placeholder.png';
+            document.getElementById('tenthCertificate').src = data.tenthCertificate || 'placeholder.png';
+            document.getElementById('twelveCertificate').src = data.twelveCertificate || 'placeholder.png';
+            document.getElementById('professionalCertificate').src = data.professionalCertificate || 'placeholder.png';
+
+            // Hide the loading message
+            document.getElementById('loading').style.display = 'none';
+
+            // Send email
+           
+
+            // Display success message
+            
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('statusMessage').textContent = `Error: ${error.message}`;
+        }
+    }
+
+    // Attach the click event to the button
+  
+
+    // Fetch documents and send email on page load
+    window.onload = fetchDocuments;
+</script>

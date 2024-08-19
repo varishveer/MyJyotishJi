@@ -15,5 +15,7 @@ namespace BusinessAccessLayer.Abstraction
         public string SignInJyotish(LoginModel jyotishLogin);
         public bool SignUpAdmin(AdminModel admin);
         public string SignInAdmin(string email , string password);
+        public string SignInPendingJyotish(string email, string password);
+        public  Task<string> PJUserName(string Email);
     }
 }

@@ -11,7 +11,7 @@ namespace MyJyotishJiApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize(Policy = "Policy1")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminServices _admin;

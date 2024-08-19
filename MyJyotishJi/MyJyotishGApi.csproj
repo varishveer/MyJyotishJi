@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Assets\Images\Jyotish\" />
     <Folder Include="Assets\Images\TeamMember\" />
+    <Folder Include="Assets\PendingJyotish\Document\" />
   </ItemGroup>
 
 </Project>

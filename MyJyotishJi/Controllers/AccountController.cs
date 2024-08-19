@@ -22,20 +22,15 @@ namespace MyJyotishJiApi.Controllers
     {
         private readonly IAccountServices _account;
         private readonly IWebHostEnvironment _environment;
-        private readonly IConfiguration _config;
-       
+        private readonly IConfiguration _configuration;
+
         public AccountController(IAccountServices account , IWebHostEnvironment environment, IConfiguration configuration)
         {
             _account = account;
             _environment = environment;
-            _config = configuration;
+            _configuration = configuration;
            
         }
-
-
-        
-
-
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel login)
         {
@@ -43,33 +38,14 @@ namespace MyJyotishJiApi.Controllers
             string Result = _account.SignInAdmin(login.Email, login.Password);
             if (Result == "Login Successful")
             {
-                var claims = new[]
-                {
-                new Claim(JwtRegisteredClaimNames.Sub, login.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("UserId", login.Email.ToString())
-                };
+                var token = GenerateJwtToken(login.Email, "Scheme1");
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                var signIn = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                   _config["Jwt:Issuer"],
-                    _config["Jwt:Audience"],
-                    claims,
-                    expires: DateTime.UtcNow.AddMinutes(30),
-                    signingCredentials: signIn);
-
-                var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return Ok(new { Token = tokenValue, User = login.Email });
+                return Ok(new { Token = token, User = login.Email });
             }
 
             return Unauthorized();
         }
 
-
-        
         [HttpPost("registerJyotish")]
         public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
@@ -78,7 +54,6 @@ namespace MyJyotishJiApi.Controllers
             bool Result = _account.SignUpJyotish(jyotishViewModel);
             if (Result == true)
             {
-
                 var result = new { Success = true };
                 return Ok(result);
             }
@@ -88,47 +63,22 @@ namespace MyJyotishJiApi.Controllers
             }
             
         }
-
-        
-
         [HttpPost("loginJyotish")]
         public IActionResult LoginJyotish(LoginModel jyotishLogin)
         {
             string Result = _account.SignInJyotish(jyotishLogin);
             if (Result == "Login Successful")
             {
-                var claims = new[]
-                {
-                new Claim(JwtRegisteredClaimNames.Sub, jyotishLogin.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("UserId", jyotishLogin.Email.ToString())
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                   _config["Jwt:Issuer"],
-                    _config["Jwt:Audience"],
-                    claims,
-                    expires: DateTime.UtcNow.AddMinutes(30),
-                    signingCredentials: signIn);
-
-                var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return Ok(new { Token = tokenValue, User = jyotishLogin.Email });
+                var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
+                return Ok(new { Token = token, User = jyotishLogin.Email });
             }
-
             return Unauthorized();
 
         }
-
-      
-        [Authorize]
+        [Authorize(Policy = "Policy1")]
         [HttpPost("registerAdmin")]
         public IActionResult RegisterAdmin(AdminModel admin)
         {
-
             bool Result = _account.SignUpAdmin(admin);
             if (Result == true)
             {
@@ -140,6 +90,41 @@ namespace MyJyotishJiApi.Controllers
                 return BadRequest();
             }
 
+        }
+        [HttpPost("loginPendingJyotish")]
+        public IActionResult loginPendingJyotish(LoginModel jyotishLogin)
+        {
+            string Result = _account.SignInPendingJyotish(jyotishLogin.Email,jyotishLogin.Password);
+            if (Result == "Login Successful")
+            {
+                var Name = _account.PJUserName(jyotishLogin.Email);
+                var UName = Name.Result;
+                var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
+                return Ok(new { Token = token, User = jyotishLogin.Email ,UserName = UName });
+            }
+            return Unauthorized();
+
+        }
+        private string GenerateJwtToken(string username, string scheme)
+        {
+            var key = Encoding.UTF8.GetBytes(_configuration[$"Jwt:{scheme}:Key"]);
+            var securityKey = new SymmetricSecurityKey(key);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, username),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration[$"Jwt:{scheme}:Issuer"],
+                audience: _configuration[$"Jwt:{scheme}:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

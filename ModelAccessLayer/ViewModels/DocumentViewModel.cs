@@ -12,10 +12,12 @@ namespace ModelAccessLayer.ViewModels
     {
         [Key]
         public int Id { get; set; }
+        
         public IFormFile IdProof { get; set; }
         public IFormFile AddressProof { get; set; }
         public IFormFile TenthCertificate { get; set; }
         public IFormFile TwelveCertificate { get; set; }
-        public string ProfessionalCertificate { get; set; }
+        public IFormFile ProfessionalCertificate { get; set; }
+        public string JyotishEmail { get; set; }
     }
 }

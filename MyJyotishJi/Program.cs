@@ -22,29 +22,61 @@ builder.Services.AddScoped<IJyotishServices, JyotishServices>();
 builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
 
 
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer(options =>
+})
+.AddJwtBearer("Scheme1", options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Scheme1:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Scheme1:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Scheme1:Key"]))
+    };
+})
+.AddJwtBearer("Scheme2", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Scheme2:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Scheme2:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Scheme2:Key"]))
+    };
+})
+.AddJwtBearer("Scheme3", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Scheme3:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Scheme3:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Scheme3:Key"]))
     };
 });
 
-builder.Services.AddAuthorization();
-
+// Add authorization policies if needed
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Policy1", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme1"));
+    options.AddPolicy("Policy2", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme2"));
+    options.AddPolicy("Policy3", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme3"));
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",

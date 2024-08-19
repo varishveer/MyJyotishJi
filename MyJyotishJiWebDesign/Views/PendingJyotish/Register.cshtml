@@ -302,6 +302,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                localStorage.setItem('PendingEmail', data.email);
                 alert('Form submitted successfully!');
                 // Optionally, reset the form or redirect to another page
                 form.reset();

@@ -30,6 +30,7 @@ namespace ModelAccessLayer.Models
         public string State { get; set; }
         [Required]
         public string City { get; set; }
+        public string Password { get; set; }
         public DateOnly DateOfBirth { get; set; }
         [AllowNull]
         public string? ProfileImageUrl { get; set; }

@@ -11,7 +11,7 @@ namespace MyJyotishGApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   
+    [Authorize(Policy = "Policy2")]
     public class JyotishController : ControllerBase
     {
         private readonly IJyotishServices _jyotish;
