@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,17 @@ namespace ModelAccessLayer.Models
     {
         [Key]
         public int Id { get; set; }
-        public string IdProof { get; set; }
-        public string AddressProof { get; set; }
-        public string TenthCertificate { get; set; }
-        public string TwelveCertificate { get; set; }
-        public string ProfessionalCertificate { get; set; }
+        [AllowNull]
+        public string? IdProof { get; set; }
+        [AllowNull]
+        public string? AddressProof { get; set; }
+        [AllowNull]
+        public string? TenthCertificate { get; set; }
+        [AllowNull]
+        public string? TwelveCertificate { get; set; }
+        [AllowNull]
+        public string? ProfessionalCertificate { get; set; }
         public int JyotishId { get; set; }
-        public JyotishModel Jyotish { get; set; }
+        public PendingJyotishModel PJyotish { get; set; }
     }
 }

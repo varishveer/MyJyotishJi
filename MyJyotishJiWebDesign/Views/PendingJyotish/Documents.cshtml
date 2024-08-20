@@ -27,85 +27,78 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="idProof" class="form-label">ID Proof:</label>
-                <img id="idProof" alt="ID Proof">
+                <img id="idProof" alt="ID Proof" src="">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="addressProof" class="form-label">Address Proof:</label>
-                <img id="addressProof" alt="Address Proof">
+                <img id="addressProof" alt="Address Proof" src="">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="tenthCertificate" class="form-label">Tenth Certificate:</label>
-                <img id="tenthCertificate" alt="Tenth Certificate">
+                <img id="tenthCertificate" alt="Tenth Certificate" src="">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="twelveCertificate" class="form-label">Twelve Certificate:</label>
-                <img id="twelveCertificate" alt="Twelve Certificate">
+                <img id="twelveCertificate" alt="Twelve Certificate" src="">
             </div>
         </div>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="image-container bg-light rounded">
                 <label for="professionalCertificate" class="form-label">Professional Certificate:</label>
-                <img id="professionalCertificate" alt="Professional Certificate">
+                <img id="professionalCertificate" alt="Professional Certificate" src="">
             </div>
         </div>
     </div>
 </div>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     // Function to fetch document images and send an email
-    async function fetchDocuments() {
-        const email = localStorage.getItem('userEmail');
-        if (!email) {
-            document.getElementById('statusMessage').textContent = 'No email address found in localStorage.';
-            return;
-        }
-
-        try {
-            // Fetch document images
-            const token = localStorage.getItem('Token3');
-            const imageApiUrl = `https://localhost:7118/Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
-            const response = await fetch(imageApiUrl{
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`, // Add the Authorization header
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch document images');
+    $(document).ready(function () {
+        async function fetchDocuments() {
+            const email = localStorage.getItem('userEmail');
+            if (!email) {
+                $('#statusMessage').text('No email address found in localStorage.');
+                return;
             }
-            const data = await response.json();
 
-            // Set the image sources
-            document.getElementById('idProof').src = data.idProof || 'placeholder.png';
-            document.getElementById('addressProof').src = data.addressProof || 'placeholder.png';
-            document.getElementById('tenthCertificate').src = data.tenthCertificate || 'placeholder.png';
-            document.getElementById('twelveCertificate').src = data.twelveCertificate || 'placeholder.png';
-            document.getElementById('professionalCertificate').src = data.professionalCertificate || 'placeholder.png';
+            try {
+                // Fetch document images
+                const token = localStorage.getItem('Token3');
+                const imageApiUrl = `https://localhost:7118/Api/PendingJyotish/Documents?email=${encodeURIComponent(email)}`; // Replace with your API endpoint for images
 
-            // Hide the loading message
-            document.getElementById('loading').style.display = 'none';
+                const response = await $.ajax({
+                    url: imageApiUrl,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Add the Authorization header
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-            // Send email
-           
+                // Set the image sources
+                $('#idProof').attr('src', response.data.idProof || 'placeholder.png');
+                $('#addressProof').attr('src', response.data.addressProof || 'placeholder.png');
+                $('#tenthCertificate').attr('src', response.data.tenthCertificate || 'placeholder.png');
+                $('#twelveCertificate').attr('src', response.data.twelveCertificate || 'placeholder.png');
+                $('#professionalCertificate').attr('src', response.data.professionalCertificate || 'placeholder.png');
 
-            // Display success message
-            
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('statusMessage').textContent = `Error: ${error.message}`;
+                // Hide the loading message
+                $('#loading').hide();
+
+            } catch (error) {
+                console.error('Error:', error);
+                $('#statusMessage').text(`Error: ${error.message}`);
+            }
         }
-    }
 
-    // Attach the click event to the button
-  
+        // Fetch documents and send email on page load
+        fetchDocuments();
+    });
 
-    // Fetch documents and send email on page load
-    window.onload = fetchDocuments;
 </script>

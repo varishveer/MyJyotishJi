@@ -40,7 +40,7 @@ namespace DataAccessLayer.DbServices
 
             modelBuilder.Entity<ChattingModel>().HasOne(c => c.User).WithMany(j => j.ChattingModelRecord).HasForeignKey(c => c.UserId);
             modelBuilder.Entity<PoojaRecordModel>().HasOne(c => c.Jyotish).WithMany(j => j.PoojaModelRecord).HasForeignKey(c => c.JyotishId);
-            modelBuilder.Entity<JyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.Jyotish).HasForeignKey<DocumentModel>(d => d.JyotishId);
+            modelBuilder.Entity<PendingJyotishModel>().HasOne(j => j.DocumentModel).WithOne(d => d.PJyotish).HasForeignKey<DocumentModel>(d => d.JyotishId);
 
             /*  modelBuilder.Entity<Country>().HasMany(c => c.States).WithOne(s => s.Country).HasForeignKey(s => s.CountryId);
               modelBuilder.Entity<State>().HasMany(s => s.Cities).WithOne(c => c.State).HasForeignKey(c => c.StateId);*/

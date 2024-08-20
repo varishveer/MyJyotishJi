@@ -47,7 +47,7 @@ namespace ModelAccessLayer.Models
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
         public ICollection<PoojaRecordModel> PoojaModelRecord { get; set; } = new List<PoojaRecordModel>();
-        public DocumentModel DocumentModel { get; set; }
+        
     }
 
 }

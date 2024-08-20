@@ -48,67 +48,88 @@ namespace BusinessAccessLayer.Implementation
                 if (model.IdProof != null)
                 {
                     var idProofGuid = Guid.NewGuid().ToString();
-                    var idProofPath = Path.Combine(_uploadDirectory, "Assets/PendingJyotish/Document/" + idProofGuid + Path.GetExtension(model.IdProof.FileName));
+                    var SqlPath = "/Assets/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                    var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
                     using (var stream = new FileStream(idProofPath, FileMode.Create))
                     {
                         await model.IdProof.CopyToAsync(stream);
                     }
-                    document.IdProof = idProofPath;
+                    document.IdProof = SqlPath;
                 }
 
                 // Process AddressProof file
                 if (model.AddressProof != null)
                 {
                     var addressProofGuid = Guid.NewGuid().ToString();
-                    var addressProofPath = Path.Combine(_uploadDirectory, "Assets/PendingJyotish/Document/" + addressProofGuid + Path.GetExtension(model.AddressProof.FileName));
+                    var SqlPath = "/Assets/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                    var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
+                   
                     using (var stream = new FileStream(addressProofPath, FileMode.Create))
                     {
                         await model.AddressProof.CopyToAsync(stream);
                     }
-                    document.AddressProof = addressProofPath;
+                    document.AddressProof = SqlPath;
                 }
 
                 // Process TenthCertificate file
                 if (model.TenthCertificate != null)
                 {
                     var tenthCertificateGuid = Guid.NewGuid().ToString();
-                    var tenthCertificatePath = Path.Combine(_uploadDirectory, "Assets/PendingJyotish/Document/" + tenthCertificateGuid + Path.GetExtension(model.TenthCertificate.FileName));
+                    var SqlPath = "/Assets/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                    var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+                  
                     using (var stream = new FileStream(tenthCertificatePath, FileMode.Create))
                     {
                         await model.TenthCertificate.CopyToAsync(stream);
                     }
-                    document.TenthCertificate = tenthCertificatePath;
+                    document.TenthCertificate = SqlPath;
                 }
 
                 // Process TwelveCertificate file
                 if (model.TwelveCertificate != null)
                 {
                     var twelveCertificateGuid = Guid.NewGuid().ToString();
-                    var twelveCertificatePath = Path.Combine(_uploadDirectory, "Assets/PendingJyotish/Document/" + twelveCertificateGuid + Path.GetExtension(model.TwelveCertificate.FileName));
+                    var SqlPath = "/Assets/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                    var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+                  
                     using (var stream = new FileStream(twelveCertificatePath, FileMode.Create))
                     {
                         await model.TwelveCertificate.CopyToAsync(stream);
                     }
-                    document.TwelveCertificate = twelveCertificatePath;
+                    document.TwelveCertificate = SqlPath;
                 }
 
                 // Process ProfessionalCertificate file
                 if (model.ProfessionalCertificate != null)
                 {
                     var professionalCertificateGuid = Guid.NewGuid().ToString();
-                    var professionalCertificatePath = Path.Combine(_uploadDirectory, "Assets/PendingJyotish/Document/" + professionalCertificateGuid + Path.GetExtension(model.ProfessionalCertificate.FileName));
+                    var SqlPath = "/Assets/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                    var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
+
+
+                   
                     using (var stream = new FileStream(professionalCertificatePath, FileMode.Create))
                     {
                         await model.ProfessionalCertificate.CopyToAsync(stream);
                     }
-                    document.ProfessionalCertificate = professionalCertificatePath;
+                    document.ProfessionalCertificate = SqlPath;
                 }
 
                 // Save document data to database
-                _context.Documents.Add(document);
-                await _context.SaveChangesAsync();
 
-                return true; // Successfully saved files and document
+                var IsRecordExist = _context.Documents.Where(X => X.JyotishId == document.JyotishId).FirstOrDefault();
+                if (IsRecordExist == null)
+                { _context.Documents.Add(document); }
+                else
+                { _context.Documents.Update(document); }
+                
+                 var result = await _context.SaveChangesAsync();
+                if(result> 0)
+                { return true; }
+                else { return false; }
+                 
             }
             catch (Exception ex)
             {

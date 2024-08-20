@@ -41,7 +41,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     $(document).ready(function () {
-        const email = localStorage.getItem('PendingEamil');
+        const email = localStorage.getItem('userEmail');
         $('#jyotishEmail').val(email);
 
         $('#uploadForm').submit(function (event) {
@@ -60,16 +60,22 @@
                 alert('Please select at least one image file to upload.');
                 return;
             }
-            debugger;
+
             // Create a FormData object from the form
             const formData = new FormData($(this)[0]);
-            let file = $("#idProof")[0].files[0];
-            formData.append("IdProof", file);
+
+            // Append files to FormData
+            if (idProofFile) formData.append('IdProof', document.getElementById('idProof').files[0]);
+            if (addressProofFile) formData.append('AddressProof', document.getElementById('addressProof').files[0]);
+            if (tenthCertificateFile) formData.append('TenthCertificate', document.getElementById('tenthCertificate').files[0]);
+            if (twelveCertificateFile) formData.append('TwelveCertificate', document.getElementById('twelveCertificate').files[0]);
+            if (professionalCertificateFile) formData.append('ProfessionalCertificate', document.getElementById('professionalCertificate').files[0]);
+
             // Add the email from the hidden field
             formData.append('JyotishEmail', email);
 
             const token = localStorage.getItem('Token3');
-
+            debugger;
             // Send the data via AJAX
             $.ajax({
                 url: 'https://localhost:7118/Api/PendingJyotish/UploadDocument',
@@ -85,14 +91,18 @@
                     console.log('Success:', result);
                     alert('Files and data uploaded successfully!');
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function (xhr, status, message) {
                     // Handle errors
-                    console.error('Error:', textStatus, errorThrown);
+                    console.error('Error:');
+                    console.error(status);
+                    console.error(message);
+                    console.error(xhr);
                     alert('There was a problem with your submission.');
                 }
             });
         });
     });
+
 
 
 

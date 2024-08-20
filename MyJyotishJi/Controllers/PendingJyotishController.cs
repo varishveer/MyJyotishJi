@@ -27,7 +27,10 @@ namespace MyJyotishGApi.Controllers
         {
             try {
                 var Records = _pendingJyotishServices.Documents(Email);
-                return Ok(new { data = Records});
+                if(Records == null)
+                { return BadRequest(); }
+                else { return Ok(new { data = Records }); }
+                
             }
             catch { return BadRequest(); }
             
@@ -40,10 +43,7 @@ namespace MyJyotishGApi.Controllers
 
             if (success)
             {
-                return Ok(new
-                {
-                    Message = "Files and data uploaded successfully."
-                });
+                return Ok(new { Message = "Files and data uploaded successfully." });
             }
             else
             {

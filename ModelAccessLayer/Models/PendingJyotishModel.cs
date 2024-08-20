@@ -36,5 +36,6 @@ namespace ModelAccessLayer.Models
         public string? ProfileImageUrl { get; set; }
         public string Role { get; set; }
         public string Status { get; set; }
+        public DocumentModel DocumentModel { get; set; }
     }
 }

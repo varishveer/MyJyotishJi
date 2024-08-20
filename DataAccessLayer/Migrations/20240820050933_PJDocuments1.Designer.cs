@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240820050933_PJDocuments1")]
+    partial class PJDocuments1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -659,13 +662,13 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.DocumentModel", b =>
                 {
-                    b.HasOne("ModelAccessLayer.Models.PendingJyotishModel", "PJyotish")
+                    b.HasOne("ModelAccessLayer.Models.JyotishModel", "Jyotish")
                         .WithOne("DocumentModel")
                         .HasForeignKey("ModelAccessLayer.Models.DocumentModel", "JyotishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PJyotish");
+                    b.Navigation("Jyotish");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
@@ -685,13 +688,10 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("ChattingModelRecord");
 
-                    b.Navigation("PoojaModelRecord");
-                });
-
-            modelBuilder.Entity("ModelAccessLayer.Models.PendingJyotishModel", b =>
-                {
                     b.Navigation("DocumentModel")
                         .IsRequired();
+
+                    b.Navigation("PoojaModelRecord");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserModel", b =>
