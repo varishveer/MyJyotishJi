@@ -96,7 +96,7 @@
 </style>
 <div class="outerDiv">
     <h1 class="text-center mb-4">Registration Form</h1>
-    <form id="registrationForm">
+    <form id="registrationForm" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" class="form-control">
@@ -169,10 +169,8 @@
         <p>By submitting this form, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.</p>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
 
 <script>
     async function loadExpertise() {
@@ -250,67 +248,65 @@
         }
     }
 
-    // Event listeners
+
    
 
-    document.getElementById('country').addEventListener('change', function () {
-        const countryId = this.value;
-        if (countryId) {
-            loadStates(countryId);
-        }
-    });
-
-    document.getElementById('state').addEventListener('change', function () {
-        const stateId = this.value;
-        if (stateId) {
-            loadCities(stateId);
-        }
-    });
-   
-    document.addEventListener('DOMContentLoaded', loadCountries);
+  
+  
     
 
-</script>
 
-<script>
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
-        debugger;
-        const form = event.target;
+    $(document).ready(function () {
+        loadExpertise();
+        loadCountries();
 
-        // Manually collect form data
-        const data = {
-            name: form.name.value,
-            email: form.email.value,
-            mobile: form.phone.value,
-            gender: form.gender.value,
-            language: form.language.value,
-            expertise: form.expertise.value,
-            country: form.country.value,
-            state: form.state.value,
-            city: form.city.value,
-        };
-       
-        // Send the JSON data to the server
-        fetch('https://localhost:7118/Api/Account/registerJyotish', { // Replace with your API endpoint
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                localStorage.setItem('PendingEmail', data.email);
-                alert('Form submitted successfully!');
-                // Optionally, reset the form or redirect to another page
-                form.reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error submitting the form.');
+        $('#country').change(function () {
+            const countryId = $(this).val();
+            if (countryId) {
+                loadStates(countryId);
+            }
+        });
+
+        $('#state').change(function () {
+            const stateId = $(this).val();
+            if (stateId) {
+                loadCities(stateId);
+            }
+        });
+
+        $('#registrationForm').submit(function (event) {
+            event.preventDefault(); 
+
+            const form = $(this)[0]; 
+            const formData = new FormData(form);
+
+            
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+            
+            $.ajax({
+                url: 'https://localhost:7118/Api/Account/registerJyotish',
+                type: 'POST',
+                data: formData,
+              
+                success: function (response) {
+                    console.log('Success:', response);
+                    localStorage.setItem('PendingEmail', formData.get('email'));
+                    alert('Form submitted successfully!');
+                    $(form).trigger('reset'); // Reset the form
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    console.log('XHR:', xhr);
+                    alert('There was an error submitting the form.');
+                }
             });
+        });
+
+
+
+
     });
 
 </script>

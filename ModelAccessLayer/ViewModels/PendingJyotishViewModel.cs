@@ -12,7 +12,7 @@ namespace ModelAccessLayer.ViewModels
     public class PendingJyotishViewModel
     {
         
-       public int Id {  get; set; } 
+        public int Id {  get; set; } 
         [Required]
         public string Name { get; set; }
         [Required]
