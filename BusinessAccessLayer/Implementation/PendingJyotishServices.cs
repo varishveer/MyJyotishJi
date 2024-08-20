@@ -139,13 +139,23 @@ namespace BusinessAccessLayer.Implementation
             }
         }
 
-        public async Task<DocumentModel> Documents(string email)
+        public DocumentModel Documents(string email)
         {
-            var isEmailValid = await _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefaultAsync();
+            var isEmailValid =  _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefault();
             if (isEmailValid == null) { return null; }
-            var isDocumentAvailable = await _context.Documents.Where(x=>x.JyotishId == isEmailValid.Id).FirstOrDefaultAsync();
+            var isDocumentAvailable =  _context.Documents.Where(x=>x.JyotishId == isEmailValid.Id).FirstOrDefault();
             if (isDocumentAvailable == null) { return null; }
-            else { return isDocumentAvailable; }
+            else {
+                DocumentModel model = new DocumentModel() 
+                {
+                    IdProof = isDocumentAvailable.IdProof,
+                    AddressProof = isDocumentAvailable.AddressProof,
+                    TenthCertificate=isDocumentAvailable.TenthCertificate,
+                    TwelveCertificate = isDocumentAvailable.TwelveCertificate,
+                    ProfessionalCertificate =isDocumentAvailable.ProfessionalCertificate
+                };    
+                return model; 
+            }
         }
 
         public async Task<PendingJyotishModel> Profile(string email)
@@ -154,6 +164,72 @@ namespace BusinessAccessLayer.Implementation
             var result = await _context.PendingJyotishRecords.Where(x => x.Email == email).FirstOrDefaultAsync();
             if (result == null) { return null; }
             return result;
+        }
+
+        public  bool UpdateProfile(PendingJyotishViewModel model ,string? path)
+        {
+            if(model !=null)
+            {
+                var isExist = _context.PendingJyotishRecords.Where(x => x.Email == model.Email).FirstOrDefault();
+                if (isExist == null)
+                { return false; }
+
+                var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
+                var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
+                var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
+
+
+                var filePath = "";
+                if(model.Image != null)
+                {
+                    Random random = new Random();
+                    // Generate a random number between 1000000000 and 9999999999
+                    long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
+                     filePath = "/Assets/Images/Jyotish/" + randomNumber + model.Image.FileName;
+
+                    var fullPath = path + filePath;
+                    UploadFile(model.Image, fullPath);
+                }
+
+               
+                PendingJyotishModel newModel = new PendingJyotishModel() 
+                {
+                    Id = isExist.Id,
+                    Name = model.Name,
+                    Gender = model.Gender,
+                    Language = model.Language,
+                    Expertise = model.Expertise,
+                    DateOfBirth = model.DateOfBirth,
+                    Mobile = model.Mobile,
+                    Country = CountryName.Name,
+                    State = StateName.Name,
+                    City = CityName.Name,
+                    Role= isExist.Role,
+                    Password = isExist.Password,
+                    Status = isExist.Status,
+                    Email = isExist.Email,
+                    DocumentModel = isExist.DocumentModel,
+                    
+                    ProfileImageUrl = filePath,
+
+
+                };
+                _context.PendingJyotishRecords.Update(newModel);
+                var result = _context.SaveChanges();
+                if(result >0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            else
+            { return false; }
+        }
+
+        public void UploadFile(IFormFile file, string fullPath)
+        {
+            FileStream stream = new FileStream(fullPath, FileMode.Create);
+            file.CopyTo(stream);
         }
     }
 }

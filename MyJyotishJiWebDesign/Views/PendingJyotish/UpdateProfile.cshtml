@@ -1,0 +1,229 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "PendingJyotishLayout";
+}
+<div class="container mt-2">
+    <h1 class="mb-4">Update Profile Information</h1>
+    <form id="profileUpdateForm">
+        <div class="row">
+            <!-- Personal Information Section -->
+            <div class="col-md-12 col-lg-6">
+                <div class="profile-card bg-light rounded p-3 mb-4">
+                    <h4 class="mb-3">Personal Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="dateOfBirth">Date of Birth:</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="mobile">Mobile:</label>
+                        <input type="tel" id="mobile" name="mobile" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expertise">Expertise:</label>
+                        <select id="expertise" name="expertise" class="form-control">
+                            <option value="">Select Expertise</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select id="country" name="country" class="form-control">
+                            <option value="">Select Country</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" class="form-control" disabled>
+                            <option value="">Select State</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <select id="city" name="city" class="form-control" disabled>
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="language">Language:</label>
+                        <input type="text" id="language" name="language" class="form-control" required>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Profile Image Section -->
+            <div class="col-md-12 col-lg-6">
+                <div class="profile-card bg-light rounded p-3 mb-4">
+                    <h4 class="mb-3">Profile Image</h4>
+                    <div class="form-group mb-3">
+                        <label for="profileImage">Upload New Image:</label>
+                        <input type="file" id="profileImage" name="profileImage" class="form-control">
+                    </div>
+                    <img id="profileImageUrl" src="https://via.placeholder.com/300" alt="Profile Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Load Expertise
+        async function loadExpertise() {
+            try {
+                const response = await fetch('https://localhost:7118/Api/Jyotish/Expertise');
+                const data = await response.json();
+                const expertiseDropdown = $('#expertise');
+                expertiseDropdown.empty().append('<option value="">Select Expertise</option>');
+                data.data.forEach(expertise => {
+                    expertiseDropdown.append(new Option(expertise.name, expertise.name));
+                });
+            } catch (error) {
+                console.error('Error fetching expertise:', error);
+            }
+        }
+
+        // Load Countries
+        async function loadCountries() {
+            try {
+                const response = await fetch('https://localhost:7118/Api/Jyotish/Country');
+                const data = await response.json();
+                const countryDropdown = $('#country');
+                countryDropdown.empty().append('<option value="">Select Country</option>');
+                data.data.forEach(country => {
+                    countryDropdown.append(new Option(country.name, country.id));
+                });
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+            }
+        }
+
+        // Load States
+        async function loadStates(countryId) {
+            try {
+                const response = await fetch(`https://localhost:7118/Api/Jyotish/State?Id=${countryId}`);
+                const data = await response.json();
+                const stateDropdown = $('#state');
+                stateDropdown.empty().append('<option value="">Select State</option>');
+                data.data.forEach(state => {
+                    stateDropdown.append(new Option(state.name, state.id));
+                });
+                stateDropdown.prop('disabled', false);
+            } catch (error) {
+                console.error('Error fetching states:', error);
+            }
+        }
+
+        // Load Cities
+        async function loadCities(stateId) {
+            try {
+                const response = await fetch(`https://localhost:7118/Api/Jyotish/City?Id=${stateId}`);
+                const data = await response.json();
+                const cityDropdown = $('#city');
+                cityDropdown.empty().append('<option value="">Select City</option>');
+                data.data.forEach(city => {
+                    cityDropdown.append(new Option(city.name, city.id));
+                });
+                cityDropdown.prop('disabled', false);
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+            }
+        }
+
+        // Event Listeners
+        $('#country').on('change', function () {
+            const countryId = $(this).val();
+            if (countryId) {
+                loadStates(countryId);
+            } else {
+                $('#state').empty().append('<option value="">Select State</option>').prop('disabled', true);
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+            }
+        });
+
+        $('#state').on('change', function () {
+            const stateId = $(this).val();
+            if (stateId) {
+                loadCities(stateId);
+            } else {
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+            }
+        });
+
+        // Load data on page load
+        loadExpertise();
+        loadCountries();
+    });
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#profileUpdateForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Create a FormData object from the form
+            var formData = new FormData(this);
+
+            // Append the email from localStorage
+            var email = localStorage.getItem("userEmail");
+            if (email) {
+                formData.append('email', email);
+            }
+
+            // If you need to handle the profile image separately
+            var profileImage = $('#profileImage')[0].files[0];
+            if (profileImage) {
+                formData.append('profileImage', profileImage);
+            }
+
+            // Fetch token from localStorage (if needed)
+            var token = localStorage.getItem('Token3');
+
+            // Send the data via AJAX
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/UpdateProfile', // Replace with your actual API endpoint
+                type: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}` // Add the Authorization header if required
+                },
+                data: formData,
+                processData: false, // Prevent jQuery from automatically processing the data
+                contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
+                success: function (response) {
+                    // Handle success
+                    console.log('Profile updated successfully:', response);
+                    alert('Profile updated successfully!');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Handle errors
+                    console.error('Error updating profile:', textStatus, errorThrown);
+                    alert('There was a problem updating your profile. Please try again.');
+                }
+            });
+        });
+    });
+
+</script>

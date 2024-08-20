@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 
 namespace MyJyotishGApi.Controllers
@@ -12,9 +13,11 @@ namespace MyJyotishGApi.Controllers
     public class PendingJyotishController : ControllerBase
     {
         private readonly IPendingJyotishServices _pendingJyotishServices;
-        public PendingJyotishController(IPendingJyotishServices pendingJyotishServices)
+        private readonly IWebHostEnvironment _webHostEnvironment; 
+        public PendingJyotishController(IPendingJyotishServices pendingJyotishServices, IWebHostEnvironment webHostEnvironment)
         {
             _pendingJyotishServices = pendingJyotishServices;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("Dashboard")]
@@ -26,7 +29,7 @@ namespace MyJyotishGApi.Controllers
         public IActionResult Documents(string Email)
         {
             try {
-                var Records = _pendingJyotishServices.Documents(Email);
+                DocumentModel Records = _pendingJyotishServices.Documents(Email);
                 if(Records == null)
                 { return BadRequest(); }
                 else { return Ok(new { data = Records }); }
@@ -58,5 +61,17 @@ namespace MyJyotishGApi.Controllers
             if(result == null) { return BadRequest(); }
             else { return Ok(new { data = result }); }
         }
+
+        [HttpPost("UpdateProfile")]
+        public IActionResult UpdateProfile(PendingJyotishViewModel model)
+        {
+            string path = _webHostEnvironment.ContentRootPath;
+            var result = _pendingJyotishServices.UpdateProfile(model,path);
+            if(result == true)
+            { return Ok(); }
+            else { return BadRequest(); }
+        }
+
+        
     }
 }

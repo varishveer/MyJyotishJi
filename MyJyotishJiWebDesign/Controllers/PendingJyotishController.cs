@@ -13,6 +13,7 @@ namespace MyJyotishGWeb.Controllers
         public IActionResult Documents() { return View(); }
         public IActionResult UploadDocument() { return View(); }
         public IActionResult Profile() { return View(); }
+        public IActionResult UpdateProfile() { return View(); }
 
     }
 }

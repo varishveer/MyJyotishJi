@@ -52,25 +52,28 @@ namespace MyJyotishGApi.Controllers
             var records = _jyotish.TeamMember(JyotishId);
             return Ok(records);
         }
+        [AllowAnonymous]
         [HttpGet("Country")]
         public IActionResult Country() 
         {
             var Record = _jyotish.CountryList();
             return Ok(new { data = Record });
         }
+        [AllowAnonymous]
         [HttpGet("State")]
         public IActionResult State(int Id)
         {
             var Record = _jyotish.StateList(Id);
             return Ok(new { data = Record });
         }
+        [AllowAnonymous]
         [HttpGet("City")]
         public IActionResult City(int Id)
         {
             var Record = _jyotish.CityList(Id);
             return Ok(new { data = Record });
         }
-
+        [AllowAnonymous]
         [HttpGet("Expertise")]
         public IActionResult Expertise()
         {

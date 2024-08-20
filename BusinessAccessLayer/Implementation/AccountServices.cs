@@ -34,13 +34,7 @@ namespace BusinessAccessLayer.Implementation
             if (IsEmailValid != null || IsMobileValid != null || IsMobileValidPending != null || IsEmailValidPending != null)
             { return false; }
 
-            /* Random random = new Random();
-             // Generate a random number between 1000000000 and 9999999999
-             long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
-             var filePath = "/Assets/Images/Jyotish/" + randomNumber + jyotishView.Image.FileName;
-
-             var fullPath = path + filePath;
-             UploadFile(jyotishView.Image, fullPath);*/
+           
 
 
             var CountryName = _context.Countries.Where(x => x.Id == jyotishView.Country).FirstOrDefault();
@@ -78,11 +72,7 @@ namespace BusinessAccessLayer.Implementation
             }
             return false;
         }
-       /* public void UploadFile(IFormFile file, string fullPath)
-        {
-            FileStream stream = new FileStream(fullPath, FileMode.Create);
-            file.CopyTo(stream);
-        }*/
+      
 
         public string SignInJyotish(LoginModel jyotishLogin)
         {

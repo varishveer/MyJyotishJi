@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Policy3", policy =>
         policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme3"));
 });
+
+
+/*builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});*/
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",

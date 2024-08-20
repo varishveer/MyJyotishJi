@@ -12,7 +12,8 @@ namespace BusinessAccessLayer.Abstraction
     {
 
         public  Task<bool> UploadDocumentAsync(DocumentViewModel model);
-        public  Task<DocumentModel> Documents(string email);
+        public  DocumentModel Documents(string email);
         public  Task<PendingJyotishModel> Profile(string email);
+        public bool UpdateProfile(PendingJyotishViewModel model , string path);
     }
 }

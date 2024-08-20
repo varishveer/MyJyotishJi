@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ModelAccessLayer.ViewModels
     public class PendingJyotishViewModel
     {
         
-       
+       public int Id {  get; set; } 
         [Required]
         public string Name { get; set; }
         [Required]
@@ -30,13 +31,16 @@ namespace ModelAccessLayer.ViewModels
         public int State { get; set; }
         [Required]
         public int City { get; set; }
-       
-      
-      /*  public string? ProfileImageUrl { get; set; }
-        public IFormFile? Image { get; set; }*/
 
-        
+        [AllowNull]
+        public string? ProfileImageUrl { get; set; }
+        [AllowNull]
+        public IFormFile? Image { get; set; }
+        [AllowNull]
+        public DateTime? DateOfBirth { get; set; }
 
-       
+
+
+
     }
 }
