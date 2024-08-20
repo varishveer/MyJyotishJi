@@ -166,70 +166,71 @@ namespace BusinessAccessLayer.Implementation
             return result;
         }
 
-        public  bool UpdateProfile(PendingJyotishViewModel model ,string? path)
+        public bool UpdateProfile(PendingJyotishViewModel model, string? path)
         {
-            if(model !=null)
+            if (model == null) return false;
+
+            // Find the existing record
+            var existingRecord = _context.PendingJyotishRecords
+                .FirstOrDefault(x => x.Email == model.Email);
+
+            if (existingRecord == null) return false;
+
+            // Fetch related entities only if necessary
+            var countryName = _context.Countries
+                .Where(x => x.Id == model.Country)
+                .Select(x => x.Name)
+                .FirstOrDefault();
+
+            var stateName = _context.States
+                .Where(x => x.Id == model.State)
+                .Select(x => x.Name)
+                .FirstOrDefault();
+
+            var cityName = _context.Cities
+                .Where(x => x.Id == model.City)
+                .Select(x => x.Name)
+                .FirstOrDefault();
+
+            // Handle file upload
+            string filePath = string.Empty;
+            if (model.Image != null)
             {
-                var isExist = _context.PendingJyotishRecords.Where(x => x.Email == model.Email).FirstOrDefault();
-                if (isExist == null)
-                { return false; }
+                // Generate a unique file name
+                var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
+                filePath = $"/Assets/Images/Jyotish/{uniqueFileName}";
 
-                var CountryName = _context.Countries.Where(x => x.Id == model.Country).FirstOrDefault();
-                var StateName = _context.States.Where(x => x.Id == model.State).FirstOrDefault();
-                var CityName = _context.Cities.Where(x => x.Id == model.City).FirstOrDefault();
-
-
-                var filePath = "";
-                if(model.Image != null)
-                {
-                    Random random = new Random();
-                    // Generate a random number between 1000000000 and 9999999999
-                    long randomNumber = (long)(random.NextDouble() * 9000000000) + 1000000000;
-                     filePath = "/Assets/Images/Jyotish/" + randomNumber + model.Image.FileName;
-
-                    var fullPath = path + filePath;
-                    UploadFile(model.Image, fullPath);
-                }
-
-               
-                PendingJyotishModel newModel = new PendingJyotishModel() 
-                {
-                    Id = isExist.Id,
-                    Name = model.Name,
-                    Gender = model.Gender,
-                    Language = model.Language,
-                    Expertise = model.Expertise,
-                    DateOfBirth = model.DateOfBirth,
-                    Mobile = model.Mobile,
-                    Country = CountryName.Name,
-                    State = StateName.Name,
-                    City = CityName.Name,
-                    Role= isExist.Role,
-                    Password = isExist.Password,
-                    Status = isExist.Status,
-                    Email = isExist.Email,
-                    DocumentModel = isExist.DocumentModel,
-                    
-                    ProfileImageUrl = filePath,
-
-
-                };
-                _context.PendingJyotishRecords.Update(newModel);
-                var result = _context.SaveChanges();
-                if(result >0)
-                {
-                    return true;
-                }
-                else { return false; }
+                var fullPath = path + "/"+filePath;
+                UploadFile(model.Image, fullPath);
             }
-            else
-            { return false; }
+
+            // Update existing record
+            existingRecord.Name = model.Name;
+            existingRecord.Gender = model.Gender;
+            existingRecord.Language = model.Language;
+            existingRecord.Expertise = model.Expertise;
+            existingRecord.DateOfBirth = model.DateOfBirth;
+            existingRecord.Mobile = model.Mobile;
+            existingRecord.Country = countryName;
+            existingRecord.State = stateName;
+            existingRecord.City = cityName;
+            existingRecord.Role = "Jyotish";
+            existingRecord.Password = "veer"; // Consider handling passwords securely
+            existingRecord.Status = "Pending";
+            existingRecord.ProfileImageUrl = filePath;
+
+            _context.PendingJyotishRecords.Update(existingRecord);
+
+            // Save changes
+            return _context.SaveChanges() > 0;
         }
+
 
         public void UploadFile(IFormFile file, string fullPath)
         {
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
+            var result = "success";
         }
     }
 }

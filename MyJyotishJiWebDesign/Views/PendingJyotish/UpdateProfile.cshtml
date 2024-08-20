@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     Layout = "PendingJyotishLayout";
 }
 <div class="container mt-2">
@@ -85,69 +82,133 @@
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     $(document).ready(function () {
+        var token = localStorage.getItem('Token3');
+        var email = localStorage.getItem("userEmail");
+
+        // Load Profile Data on Page Load
+        function loadProfileData() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/PendingJyotish/Profile',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Email: email }, // Query string parameter
+                success: function (response) {
+                    var data = response.data;
+                    $('#name').val(data.name);
+                    $('#gender').val(data.gender);
+                    $('#dateOfBirth').val(data.dateOfBirth);
+                    $('#mobile').val(data.mobile);
+                    $('#language').val(data.language);
+                    $('#expertise').val(data.expertise);
+                    $('#country').val(data.country);
+                    $('#state').val(data.state);
+                    $('#city').val(data.city);
+
+                    if (data.profileImageUrl) {
+                        $('#profileImageUrl').attr('src', data.profileImageUrl);
+                    }
+
+                    loadStates(data.country);
+                    loadCities(data.state);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching profile data:', textStatus, errorThrown);
+                }
+            });
+        }
+
         // Load Expertise
-        async function loadExpertise() {
-            try {
-                const response = await fetch('https://localhost:7118/Api/Jyotish/Expertise');
-                const data = await response.json();
-                const expertiseDropdown = $('#expertise');
-                expertiseDropdown.empty().append('<option value="">Select Expertise</option>');
-                data.data.forEach(expertise => {
-                    expertiseDropdown.append(new Option(expertise.name, expertise.name));
-                });
-            } catch (error) {
-                console.error('Error fetching expertise:', error);
-            }
+        function loadExpertise() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/Jyotish/Expertise',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                success: function (response) {
+                    var expertiseDropdown = $('#expertise');
+                    expertiseDropdown.empty().append('<option value="">Select Expertise</option>');
+                    response.data.forEach(expertise => {
+                        expertiseDropdown.append(new Option(expertise.name, expertise.name));
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching expertise:', textStatus, errorThrown);
+                }
+            });
         }
 
         // Load Countries
-        async function loadCountries() {
-            try {
-                const response = await fetch('https://localhost:7118/Api/Jyotish/Country');
-                const data = await response.json();
-                const countryDropdown = $('#country');
-                countryDropdown.empty().append('<option value="">Select Country</option>');
-                data.data.forEach(country => {
-                    countryDropdown.append(new Option(country.name, country.id));
-                });
-            } catch (error) {
-                console.error('Error fetching countries:', error);
-            }
+        function loadCountries() {
+            $.ajax({
+                url: 'https://localhost:7118/Api/Jyotish/Country',
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                success: function (response) {
+                    var countryDropdown = $('#country');
+                    countryDropdown.empty().append('<option value="">Select Country</option>');
+                    response.data.forEach(country => {
+                        countryDropdown.append(new Option(country.name, country.id));
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching countries:', textStatus, errorThrown);
+                }
+            });
         }
 
         // Load States
-        async function loadStates(countryId) {
-            try {
-                const response = await fetch(`https://localhost:7118/Api/Jyotish/State?Id=${countryId}`);
-                const data = await response.json();
-                const stateDropdown = $('#state');
-                stateDropdown.empty().append('<option value="">Select State</option>');
-                data.data.forEach(state => {
-                    stateDropdown.append(new Option(state.name, state.id));
-                });
-                stateDropdown.prop('disabled', false);
-            } catch (error) {
-                console.error('Error fetching states:', error);
-            }
+        function loadStates(countryId) {
+            $.ajax({
+                url: `https://localhost:7118/Api/Jyotish/State`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Id: countryId }, // Query string parameter
+                success: function (response) {
+                    var stateDropdown = $('#state');
+                    stateDropdown.empty().append('<option value="">Select State</option>');
+                    response.data.forEach(state => {
+                        stateDropdown.append(new Option(state.name, state.id));
+                    });
+                    stateDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching states:', textStatus, errorThrown);
+                }
+            });
         }
 
         // Load Cities
-        async function loadCities(stateId) {
-            try {
-                const response = await fetch(`https://localhost:7118/Api/Jyotish/City?Id=${stateId}`);
-                const data = await response.json();
-                const cityDropdown = $('#city');
-                cityDropdown.empty().append('<option value="">Select City</option>');
-                data.data.forEach(city => {
-                    cityDropdown.append(new Option(city.name, city.id));
-                });
-                cityDropdown.prop('disabled', false);
-            } catch (error) {
-                console.error('Error fetching cities:', error);
-            }
+        function loadCities(stateId) {
+            $.ajax({
+                url: `https://localhost:7118/Api/Jyotish/City`,
+                type: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                data: { Id: stateId }, // Query string parameter
+                success: function (response) {
+                    var cityDropdown = $('#city');
+                    cityDropdown.empty().append('<option value="">Select City</option>');
+                    response.data.forEach(city => {
+                        cityDropdown.append(new Option(city.name, city.id));
+                    });
+                    cityDropdown.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching cities:', textStatus, errorThrown);
+                }
+            });
         }
 
         // Event Listeners
@@ -170,60 +231,44 @@
             }
         });
 
-        // Load data on page load
-        loadExpertise();
-        loadCountries();
-    });
-
-</script>
-
-
-
-<script>
-    $(document).ready(function () {
+        // Submit Form Data
         $('#profileUpdateForm').on('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Create a FormData object from the form
             var formData = new FormData(this);
-
-            // Append the email from localStorage
-            var email = localStorage.getItem("userEmail");
-            if (email) {
-                formData.append('email', email);
-            }
+            formData.append('email', email);
 
             // If you need to handle the profile image separately
             var profileImage = $('#profileImage')[0].files[0];
             if (profileImage) {
-                formData.append('profileImage', profileImage);
+                formData.append('Image', profileImage);
             }
-
-            // Fetch token from localStorage (if needed)
-            var token = localStorage.getItem('Token3');
 
             // Send the data via AJAX
             $.ajax({
-                url: 'https://localhost:7118/Api/PendingJyotish/UpdateProfile', // Replace with your actual API endpoint
+                url: 'https://localhost:7118/Api/PendingJyotish/UpdateProfile',
                 type: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}` // Add the Authorization header if required
+                    'Authorization': `Bearer ${token}`
                 },
                 data: formData,
                 processData: false, // Prevent jQuery from automatically processing the data
                 contentType: false, // Prevent jQuery from setting content type, as it is handled by FormData
                 success: function (response) {
-                    // Handle success
                     console.log('Profile updated successfully:', response);
                     alert('Profile updated successfully!');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    // Handle errors
                     console.error('Error updating profile:', textStatus, errorThrown);
                     alert('There was a problem updating your profile. Please try again.');
                 }
             });
         });
-    });
 
+        // Load data on page load
+        loadProfileData();
+        loadExpertise();
+        loadCountries();
+    });
 </script>

@@ -67,11 +67,34 @@ namespace MyJyotishGApi.Controllers
         {
             string path = _webHostEnvironment.ContentRootPath;
             var result = _pendingJyotishServices.UpdateProfile(model,path);
-            if(result == true)
+
+            
+            
+            if (result == true)
             { return Ok(); }
             else { return BadRequest(); }
         }
 
-        
+        [AllowAnonymous]
+        [HttpGet("GetProfileImage")]
+        public IActionResult GetProfileImage(string fileName)
+        {
+            // Construct the path to the image file
+            string path = Path.Combine(_webHostEnvironment.ContentRootPath, "Assets", "Images", "Jyotish", fileName);
+
+            // Check if the file exists
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound(); // Return 404 if the file doesn't exist
+            }
+             
+            // Determine the content type of the file
+            var contentType = "image/jpeg"; // Change this if you're serving different types of images
+
+            // Return the file as a response with the appropriate content type
+            return File(System.IO.File.ReadAllBytes(path), contentType);
+        }
+
+
     }
 }
