@@ -73,7 +73,6 @@ namespace BusinessAccessLayer.Implementation
             return false;
         }
       
-
         public string SignInJyotish(LoginModel jyotishLogin)
         {
             var Record =_context.JyotishRecords.Where(x => x.Email == jyotishLogin.Email).FirstOrDefault();
@@ -205,6 +204,66 @@ namespace BusinessAccessLayer.Implementation
             if (model == null) { return null; }
             else { return model.Name; }
             
+        }
+
+        public  bool PJForgotPasswordOtpRequest(string Email)
+        {
+            var isPJValid =  _context.PendingJyotishRecords.Where(x=>x.Email ==Email).FirstOrDefault();
+            if(isPJValid == null)
+            { return false; }
+            else
+            {
+                var Otp = Guid.NewGuid().ToString("N").Substring(0, 6);
+                var message = "Hi Jyotish , \n Your verification code for password change is " + Otp+".";
+                var subject = "MyJyotishG Password Change Request";
+                SendEmail(message, isPJValid.Email, subject);
+
+                isPJValid.Otp = Otp;
+                _context.PendingJyotishRecords.Update(isPJValid);
+                var result =  _context.SaveChanges();
+                if (result >0)
+                {  return true; }
+                else
+                { return false; }
+            }
+           
+        }
+        public bool PJForgotPasswordOtpCheck(string Email , string Otp)
+        {
+            var isValid = _context.PendingJyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            if (isValid == null) { return false; }
+            else
+            {
+               if(Otp == isValid.Otp)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+        }
+
+        public bool PjSavePassword(string Email, string Otp, string Password)
+        {
+            var isValid = _context.PendingJyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            if (isValid == null) { return false; }
+            else
+            {
+                if (Otp == isValid.Otp)
+                {
+                    isValid.Password = Password;
+                    _context.PendingJyotishRecords.Update(isValid);
+                    var result = _context.SaveChanges();
+                    if(result>0)
+                    { return true; }
+                    else { return false; }
+                }
+                else { return false; }
+            }
+        }
+        public string JyotishUserName(string Email)
+        {
+            var record = _context.JyotishRecords.Where(x => x.Email == Email).FirstOrDefault();
+            return record.Name;
         }
 
     }

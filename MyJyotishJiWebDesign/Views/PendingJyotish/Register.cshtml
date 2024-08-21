@@ -10,14 +10,10 @@
     Layout = "Extra";
 }
 
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/MyJyotishJiWebDesign.styles.css" asp-append-version="true" />
+
+
 <style>
-    body {
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-    }
+   
 
     .outerDiv {
         padding: 20px;
@@ -94,7 +90,7 @@
                 text-decoration: underline;
             }
 </style>
-<div class="outerDiv">
+<div class="outerDiv col-md-6">
     <h1 class="text-center mb-4">Registration Form</h1>
     <form id="registrationForm" enctype="multipart/form-data">
         <div class="form-group">
@@ -108,8 +104,8 @@
         </div>
 
         <div class="form-group">
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" class="form-control">
+            <label for="mobile">Phone Number:</label>
+            <input type="text" id="mobile" name="mobile" class="form-control">
         </div>
 
         <div class="form-group">
@@ -168,11 +164,17 @@
     <div class="policy-text">
         <p>By submitting this form, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.</p>
     </div>
+    <div class="d-flex justify-content-center"><p>Already Have an Account!</p></div>
+    
+    <div class="d-flex justify-content-center">
+       
+        <a href="/PendingJyotish/Login" class="btn btn-info">Login</a>
+    </div>
 </div>
 
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -263,27 +265,25 @@
             }
         });
 
-        $('#registrationForm').submit(function (event) {
+        $('#registrationForm').on("submit",function (event) {
             event.preventDefault();
-
-            const form = $(this)[0];
-            const formData = new FormData(form);
+            debugger
+            const formData = $(this).serialize();
 
             $.ajax({
                 url: 'https://localhost:7118/Api/Account/registerJyotish',
                 type: 'POST',
                 data: formData,
-                contentType: false,
-                processData: false,
                 success: function (response) {
                     console.log('Success:', response);
-                    localStorage.setItem('PendingEmail', formData.get('email'));
+                    // localStorage.setItem('PendingEmail', document.getElementById('email'));
                     alert('Form submitted successfully!');
                     $('#registrationForm')[0].reset(); // Reset the form
                 },
                 error: function (xhr, status, error) {
+                    debugger
                     console.error('Error:', error);
-                    console.log('XHR:', xhr);
+                    console.log('XHR:', xhr.statusCode);
                     alert('There was an error submitting the form.');
                 }
             });

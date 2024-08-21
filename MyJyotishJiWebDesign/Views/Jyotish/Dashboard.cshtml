@@ -12,8 +12,8 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa fa-chart-line fa-3x text-primary"></i>
                 <div class="ms-3">
-                    <p class="mb-2">Total customer</p>
-                    <h6 class="mb-0">1234</h6>
+                    <p class="mb-2">Total Chats</p>
+                    <h6 id="Chats" class="mb-0"></h6>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                 <i class="fa fa-chart-bar fa-3x text-primary"></i>
                 <div class="ms-3">
                     <p class="mb-2"> Calls<p>
-                    <h6 class="mb-0">1234</h6>
+                    <h6 id="Calls" class="mb-0"></h6>
                 </div>
             </div>
         </div>
@@ -30,8 +30,8 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa fa-chart-area fa-3x text-primary"></i>
                 <div class="ms-3">
-                    <p class="mb-2">Chats</p>
-                    <h6 class="mb-0">1234</h6>
+                    <p class="mb-2">Appointments</p>
+                    <h6 id="Appointments" class="mb-0"></h6>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa fa-chart-pie fa-3x text-primary"></i>
                 <div class="ms-3">
-                    <p class="mb-2">Pending Request</p>
+                    <p class="mb-2">Reviews</p>
                     <h6 class="mb-0">234</h6>
                 </div>
             </div>
@@ -72,74 +72,29 @@
 </div>
 <!-- Sales Chart End -->
 <!-- Recent Sales Start -->
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light text-center rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Recent Salse</h6>
-            <a href="">Show All</a>
-        </div>
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                    <tr class="text-dark">
-                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                        <th scope="col">Date Time</th>
-                        <th scope="col">Customer Name</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Problem</th>
-                        <th scope="col">Solution</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01/01/2045 07:00 AM </td>
-                        <td>Ultimate User</td>
-                        <td>1452</td>
-                        <td>PDF</td>
-                        <td>PDF</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01/01/2045 07:00 AM </td>
-                        <td>Ultimate User</td>
-                        <td>1452</td>
-                        <td>PDF</td>
-                        <td>PDF</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01/01/2045 07:00 AM </td>
-                        <td>Ultimate User</td>
-                        <td>1452</td>
-                        <td>PDF</td>
-                        <td>PDF</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01/01/2045 07:00 AM </td>
-                        <td>Ultimate User</td>
-                        <td>1452</td>
-                        <td>PDF</td>
-                        <td>PDF</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td><input class="form-check-input" type="checkbox"></td>
-                        <td>01/01/2045 07:00 AM </td>
-                        <td>Ultimate User</td>
-                        <td>1452</td>
-                        <td>PDF</td>
-                        <td>PDF</td>
-                        <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<!-- Recent Sales End -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var email = localStorage.getItem('userEmail');
+        const token = localStorage.getItem('Token2');
+        $.ajax({
+            url: `https://localhost:7118/Api/Jyotish/Dashboard?Email=${encodeURIComponent(email)}`,
+            type: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`, 
+                'Content-Type': 'application/json'
+            },
+            success: function (response) {
+                debugger;
+                $('#Calls').text(response.data.calls);
+                $('#Chats').text(response.data.chats);
+                $('#Appointments').text(response.data.appointments);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    });
+
+</script>

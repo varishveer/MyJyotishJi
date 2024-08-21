@@ -38,6 +38,7 @@ namespace ModelAccessLayer.ViewModels
         public IFormFile? Image { get; set; }
         [AllowNull]
         public DateTime? DateOfBirth { get; set; }
+        
 
 
 

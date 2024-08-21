@@ -20,6 +20,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<State> StateList(int Id);
         public List<City> CityList(int Id);
         public List<ExpertiseModel> ExpertiseList();
+        public JyotishDocumentViewModel DashBoard(string email);
 
 
     }

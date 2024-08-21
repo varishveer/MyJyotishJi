@@ -38,5 +38,7 @@ namespace ModelAccessLayer.Models
         public string Role { get; set; }
         public string Status { get; set; }
         public DocumentModel DocumentModel { get; set; }
+        [AllowNull]
+        public string? Otp { get; set; }
     }
 }

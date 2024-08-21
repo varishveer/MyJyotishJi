@@ -150,7 +150,7 @@
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/PendingJyotish/Profile" class="dropdown-item">My Profile</a>
                             <a href="/Jyotish/CustomerSupport" class="dropdown-item">Customer Support</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a id="logout" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -188,6 +188,11 @@
         const profileSpan = document.getElementById('profileName');
         profileSpan.textContent = name;
 
+        $("#logout").click(function () {
+            alert("Logout");
+            localStorage.clear();
+            window.location.replace("https://localhost:44324/PendingJyotish/Login");
+        })
     </script>
 </body>
 

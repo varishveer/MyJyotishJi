@@ -13,8 +13,8 @@ namespace ModelAccessLayer.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public DateOnly DateOfBirth { get; set; }
+       
+        public DateOnly? DateOfBirth { get; set; }
         [Required]
         public string Gender { get; set; }
         [Required]
@@ -25,8 +25,8 @@ namespace ModelAccessLayer.Models
         public string Email { get; set; }
         [Required]
         public string Mobile { get; set; }
-        [Required]
-        public string ProfileImageUrl { get; set; }
+   
+        public string? ProfileImageUrl { get; set; }
         public string Role { get; set; }
         
         public int? Experience { get; set; }

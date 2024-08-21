@@ -80,7 +80,17 @@ namespace MyJyotishGApi.Controllers
             var Records = _jyotish.ExpertiseList();
             return Ok(new { data = Records });
         }
+        [HttpGet("Dashboard")]
+        public IActionResult DashBoard(string email)
+        {
+            try
+            {
+                var records = _jyotish.DashBoard(email);
+                if (records == null) { return BadRequest(); }
+                return Ok(new { data = records });
+            }
+            catch { return BadRequest(); }
+        }
 
-        
     }
 }

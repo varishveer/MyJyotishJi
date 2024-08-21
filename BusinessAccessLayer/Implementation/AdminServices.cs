@@ -61,7 +61,6 @@ namespace BusinessAccessLayer.Implementation
             return new string(buffer);
         }
         public bool ApproveJyotish(IdViewModel JyotishId )
-        
         {
             var Jyotish = _context.PendingJyotishRecords.Where(x => x.Id == JyotishId.Id).FirstOrDefault();
             if (Jyotish == null)
@@ -73,7 +72,7 @@ namespace BusinessAccessLayer.Implementation
             }
             Jyotish.Status = "Approved";
 
-            string pass = PasswordMethod(8);
+            
             JyotishModel model = new JyotishModel()
             { 
                 Name = Jyotish.Name,
@@ -83,9 +82,11 @@ namespace BusinessAccessLayer.Implementation
                 Expertise = Jyotish.Expertise,
                 Email = Jyotish.Email,
                 Mobile = Jyotish.Mobile,
-             
+                Password = Jyotish.Password,
                 Role = "Jyotish",
-                Password= pass,
+                City = Jyotish.City,
+                State = Jyotish.State,
+                Country = Jyotish.Country 
             };
             _context.PendingJyotishRecords.Update(Jyotish);
             _context.SaveChanges();
@@ -93,7 +94,7 @@ namespace BusinessAccessLayer.Implementation
             var result = _context.SaveChanges();
             if (result > 0)
             {
-                string message = "Hey "+ Jyotish.Name+ ", Your Account has been Activated Successfully. And your password is" + pass+".";
+                string message = "Hey "+ Jyotish.Name+ ", Your Account has been Activated Successfully.";
                 string subject = " My Jyotish G";
                 SendEmail(message, Jyotish.Email, subject);
                 return true;

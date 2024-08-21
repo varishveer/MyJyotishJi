@@ -31,6 +31,24 @@ namespace MyJyotishJiApi.Controllers
             _configuration = configuration;
            
         }
+        #region Admin
+        [Authorize(Policy = "Policy1")]
+        [HttpPost("registerAdmin")]
+        public IActionResult RegisterAdmin(AdminModel admin)
+        {
+            bool Result = _account.SignUpAdmin(admin);
+            if (Result == true)
+            {
+                var result = new { Success = true };
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel login)
         {
@@ -45,7 +63,9 @@ namespace MyJyotishJiApi.Controllers
 
             return Unauthorized();
         }
+        #endregion
 
+        #region PJyotish
         [HttpPost("registerJyotish")]
         public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
@@ -63,48 +83,79 @@ namespace MyJyotishJiApi.Controllers
             }
             
         }
+        [HttpPost("loginPendingJyotish")]
+        public IActionResult loginPendingJyotish(LoginModel jyotishLogin)
+        {
+            string Result = _account.SignInPendingJyotish(jyotishLogin.Email, jyotishLogin.Password);
+            if (Result == "Login Successful")
+            {
+                var Name = _account.PJUserName(jyotishLogin.Email);
+                var UName = Name.Result;
+                var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
+                return Ok(new { Token = token, User = jyotishLogin.Email, UserName = UName });
+            }
+            return Unauthorized();
+
+        }
+        [HttpGet("ForgotPasswordRequest")]
+        public IActionResult PJForgotPasswordOtpRequest(string Email)
+        {
+            try
+            {
+                var result = _account.PJForgotPasswordOtpRequest(Email);
+                if (result)
+                { return Ok(); }
+                else
+                { return BadRequest(); }
+            }
+            catch
+            { return BadRequest(); }
+        }
+        [HttpPost("PJForgotPasswordOtpCheck")]
+        public IActionResult PJForgotPasswordOtpCheck(ForgotPasswordViewModel model)
+        {
+            try
+            {
+                var result = _account.PJForgotPasswordOtpCheck(model.Email, model.Otp);
+                if (result)
+                { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch { return BadRequest(); }
+        }
+        [HttpPost("PjSavePassword")]
+        public IActionResult PjSavePassword(ForgotPasswordViewModel model)
+        {
+            try
+            {
+                var result = _account.PjSavePassword(model.Email, model.Otp, model.Password);
+                if (result)
+                { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch { return BadRequest(); }
+        }
+        #endregion
+
+        #region Jyotish
         [HttpPost("loginJyotish")]
         public IActionResult LoginJyotish(LoginModel jyotishLogin)
         {
             string Result = _account.SignInJyotish(jyotishLogin);
             if (Result == "Login Successful")
             {
+                var name = _account.JyotishUserName(jyotishLogin.Email);
                 var token = GenerateJwtToken(jyotishLogin.Email, "Scheme2");
-                return Ok(new { Token = token, User = jyotishLogin.Email });
+                return Ok(new { Token = token, User = jyotishLogin.Email , UserName = name});
             }
             return Unauthorized();
 
         }
-        [Authorize(Policy = "Policy1")]
-        [HttpPost("registerAdmin")]
-        public IActionResult RegisterAdmin(AdminModel admin)
-        {
-            bool Result = _account.SignUpAdmin(admin);
-            if (Result == true)
-            {
-                var result = new { Success = true };
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest();
-            }
 
-        }
-        [HttpPost("loginPendingJyotish")]
-        public IActionResult loginPendingJyotish(LoginModel jyotishLogin)
-        {
-            string Result = _account.SignInPendingJyotish(jyotishLogin.Email,jyotishLogin.Password);
-            if (Result == "Login Successful")
-            {
-                var Name = _account.PJUserName(jyotishLogin.Email);
-                var UName = Name.Result;
-                var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
-                return Ok(new { Token = token, User = jyotishLogin.Email ,UserName = UName });
-            }
-            return Unauthorized();
+        
+        #endregion
 
-        }
+        #region Token
         private string GenerateJwtToken(string username, string scheme)
         {
             var key = Encoding.UTF8.GetBytes(_configuration[$"Jwt:{scheme}:Key"]);
@@ -126,5 +177,7 @@ namespace MyJyotishJiApi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        #endregion
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "Extra";
 }
-<link href="img/favicon.ico" rel="icon">
+<link href="~/Img/" rel="icon">
 
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,14 +13,14 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <!-- Libraries Stylesheet -->
-<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-<link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+<link href="~/css/style.css" rel="stylesheet">
 <div class="container-xxl position-relative bg-white d-flex p-0">
 
     <!-- Sign In Start -->
@@ -29,30 +29,30 @@
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                 <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <a href="/Jyotish/Login" class="">
-                            <h3 class="text-primary"></i><img src="~/Img/Logo.png"  width="70" height="50"/></h3>
+                        <a href="/Admin/Login" class="">
+                            <h3 class="text-primary"><img src="~/Img/Logo.png" width="70" height="50" /></h3>
                         </a>
                         <h3>Sign In</h3>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
-                    </div>
-                    <div class="form-floating mb-4">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <form id="loginForm">
+                        <div class="form-floating mb-3">
+                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+                            <label for="email">Email address</label>
                         </div>
-                        <a href="">Forgot Password</a>
-                    </div>
-                    <a href="/Jyotish/Dashboard">
-                        <button class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
-                    </a>
-                    <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p>
+                        <div class="form-floating mb-4">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <a href="/PendingJyotish/ForgotPasswordRequest">Forgot Password</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
+                        <p class="text-center mb-0">Don't have an Account? <a href="/PendingJyotish/Register">Sign Up</a></p>
+                    </form>
                 </div>
             </div>
         </div>
@@ -73,3 +73,38 @@
 
 <!-- Template Javascript -->
 <script src="~/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#loginForm').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            $.ajax({
+                url: "https://localhost:7118/Api/Account/loginJyotish",
+                type: 'POST',
+                contentType: 'application/json', // Specify that the content type is JSON
+                data: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                success: function (response) {
+
+                    localStorage.setItem('Username', response.userName);
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem("Token2", response.token);
+                    window.location.href = "/Jyotish/Dashboard";
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", xhr.responseText);
+                    console.log("Invalid credentials");
+                    alert("Invalid credentials");
+                }
+            });
+        });
+    });
+
+
+</script>
+

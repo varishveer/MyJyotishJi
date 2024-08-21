@@ -14,6 +14,8 @@ namespace MyJyotishGWeb.Controllers
         public IActionResult UploadDocument() { return View(); }
         public IActionResult Profile() { return View(); }
         public IActionResult UpdateProfile() { return View(); }
+        public IActionResult ForgotPasswordRequest() { return View(); }
+        public IActionResult ForgotPasswordOtp() { return View(); }
 
     }
 }

@@ -149,6 +149,24 @@ namespace BusinessAccessLayer.Implementation
             var Records = _context.ExpertiseRecords.ToList();
             return Records; 
         }
+        public JyotishDocumentViewModel DashBoard(string email)
+        {
+            if (email == null)
+            { return null; }
+            var IsEmailValid = _context.JyotishRecords.Where(x => x.Email == email).FirstOrDefault();
+            if (IsEmailValid == null) { return null; }
 
+            var calls = _context.CallingRecords.Where(x => x.JyotishId == IsEmailValid.Id).ToList().Count();
+            var chats = _context.ChatingRecords.Where(x => x.JyotishId == IsEmailValid.Id).ToList().Count();
+            var Appointments = _context.AppointmentRecords.Where(x => x.JyotishId == IsEmailValid.Id).ToList().Count();
+            JyotishDocumentViewModel model = new JyotishDocumentViewModel()
+            {
+                Calls = calls,
+                Chats = chats,
+                Appointments = Appointments
+            };
+
+            return model;
+        }
     }
 }

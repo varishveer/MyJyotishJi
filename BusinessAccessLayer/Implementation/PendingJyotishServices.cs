@@ -48,34 +48,34 @@ namespace BusinessAccessLayer.Implementation
                 if (model.IdProof != null)
                 {
                     var idProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/Assets/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                    var SqlPath = "Assets/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
                     var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
                     using (var stream = new FileStream(idProofPath, FileMode.Create))
                     {
                         await model.IdProof.CopyToAsync(stream);
                     }
-                    document.IdProof = SqlPath;
+                    document.IdProof = "/"+SqlPath;
                 }
 
                 // Process AddressProof file
                 if (model.AddressProof != null)
                 {
                     var addressProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/Assets/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                    var SqlPath = "Assets/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
                     var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
                    
                     using (var stream = new FileStream(addressProofPath, FileMode.Create))
                     {
                         await model.AddressProof.CopyToAsync(stream);
                     }
-                    document.AddressProof = SqlPath;
+                    document.AddressProof = "/" + SqlPath;
                 }
 
                 // Process TenthCertificate file
                 if (model.TenthCertificate != null)
                 {
                     var tenthCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/Assets/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                    var SqlPath = "Assets/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
                     var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -83,14 +83,14 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.TenthCertificate.CopyToAsync(stream);
                     }
-                    document.TenthCertificate = SqlPath;
+                    document.TenthCertificate = "/" + SqlPath;
                 }
 
                 // Process TwelveCertificate file
                 if (model.TwelveCertificate != null)
                 {
                     var twelveCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/Assets/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                    var SqlPath = "Assets/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
                     var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -98,14 +98,14 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.TwelveCertificate.CopyToAsync(stream);
                     }
-                    document.TwelveCertificate = SqlPath;
+                    document.TwelveCertificate = "/" + SqlPath;
                 }
 
                 // Process ProfessionalCertificate file
                 if (model.ProfessionalCertificate != null)
                 {
                     var professionalCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "/Assets/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                    var SqlPath = "Assets/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
                     var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
 
@@ -114,7 +114,7 @@ namespace BusinessAccessLayer.Implementation
                     {
                         await model.ProfessionalCertificate.CopyToAsync(stream);
                     }
-                    document.ProfessionalCertificate = SqlPath;
+                    document.ProfessionalCertificate = "/" + SqlPath;
                 }
 
                 // Save document data to database
@@ -232,5 +232,7 @@ namespace BusinessAccessLayer.Implementation
             file.CopyTo(stream);
             var result = "success";
         }
+
+        
     }
 }
