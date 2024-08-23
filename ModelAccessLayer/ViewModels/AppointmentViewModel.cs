@@ -17,7 +17,6 @@ namespace ModelAccessLayer.ViewModels
         public string Mobile { get; set; }
         [Required]
         public DateTime DateTime { get; set; }
-      
         [Required]
         public string Email {  get; set; }
         [Required]

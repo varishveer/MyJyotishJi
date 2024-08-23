@@ -13,7 +13,7 @@ namespace BusinessAccessLayer.Abstraction
         public List<AppointmentModel> Appointment(string JyotishEmail);
         public List<AppointmentModel> UpcomingAppointment(string JyotishEmail);
         public string AddAppointment(AppointmentViewModel appointment);
-        public List<TeamMemberModel> TeamMember(int JyotishId);
+        public List<TeamMemberModel> TeamMember(string JyotishEmail);
         public string AddTeamMember(TeamMemberViewModel teamMember, string Path);
         public bool CreateAPooja(PoojaRecordModel model);
         public List<Country> CountryList();

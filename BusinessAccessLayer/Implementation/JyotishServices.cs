@@ -68,9 +68,9 @@ namespace BusinessAccessLayer.Implementation
                    
         }
 
-        public List<TeamMemberModel> TeamMember(int JyotishId)
+        public List<TeamMemberModel> TeamMember(string JyotishEmail)
         {
-            var records = _context.TeamMemberRecords.Where(x => x.JyotishId == JyotishId).ToList();
+            var records = _context.TeamMemberRecords.Where(x => x.Email == JyotishEmail).ToList();
             return records;
         }
         public string AddTeamMember(TeamMemberViewModel teamMember,string path) 

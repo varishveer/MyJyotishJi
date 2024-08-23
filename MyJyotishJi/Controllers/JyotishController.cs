@@ -25,7 +25,7 @@ namespace MyJyotishGApi.Controllers
         public IActionResult Appointment(string JyotishEmail) 
         {
             var records = _jyotish.Appointment( JyotishEmail);
-            return Ok(records);        
+            return Ok(new { data = records });        
         }
         [HttpGet("UpcomingAppointment")]
         public IActionResult UpcomingAppointment(string JyotishEmail)
@@ -47,10 +47,10 @@ namespace MyJyotishGApi.Controllers
             return Ok(records);
         }
         [HttpGet("TeamMember")]
-        public IActionResult TeamMember(int JyotishId)
+        public IActionResult TeamMember(string JyotishEmail)
         {
-            var records = _jyotish.TeamMember(JyotishId);
-            return Ok(records);
+            var records = _jyotish.TeamMember(JyotishEmail);
+            return Ok(new { data = records });
         }
         [AllowAnonymous]
         [HttpGet("Country")]
