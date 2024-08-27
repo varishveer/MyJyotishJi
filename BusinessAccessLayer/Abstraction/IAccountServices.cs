@@ -21,5 +21,10 @@ namespace BusinessAccessLayer.Abstraction
         public bool PJForgotPasswordOtpCheck(string Email, string Otp);
         public bool PjSavePassword(string Email, string Otp, string Password);
         public string JyotishUserName(string Email);
+        public bool RegisterUserMobile(string Email);
+        public bool VerifyUserOtp(string Mobile, int Otp);
+        public bool RegisterUserDetails(UserViewModel _user);
+
+        public string LoginUser(string Mobile, string Password);
     }
 }

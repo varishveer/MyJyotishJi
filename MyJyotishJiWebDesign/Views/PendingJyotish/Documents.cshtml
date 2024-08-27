@@ -80,13 +80,13 @@
                         'Content-Type': 'application/json'
                     }
                 });
-
+                var path = "https://localhost:7118";
                 // Set the image sources
-                $('#idProof').attr('src', response.data.idProof || 'placeholder.png');
-                $('#addressProof').attr('src', response.data.addressProof || 'placeholder.png');
-                $('#tenthCertificate').attr('src', response.data.tenthCertificate || 'placeholder.png');
-                $('#twelveCertificate').attr('src', response.data.twelveCertificate || 'placeholder.png');
-                $('#professionalCertificate').attr('src', response.data.professionalCertificate || 'placeholder.png');
+                $('#idProof').attr('src', path + response.data.idProof || 'placeholder.png');
+                $('#addressProof').attr('src', path + response.data.addressProof || 'placeholder.png');
+                $('#tenthCertificate').attr('src', path + response.data.tenthCertificate || 'placeholder.png');
+                $('#twelveCertificate').attr('src', path + response.data.twelveCertificate || 'placeholder.png');
+                $('#professionalCertificate').attr('src', path + response.data.professionalCertificate || 'placeholder.png');
 
                 // Hide the loading message
                 $('#loading').hide();

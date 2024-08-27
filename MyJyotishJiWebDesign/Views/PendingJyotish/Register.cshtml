@@ -271,7 +271,7 @@
             const formData = $(this).serialize();
 
             $.ajax({
-                url: 'https://localhost:7118/Api/Account/registerJyotish',
+                url: 'https://localhost:7118/Api/Account/registerPendingJyotish',
                 type: 'POST',
                 data: formData,
                 success: function (response) {

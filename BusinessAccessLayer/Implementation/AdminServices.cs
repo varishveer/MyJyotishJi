@@ -10,6 +10,7 @@ using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System.Net.Mail;
 using System.Net;
+using System.Reflection.Metadata;
 
 
 namespace BusinessAccessLayer.Implementation
@@ -17,9 +18,17 @@ namespace BusinessAccessLayer.Implementation
     public class AdminServices:IAdminServices
     {
         private readonly ApplicationContext _context;
+        private readonly string _uploadDirectory;
         public AdminServices(ApplicationContext context)
         {
             _context = context;
+            _uploadDirectory = Directory.GetCurrentDirectory();
+
+            // Ensure directory exists
+            if (!Directory.Exists(_uploadDirectory))
+            {
+                Directory.CreateDirectory(_uploadDirectory);
+            }
         }
 
         public List<JyotishModel> GetAllJyotish()
@@ -341,6 +350,53 @@ namespace BusinessAccessLayer.Implementation
                 else
                 { return false; }
             }
+        }
+
+        public bool AddSlider(SliderImagesViewModel model)
+        {
+            SliderImagesModel slider = new SliderImagesModel();
+            if (model.HomePage != null)
+            {
+                var HomePageGuid = Guid.NewGuid().ToString();
+                var SqlPath = "/Images/Slider/" + HomePageGuid + model.HomePage.FileName;
+                var HomePagePath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
+                using (var stream = new FileStream(HomePagePath, FileMode.Create))
+                {
+                     model.HomePage.CopyTo(stream);
+                }
+                slider.HomePage = SqlPath;
+            }
+
+            if (model.BookPoojaCategory != null)
+            {
+                var BookPoojaCategoryGuid = Guid.NewGuid().ToString();
+                var SqlPath = "/Images/Slider/" + BookPoojaCategoryGuid + model.BookPoojaCategory.FileName;
+                var BookPoojaCategoryPath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
+                using (var stream = new FileStream(BookPoojaCategoryPath, FileMode.Create))
+                {
+                    model.BookPoojaCategory.CopyTo(stream);
+                }
+                slider.BookPoojaCategory =   SqlPath;
+            }
+
+            if (model.PoojaList != null)
+            {
+                var PoojaListGuid = Guid.NewGuid().ToString();
+                var SqlPath = "/Images/Slider/" + PoojaListGuid + model.PoojaList.FileName;
+                var PoojaListPath = Path.Combine(_uploadDirectory, "wwwroot"+SqlPath);
+                using (var stream = new FileStream(PoojaListPath, FileMode.Create))
+                {
+                    model.PoojaList.CopyTo(stream);
+                }
+                slider.PoojaList = SqlPath;
+            }
+
+            _context.Sliders.Add(slider);
+            var result = _context.SaveChanges();
+            if(result > 0)
+            { return true; }
+            else { return false; }
+            
         }
 
     }

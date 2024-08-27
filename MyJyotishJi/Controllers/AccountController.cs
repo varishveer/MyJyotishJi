@@ -2,6 +2,7 @@
 using BusinessAccessLayer.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
@@ -49,8 +50,8 @@ namespace MyJyotishJiApi.Controllers
 
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginModel login)
+        [HttpPost("loginAdmin")]
+        public IActionResult LoginAdmin([FromBody] LoginModel login)
         {
             // Validate the user credentials (use real validation in a production app)
             string Result = _account.SignInAdmin(login.Email, login.Password);
@@ -66,8 +67,8 @@ namespace MyJyotishJiApi.Controllers
         #endregion
 
         #region PJyotish
-        [HttpPost("registerJyotish")]
-        public IActionResult RegisterJyotish(PendingJyotishViewModel jyotishViewModel) 
+        [HttpPost("registerPendingJyotish")]
+        public IActionResult registerPendingJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
            /* string? path = _environment.ContentRootPath;*/
 
@@ -123,8 +124,8 @@ namespace MyJyotishJiApi.Controllers
             }
             catch { return BadRequest(); }
         }
-        [HttpPost("PjSavePassword")]
-        public IActionResult PjSavePassword(ForgotPasswordViewModel model)
+        [HttpPost("PjChangePassword")]
+        public IActionResult PjChangePassword(ForgotPasswordViewModel model)
         {
             try
             {
@@ -179,5 +180,78 @@ namespace MyJyotishJiApi.Controllers
         }
         #endregion
 
+        #region User
+
+        [HttpPost("RegisterUserMobile")]
+        public IActionResult RegisterUserMobile(string Mobile)
+        {
+            try
+            {
+                var result =_account.RegisterUserMobile(Mobile);
+                if (result) 
+                {
+                    var token = GenerateJwtToken(Mobile, "Scheme4");
+                    return Ok(new {Token = token}); 
+                }
+                else { return BadRequest(); }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [Authorize(Policy = "Policy4")]
+        [HttpPost("VerifyUserOtp")]
+        public IActionResult VerifyUserOtp(string Mobile , int Otp)
+        {
+            try
+            {
+                var result = _account.VerifyUserOtp(Mobile, Otp);
+                if (result) { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [Authorize(Policy = "Policy4")]
+        [HttpPost("RegisterUserDetails")]
+        public IActionResult RegisterUserDetails(UserViewModel _user)
+        {
+            try
+            {
+                var result = _account.RegisterUserDetails(_user);
+                if (result) { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("LoginUser")]
+        public IActionResult LoginUser(string Mobile, string Password)
+        {
+            try
+            {
+                var result = _account.LoginUser(Mobile, Password);
+                if(result == "Successful Login")
+                {
+                    var token = GenerateJwtToken(Mobile, "Scheme4");
+                    return Ok(new { Token = token });
+                }
+                else
+                {
+                    return BadRequest(new {result });
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        #endregion
     }
 }

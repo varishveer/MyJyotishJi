@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240827085831_UserModel")]
+    partial class UserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,6 +408,7 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileImageUrl")
@@ -500,28 +504,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("PoojaRecord");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.SliderImages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BookPoojaCategory")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HomePage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PoojaList")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sliders");
-                });
-
             modelBuilder.Entity("ModelAccessLayer.Models.State", b =>
                 {
                     b.Property<int>("Id")
@@ -595,10 +577,11 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("CurrentAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DoB")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateOnly?>("DoB")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
@@ -610,9 +593,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Otp")
-                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");

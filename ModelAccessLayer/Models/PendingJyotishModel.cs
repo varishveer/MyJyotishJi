@@ -30,7 +30,8 @@ namespace ModelAccessLayer.Models
         public string State { get; set; }
         [Required]
         public string City { get; set; }
-        public string Password { get; set; }
+        [AllowNull]
+        public string? Password { get; set; }
         [AllowNull]
         public DateTime? DateOfBirth { get; set; }
         [AllowNull]

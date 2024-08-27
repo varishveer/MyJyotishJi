@@ -28,6 +28,7 @@ namespace DataAccessLayer.DbServices
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<DocumentModel> Documents { get; set; }
+        public DbSet<SliderImagesModel> Sliders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

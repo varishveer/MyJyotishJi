@@ -88,12 +88,8 @@
                 $('#city').text(data.city || 'N/A');
                 $('#language').text(data.language || 'N/A');
                 $('#expertise').text(data.expertise || 'N/A');
-
-                // Update the profile image URL if present
-                if (data.profileImageUrl) {
-                    const imageUrl = `https://localhost:7118/Api/PendingJyotish/GetProfileImage?fileName=${encodeURIComponent(data.profileImageUrl.split('/').pop())}`;
-                    $('#profileImageUrl').attr('src', imageUrl);
-                }
+                $('#profileImageUrl').attr('src', "https://localhost:7118" + data.profileImageUrl);
+               
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // Handle any errors

@@ -21,6 +21,7 @@ builder.Services.AddScoped<IAdminServices, AdminServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IJyotishServices, JyotishServices>();
 builder.Services.AddScoped<IPendingJyotishServices, PendingJyotishServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 
 
 builder.Services.AddAuthentication(options =>
@@ -66,7 +67,20 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Scheme3:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Scheme3:Key"]))
     };
-});
+})
+.AddJwtBearer("Scheme4", options =>
+ {
+     options.TokenValidationParameters = new TokenValidationParameters
+     {
+         ValidateIssuer = true,
+         ValidateAudience = true,
+         ValidateLifetime = true,
+         ValidateIssuerSigningKey = true,
+         ValidIssuer = builder.Configuration["Jwt:Scheme4:Issuer"],
+         ValidAudience = builder.Configuration["Jwt:Scheme4:Audience"],
+         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Scheme4:Key"]))
+     };
+ });
 
 // Add authorization policies if needed
 builder.Services.AddAuthorization(options =>
@@ -77,6 +91,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme2"));
     options.AddPolicy("Policy3", policy =>
         policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme3"));
+    options.AddPolicy("Policy4", policy =>
+        policy.RequireAuthenticatedUser().AddAuthenticationSchemes("Scheme4"));
 });
 
 
@@ -104,6 +120,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors("AllowSpecificOrigin");
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

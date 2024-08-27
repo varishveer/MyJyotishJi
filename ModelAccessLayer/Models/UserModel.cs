@@ -12,24 +12,24 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Email { get; set; }
-        [Required]
-        public string FirstName { get; set; }
-        public string? LastName { get; set; }
-        
         public string? Mobile { get; set; }
-        public DateOnly? DoB { get; set; }
-        public string? Password { get; set; }
+        public string? Name { get; set; }
         public string? Gender { get; set; }
-        public TimeOnly? TimeOfBirth { get; set; }
+        public string? DoB { get; set; }
         public string? PlaceOfBirth { get; set; }
+        public int? Otp { get; set; }
+        
+        
+        public string? Password { get; set; }
+        public string? Email { get; set; }
+        public TimeOnly? TimeOfBirth { get; set; }
         public string? CurrentAddress { get; set; }
         public string? Country { get; set; }
         public string? State { get; set; }
         public string? City { get; set; }
         public int? Pincode { get; set; }
         public string? ProfilePictureUrl { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
     }

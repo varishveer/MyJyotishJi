@@ -7,6 +7,8 @@ using ModelAccessLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,7 +50,7 @@ namespace BusinessAccessLayer.Implementation
                 if (model.IdProof != null)
                 {
                     var idProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "Assets/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
+                    var SqlPath = "/PendingJyotish/Document/" + idProofGuid + model.IdProof.FileName;
                     var idProofPath = Path.Combine(_uploadDirectory,SqlPath );
                     using (var stream = new FileStream(idProofPath, FileMode.Create))
                     {
@@ -61,7 +63,7 @@ namespace BusinessAccessLayer.Implementation
                 if (model.AddressProof != null)
                 {
                     var addressProofGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "Assets/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
+                    var SqlPath = "/PendingJyotish/Document/" + addressProofGuid + model.AddressProof.FileName;
                     var addressProofPath = Path.Combine(_uploadDirectory, SqlPath);
                    
                     using (var stream = new FileStream(addressProofPath, FileMode.Create))
@@ -75,7 +77,7 @@ namespace BusinessAccessLayer.Implementation
                 if (model.TenthCertificate != null)
                 {
                     var tenthCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "Assets/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
+                    var SqlPath = "/PendingJyotish/Document/" + tenthCertificateGuid + model.TenthCertificate.FileName;
                     var tenthCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -90,7 +92,7 @@ namespace BusinessAccessLayer.Implementation
                 if (model.TwelveCertificate != null)
                 {
                     var twelveCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "Assets/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
+                    var SqlPath = "/PendingJyotish/Document/" + twelveCertificateGuid + model.TwelveCertificate.FileName;
                     var twelveCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
                   
@@ -105,7 +107,7 @@ namespace BusinessAccessLayer.Implementation
                 if (model.ProfessionalCertificate != null)
                 {
                     var professionalCertificateGuid = Guid.NewGuid().ToString();
-                    var SqlPath = "Assets/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
+                    var SqlPath = "/PendingJyotish/Document/" + professionalCertificateGuid + model.ProfessionalCertificate.FileName;
                     var professionalCertificatePath = Path.Combine(_uploadDirectory, SqlPath);
 
 
@@ -198,7 +200,7 @@ namespace BusinessAccessLayer.Implementation
             {
                 // Generate a unique file name
                 var uniqueFileName = $"{Guid.NewGuid()}_{model.Image.FileName}";
-                filePath = $"/Assets/Images/Jyotish/{uniqueFileName}";
+                filePath = $"/Images/Jyotish/{uniqueFileName}";
 
                 var fullPath = path + "/"+filePath;
                 UploadFile(model.Image, fullPath);
@@ -215,14 +217,17 @@ namespace BusinessAccessLayer.Implementation
             existingRecord.State = stateName;
             existingRecord.City = cityName;
             existingRecord.Role = "Jyotish";
-            existingRecord.Password = "veer"; // Consider handling passwords securely
+           
             existingRecord.Status = "Pending";
             existingRecord.ProfileImageUrl = filePath;
 
             _context.PendingJyotishRecords.Update(existingRecord);
-
+            if(_context.SaveChanges() > 0)
+            {
+                return true;
+            }
             // Save changes
-            return _context.SaveChanges() > 0;
+            return false;
         }
 
 
@@ -230,9 +235,9 @@ namespace BusinessAccessLayer.Implementation
         {
             FileStream stream = new FileStream(fullPath, FileMode.Create);
             file.CopyTo(stream);
-            var result = "success";
+            
         }
+       
 
-        
     }
 }

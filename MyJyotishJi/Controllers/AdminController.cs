@@ -203,5 +203,20 @@ namespace MyJyotishJiApi.Controllers
             else { return Ok(); }
 
         }
+        [AllowAnonymous]
+        [HttpPost("AddSlider")]
+        public IActionResult AddSlider(SliderImagesViewModel model)
+        {
+            try {
+                var result = _admin.AddSlider(model);
+                if(result)
+                { return Ok(); }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch { return BadRequest(); }
+        }
     }
 }

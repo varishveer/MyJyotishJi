@@ -266,5 +266,88 @@ namespace BusinessAccessLayer.Implementation
             return record.Name;
         }
 
+        #region User
+        public bool RegisterUserMobile(string  mobile)
+        {
+            var record = _context.Users.Where(x=>x.Mobile == mobile).FirstOrDefault();
+            if(record != null) { return false; }
+            var Otp = SendOtp(mobile);
+            if (Otp == 0) { return false; }
+            UserModel _user = new UserModel()
+            { 
+                Mobile= mobile,
+                Otp = Otp,
+            };
+            _context.Users.Add(_user);
+            var result = _context.SaveChanges();
+            if (result > 0) { return true; }
+            else { return false; }
+        }
+        public int SendOtp(string Mobile)
+        {
+            
+            return 123456;
+        }
+
+        public bool VerifyUserOtp(string Mobile, int Otp)
+        {
+            if(Mobile == null || Otp ==0)
+            {
+                return false;
+            }
+            var user = _context.Users.Where(x=>x.Mobile == Mobile).FirstOrDefault();
+            if(user == null) { return false; }
+
+            if(user.Otp == Otp) { return true; }
+            else { return false; }
+        }
+        public bool RegisterUserDetails(UserViewModel _user)
+        {
+            var record = _context.Users.Where(x=>x.Mobile == _user.Mobile).FirstOrDefault();
+            if(record == null)
+            {
+                return false;
+            }
+            record.Name = _user.Name;
+            record.Gender = _user.Gender;
+            record.DoB = _user.DoB;
+            record.PlaceOfBirth = _user.PlaceOfBirth;
+            record.Password = (new Random().Next(10000000, 100000000)).ToString();
+           
+            _context.Users.Update(record);
+            var result = _context.SaveChanges();
+            if(result>0)
+            {
+                SendUserPassword(record.Mobile, record.Password);
+                return true;
+            }
+            else { return false; }
+        }
+        public bool SendUserPassword(string Mobile, string password)
+        {
+            return true;
+        }
+
+        public string LoginUser(string Mobile, string Password)
+        {
+            if (Mobile == null || Password == null) { return "Invalid Credential"; }
+            else
+            {
+                var record = _context.Users.Where(x => x.Mobile == Mobile).FirstOrDefault();
+                if(record == null)
+                { return "Invalid Number"; }
+                else 
+                {
+                    if(record.Password == Password)
+                    { return "Successful Login"; }
+                    else
+                    {
+                        return "Invalid Password";
+                    }
+                }
+                
+            }
+        }
+        #endregion
     }
 }

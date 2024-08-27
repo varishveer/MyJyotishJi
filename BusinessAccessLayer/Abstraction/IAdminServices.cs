@@ -32,5 +32,8 @@ namespace BusinessAccessLayer.Abstraction
         public bool AddCountry(Country _country);
         public bool AddState(State _state);
         public bool AddCity(City _city);
+        public bool AddSlider(SliderImagesViewModel model);
+
+
     }
 }
