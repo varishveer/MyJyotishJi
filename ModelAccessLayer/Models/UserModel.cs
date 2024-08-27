@@ -29,7 +29,7 @@ namespace ModelAccessLayer.Models
         public string? City { get; set; }
         public int? Pincode { get; set; }
         public string? ProfilePictureUrl { get; set; }
-        public string Pending { get; set; }
+        public string Status { get; set; }
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
     }

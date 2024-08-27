@@ -141,7 +141,7 @@
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="/Admin/AdminProfile" class="dropdown-item">My Profile</a>
                             <a href="/Admin/CustomerSupport" class="dropdown-item">Customer Support</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a id="logout" href="#" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -168,6 +168,17 @@
 
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>
+
+
+    <script>
+       
+
+        $("#logout").click(function () {
+            alert("Logout");
+            localStorage.clear();
+            window.location.replace("https://localhost:44324/Admin/Login");
+        })
+    </script>
 </body>
 
 </html>

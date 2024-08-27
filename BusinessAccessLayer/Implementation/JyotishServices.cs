@@ -70,8 +70,15 @@ namespace BusinessAccessLayer.Implementation
 
         public List<TeamMemberModel> TeamMember(string JyotishEmail)
         {
-            var records = _context.TeamMemberRecords.Where(x => x.Email == JyotishEmail).ToList();
-            return records;
+            var Jyotish = _context.JyotishRecords.Where(x => x.Email == JyotishEmail).FirstOrDefault();
+            if(Jyotish == null)
+            { return null; }
+            else
+            {
+                var records = _context.TeamMemberRecords.Where(x => x.JyotishId == Jyotish.Id).ToList();
+                return records;
+            }
+            
         }
         public string AddTeamMember(TeamMemberViewModel teamMember,string path) 
         {

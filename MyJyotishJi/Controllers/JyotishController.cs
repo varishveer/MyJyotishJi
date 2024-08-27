@@ -31,26 +31,50 @@ namespace MyJyotishGApi.Controllers
         public IActionResult UpcomingAppointment(string JyotishEmail)
         {
             var records = _jyotish.UpcomingAppointment( JyotishEmail);
-            return Ok(records);
+            return Ok(new { data = records });
         }
         [HttpPost("AddAppointment")]
         public IActionResult AddAppointment(AppointmentViewModel appointment)
         {
             var result =_jyotish.AddAppointment(appointment);
-            return Ok(result);
+            return Ok(new { data = result });
         }
-        [HttpPost("AddTeamMember")]
-        public IActionResult AddTeamMember(TeamMemberViewModel team)
+        /*[HttpPost("AddTeamMember")]
+        public IActionResult AddTeamMember(  TeamMemberViewModel team)
         {
             string? path = _environment.ContentRootPath;
             var records = _jyotish.AddTeamMember(team, path);
-            return Ok(records);
+            return Ok(new { data = records });
+        }*/
+        [AllowAnonymous]
+        [HttpPost("AddTeamMember")]
+        public IActionResult AddTeamMember()
+        {
+            var name = Request.Form["name"];
+            var mobile = Request.Form["mobile"];
+            var email = Request.Form["email"];
+            var jyotishEmail = Request.Form["jyotishEmail"];
+            var profilePicture = Request.Form.Files["profilePicture"];
+
+            TeamMemberViewModel team = new TeamMemberViewModel()
+            {
+                Name = name,
+                Mobile = mobile,
+                Email = email,
+                JyotishEmail = jyotishEmail,
+                ProfilePicture = profilePicture
+            };
+
+            string? path = _environment.ContentRootPath;
+            var records = _jyotish.AddTeamMember(team, path);
+            return Ok(new { data = records });
         }
+
         [HttpGet("TeamMember")]
         public IActionResult TeamMember(string JyotishEmail)
         {
             var records = _jyotish.TeamMember(JyotishEmail);
-            return Ok(new { data = records });
+            return Ok( records );
         }
         [AllowAnonymous]
         [HttpGet("Country")]

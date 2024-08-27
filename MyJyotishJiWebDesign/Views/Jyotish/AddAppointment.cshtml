@@ -63,7 +63,7 @@
                 problem: $('#problems').val(),
                 amount: $('#amount').val()
             };
-            debugger;
+          
             // Send data using AJAX
             $.ajax({
                 url: 'https://localhost:7118/Api/Jyotish/AddAppointment', // Replace with your API endpoint
@@ -76,8 +76,9 @@
                 data: JSON.stringify(formData),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
+               
                 success: function (response) {
-                    console.log('Form submitted successfully:', response);
+                    console.log('Form submitted successfully:', response.data);
                     alert('Appointment booked successfully!');
                 },
                 error: function (xhr, status, error) {

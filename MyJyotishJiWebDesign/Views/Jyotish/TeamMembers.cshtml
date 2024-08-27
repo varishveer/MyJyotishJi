@@ -37,36 +37,32 @@
 
 
   <script>
-    $(document).ready(function () {
-        var email = localStorage.getItem('userEmail'); // Get the JyotishEmail from localStorage
-        debugger;
-        // Initialize the DataTable
-        var table = $('#teamMemberTable').DataTable({
-            ajax: {
-                url: `https://localhost:7118/api/Jyotish/TeamMember?JyotishEmail=${encodeURIComponent(email)}`, // API endpoint to fetch data
-                type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("Token2")}`, // Example of an authorization header
-                    'Content-Type': 'application/json', // Example of a content type header
-
-                },
-                // Send the JyotishEmail parameter
-                dataSrc: '' // Assuming the API returns a JSON array directly
+    var email = localStorage.getItem('userEmail');
+    $('#teamMemberTable').DataTable({
+       
+        ajax: {
+            url: `https://localhost:7118/api/Jyotish/TeamMember?JyotishEmail=${encodeURIComponent(email)}`,
+            type: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("Token2")}`,
+                'Content-Type': 'application/json',
             },
-            columns: [
-                { data: 'id' },
-                { data: 'name' },
-                { data: 'mobile' },
-                { data: 'email' },
-                {
-                    data: null, // This column is for the Action buttons
-                    render: function (data, type, row) {
-                        return '<button class="btn btn-primary">View</button>';
-                        // Add other action buttons as needed
-                    }
+            dataSrc: function (json) {
+                return json; // Return the JSON array directly
+            }
+        },
+        columns: [
+            { data: 'id' },
+            { data: 'name' },
+            { data: 'mobile' },
+            { data: 'email' },
+            {
+                data: null, // This column is for the Action buttons
+                render: function (data, type, row) {
+                    return '<button class="btn btn-primary">View</button>';
+                    // Add other action buttons as needed
                 }
-            ]
-        }); 
+            }
+        ]
     });
-
   </script>
