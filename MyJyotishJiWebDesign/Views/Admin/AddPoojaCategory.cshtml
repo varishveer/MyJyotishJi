@@ -70,11 +70,11 @@
 </style>
 <div class="outerDiv">
     <div class="container">
-        <h1>Add Pooja Information</h1>
+        <h1>Add Pooja Category</h1>
         <form id="PoojaForm" class="pooja-form">
             <div class="form-group">
-                <label for="pooja">Pooja:</label>
-                <textarea id="pooja" name="pooja" rows="6" placeholder="Enter Pooja details here..."></textarea>
+                <label for="pooja">Pooja Category:</label>
+                <textarea id="pooja" name="pooja" rows="6" placeholder="Enter Pooja Category here..."></textarea>
             </div>
             <button type="submit" style="background-color: #ec4b14;">Save Changes</button>
         </form>
@@ -88,10 +88,10 @@
             e.preventDefault(); // Prevent the form from submitting normally
 
             var pooja = $('#pooja').val();
-           
+
 
             $.ajax({
-                url: "https://localhost:7118/Api/Admin/AddPooja",
+                url: "https://localhost:7118/Api/Admin/AddPoojaCategory",
                 type: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -101,15 +101,15 @@
                 contentType: 'application/json', // Specify that the content type is JSON
                 data: JSON.stringify({
                     name: pooja,
-                   
+
                 }),
                 success: function (response) {
                     if (response.success) {
 
-                       
-                        window.location.href = "/Admin/PoojaList";
+
+                        window.location.href = "/Admin/PoojaCategoryList";
                     } else {
-                       
+
                         alert("Pooja Not Added");
                     }
                 },

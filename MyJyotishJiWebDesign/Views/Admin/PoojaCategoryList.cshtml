@@ -12,11 +12,10 @@
 <div class="bg-light">
     <div class="container mt-5">
         <h2 class="mb-4">Pooja List</h2>
-       <a href="/Admin/AddPooja">
-            <button class="btn btn-success" style="background-color: #ec4b14;">Add New</button>
-       </a>
+        <a href="/Admin/AddPoojaCategory">
+            <button class="btn btn-success" style="background-color: #ec4b14;">Add New Category</button>
+        </a>
         <table id="DataTable" class="table table-bordered">
-           
         </table>
     </div>
 
@@ -27,9 +26,9 @@
 <script>
     $(document).ready(function () {
         function fetchData() {
-            
+
             $.ajax({
-                url: "https://localhost:7118/api/Admin/PoojaList",
+                url: "https://localhost:7118/api/Admin/PoojaCategoryList",
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("Token")}`, // Example of an authorization header
@@ -44,7 +43,7 @@
                         htmls += `<td class="text-center">${item.id}</td>`;
                         htmls += `<td class="text-center">${item.name}</td>`;
                         htmls += `<td class="text-center">${item.dateAdded}</td>`;
-                       
+
 
 
                         htmls += '</tr>';

@@ -10,21 +10,35 @@ namespace BusinessAccessLayer.Abstraction
 {
     public interface IAccountServices
     {
-
-        public bool SignUpJyotish(PendingJyotishViewModel jyotishView );
-        public string SignInJyotish(LoginModel jyotishLogin);
-        public bool SignUpAdmin(AdminModel admin);
-        public string SignInAdmin(string email , string password);
-        public string SignInPendingJyotish(string email, string password);
-        public  Task<string> PJUserName(string Email);
+        #region PJ
+        public bool PjRegisterAndSendOtp(string Mobile);
+        public bool VerifyPJOtp(string Mobile, int Otp);
+        public bool SignUpPJyotish(PendingJyotishViewModel jyotishView );
+        public string SignInPendingJyotish(string mobile, string password);
+        public string PJUserName(string Mobile);
         public bool PJForgotPasswordOtpRequest(string Email);
-        public bool PJForgotPasswordOtpCheck(string Email, string Otp);
-        public bool PjSavePassword(string Email, string Otp, string Password);
+        public bool PJForgotPasswordOtpCheck(string Email, int Otp);
+        public bool PjSavePassword(string Email, int Otp, string Password);
+
+        #endregion
+
+        #region Admin
+        public bool SignUpAdmin(AdminModel admin);
+        public string SignInAdmin(string email, string password);
+        #endregion
+
+        #region Jyotish
+        public string SignInJyotish(LoginModel jyotishLogin);
         public string JyotishUserName(string Email);
+        #endregion
+
+        #region User
         public bool RegisterUserMobile(string Email);
         public bool VerifyUserOtp(string Mobile, int Otp);
         public bool RegisterUserDetails(UserViewModel _user);
-
         public string LoginUser(string Mobile, string Password);
+        #endregion
+
+      
     }
 }

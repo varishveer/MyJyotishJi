@@ -126,7 +126,7 @@ namespace BusinessAccessLayer.Implementation
         }
         public bool CreateAPooja(PoojaRecordModel model)
         {
-            var isPoojaValid = _context.Pooja.Where(x => x.Name == model.Name).FirstOrDefault();
+            var isPoojaValid = _context.PoojaCategory.Where(x => x.Name == model.Name).FirstOrDefault();
             if (isPoojaValid != null)
             { return false; }
             _context.PoojaRecord.Add(model);
@@ -175,5 +175,7 @@ namespace BusinessAccessLayer.Implementation
 
             return model;
         }
+
+      
     }
 }

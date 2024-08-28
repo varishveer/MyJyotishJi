@@ -17,13 +17,13 @@ namespace MyJyotishJiWebDesign.Controllers
         public IActionResult UserList() { return View(); }
         public IActionResult Appointments() { return View(); }
         public IActionResult EditAppointment() { return View(); }
-        public IActionResult PoojaList() { return View(); }
+        public IActionResult PoojaCategoryList() { return View(); }
         public IActionResult ExpertiseList() { return View(); }
         public IActionResult AdminProfile() { return View(); }
         public IActionResult EditProfile() { return View(); }
         public IActionResult PendingJyotish() { return View(); }
 
-        public IActionResult AddPooja() { return View(); }
+        public IActionResult AddPoojaCategory() { return View(); }
         public IActionResult AddExpertise() { return View(); }
         public IActionResult JyotishDetails() { return View(); }
         public IActionResult UserDetails() { return View(); }

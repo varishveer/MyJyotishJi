@@ -99,15 +99,27 @@ namespace MyJyotishJiApi.Controllers
             else { return BadRequest(); }
         }
 
-        [HttpPost("AddPooja")]
-        public IActionResult AddPooja(PoojaModel pooja)
+        [HttpPost("AddPoojaCategory")]
+        public IActionResult AddPoojaCategory(PoojaCategoryModel pooja)
         {
-            var result = _admin.AddPooja(pooja);
+            var result = _admin.AddPoojaCategory(pooja);
             if (result == true)
             {
                 return Ok(new { success = true });
             }
             else { return BadRequest(); }
+        }
+        [AllowAnonymous]
+        [HttpPost("AddPoojaList")]
+        public IActionResult AddPoojaList(PoojaListViewModel pooja)
+        {
+            try {
+                var result = _admin.AddNewPoojaList(pooja);
+                if(result)
+                { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch { return BadRequest(); }
         }
 
         [HttpPost("AddExpertise")]
@@ -121,10 +133,10 @@ namespace MyJyotishJiApi.Controllers
             else { return BadRequest(); }
         }
 
-        [HttpGet("PoojaList")]
-        public IActionResult PoojaList()
+        [HttpGet("PoojaCategoryList")]
+        public IActionResult PoojaCategoryList()
         {
-            var Records = _admin.GetAllPooja();
+            var Records = _admin.GetAllPoojaCategory();
             return Ok(new { Success = true, data = Records });
 
         }
@@ -215,6 +227,20 @@ namespace MyJyotishJiApi.Controllers
                 {
                     return BadRequest();
                 }
+            }
+            catch { return BadRequest(); }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("AddPoojaDetail")]
+        public IActionResult AddPoojaDetail(PoojaRecordViewModel model)
+        {
+            try
+            {
+                var result = _admin.AddPoojaDetail(model);
+                if (result)
+                { return Ok(); }
+                else { return BadRequest(); }
             }
             catch { return BadRequest(); }
         }

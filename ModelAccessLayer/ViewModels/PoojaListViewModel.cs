@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelAccessLayer.ViewModels
 {
-    public class ForgotPasswordViewModel
+    public class PoojaListViewModel
     {
-        public string? Email { get; set; }
-        public int Otp { get; set; }
-        public string? Password { get; set; }
+        public string Name { get; set; }
+        public int PoojaCategoryId { get; set; }
     }
 }

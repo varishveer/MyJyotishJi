@@ -13,23 +13,25 @@ namespace ModelAccessLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Gender { get; set; }
-        [Required]
-        public string Language { get; set; }
-        [Required]
-        public string Expertise { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
         public string Mobile { get; set; }
-        [Required]
-        public string Country { get; set; }
-        [Required]
-        public string State { get; set; }
-        [Required]
-        public string City { get; set; }
+
+        [AllowNull]
+        public string? Name { get; set; }
+        [AllowNull]
+        public string? Gender { get; set; }
+        [AllowNull]
+        public string? Language { get; set; }
+        [AllowNull]
+        public string? Expertise { get; set; }
+        [AllowNull]
+        public string? Email { get; set; }
+       
+        [AllowNull]
+        public string? Country { get; set; }
+        [AllowNull]
+        public string? State { get; set; }
+        [AllowNull]
+        public string? City { get; set; }
         [AllowNull]
         public string? Password { get; set; }
         [AllowNull]
@@ -40,6 +42,6 @@ namespace ModelAccessLayer.Models
         public string Status { get; set; }
         public DocumentModel DocumentModel { get; set; }
         [AllowNull]
-        public string? Otp { get; set; }
+        public int? Otp { get; set; }
     }
 }

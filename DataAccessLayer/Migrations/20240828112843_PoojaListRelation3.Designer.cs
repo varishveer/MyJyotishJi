@@ -4,6 +4,7 @@ using DataAccessLayer.DbServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240828112843_PoojaListRelation3")]
+    partial class PoojaListRelation3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,6 +445,28 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("PoojaCategory");
                 });
 
+            modelBuilder.Entity("ModelAccessLayer.Models.PoojaListModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PoojaCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PoojaCategoryId");
+
+                    b.ToTable("PoojaList");
+                });
+
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
                 {
                     b.Property<int>("Id")
@@ -477,7 +502,7 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PoojaCategoryId")
+                    b.Property<int>("PoojaListId")
                         .HasColumnType("int");
 
                     b.Property<string>("Procedure")
@@ -488,8 +513,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PoojaCategoryId");
 
                     b.ToTable("PoojaRecord");
                 });
@@ -683,10 +706,10 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("PJyotish");
                 });
 
-            modelBuilder.Entity("ModelAccessLayer.Models.PoojaRecordModel", b =>
+            modelBuilder.Entity("ModelAccessLayer.Models.PoojaListModel", b =>
                 {
                     b.HasOne("ModelAccessLayer.Models.PoojaCategoryModel", "PoojaCategoryModel")
-                        .WithMany("PoojaRecordModel")
+                        .WithMany("PoojaListModel")
                         .HasForeignKey("PoojaCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -709,7 +732,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("ModelAccessLayer.Models.PoojaCategoryModel", b =>
                 {
-                    b.Navigation("PoojaRecordModel");
+                    b.Navigation("PoojaListModel");
                 });
 
             modelBuilder.Entity("ModelAccessLayer.Models.UserModel", b =>

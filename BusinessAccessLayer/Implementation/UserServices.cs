@@ -32,6 +32,44 @@ namespace BusinessAccessLayer.Implementation
             var record = _context.Sliders.Select(x => x.PoojaList).ToList();
             return record;
         }
+        public List<JyotishModel> GetAstroListCallChat(string ListName)
+        {
+            if(ListName == "Chat")
+            {
+                var record = _context.JyotishRecords.Where(x=>x.Chat == true).ToList();    
+                return record;
+            }
+            else if (ListName == "Call")
+            {
+                var record = _context.JyotishRecords.Where(x => x.Call == true).ToList();
+                return record;
+            }
+            else { return null; }
+        }
+
+        public List<PoojaCategoryModel> GetAllPoojaCategory()
+        {
+            var record = _context.PoojaCategory.ToList();
+            if(record == null)
+            { return null; }
+            else { return record; }
+        }
+
+        public List<PoojaRecordModel> GetPoojaList(int id)
+        {
+            var record = _context.PoojaRecord.Where(x=>x.PoojaCategoryId == id).ToList();
+            if (record == null)
+            { return null; }
+            else { return record; }
+        }
+        
+        public PoojaRecordModel GetPoojaDetail(int PoojaId)
+        {
+            var record = _context.PoojaRecord.Where(x => x.Id == PoojaId).FirstOrDefault(); 
+            if (record == null)
+            { return null; }    
+            else { return record; }
+        }
 
     }
 }

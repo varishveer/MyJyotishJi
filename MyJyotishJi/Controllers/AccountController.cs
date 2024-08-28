@@ -67,12 +67,36 @@ namespace MyJyotishJiApi.Controllers
         #endregion
 
         #region PJyotish
-        [HttpPost("registerPendingJyotish")]
-        public IActionResult registerPendingJyotish(PendingJyotishViewModel jyotishViewModel) 
+        [HttpPost("RegisterPJMobile")]
+        public IActionResult RegisterPJMobile(string Mobile)
+        {
+            try {
+                var result = _account.PjRegisterAndSendOtp(Mobile);
+                if (result) { return Ok(); }
+                else { return BadRequest(); }
+               
+            }
+            catch { return BadRequest(); }
+             
+        }
+
+        [HttpPost("VerifyPJMobile")]
+        public IActionResult VerifyPJMobile(string Mobile, int Otp)
+        {
+            try
+            {
+                var result = _account.VerifyPJOtp(Mobile,Otp);
+                if (result) { return Ok(); }
+                else { return BadRequest(); }
+            }
+            catch { return BadRequest(); }
+        }
+        [HttpPost("RegisterPendingJyotish")]
+        public IActionResult RegisterPendingJyotish(PendingJyotishViewModel jyotishViewModel) 
         {
            /* string? path = _environment.ContentRootPath;*/
 
-            bool Result = _account.SignUpJyotish(jyotishViewModel);
+            bool Result = _account.SignUpPJyotish(jyotishViewModel);
             if (Result == true)
             {
                 var result = new { Success = true };
@@ -84,16 +108,16 @@ namespace MyJyotishJiApi.Controllers
             }
             
         }
-        [HttpPost("loginPendingJyotish")]
-        public IActionResult loginPendingJyotish(LoginModel jyotishLogin)
+        [HttpPost("LoginPendingJyotish")]
+        public IActionResult LoginPendingJyotish(LoginViewModel jyotishLogin)
         {
-            string Result = _account.SignInPendingJyotish(jyotishLogin.Email, jyotishLogin.Password);
+            string Result = _account.SignInPendingJyotish(jyotishLogin.Mobile, jyotishLogin.Password);
             if (Result == "Login Successful")
             {
-                var Name = _account.PJUserName(jyotishLogin.Email);
-                var UName = Name.Result;
-                var token = GenerateJwtToken(jyotishLogin.Email, "Scheme3");
-                return Ok(new { Token = token, User = jyotishLogin.Email, UserName = UName });
+                var JyotishName = _account.PJUserName(jyotishLogin.Mobile);
+                var UName = JyotishName;
+                var token = GenerateJwtToken(jyotishLogin.Mobile, "Scheme3");
+                return Ok(new { Token = token, User = jyotishLogin.Mobile, UserName = UName });
             }
             return Unauthorized();
 
@@ -200,6 +224,7 @@ namespace MyJyotishJiApi.Controllers
                 return BadRequest();
             }
         }
+
         [Authorize(Policy = "Policy4")]
         [HttpPost("VerifyUserOtp")]
         public IActionResult VerifyUserOtp(string Mobile , int Otp)
@@ -215,6 +240,7 @@ namespace MyJyotishJiApi.Controllers
                 return BadRequest();
             }
         }
+
         [Authorize(Policy = "Policy4")]
         [HttpPost("RegisterUserDetails")]
         public IActionResult RegisterUserDetails(UserViewModel _user)

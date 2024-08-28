@@ -5,19 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelAccessLayer.Models
+namespace ModelAccessLayer.ViewModels
 {
-    public  class PoojaRecordModel
+    public class PoojaRecordViewModel
     {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Category { get; set; }
+        
        
         [Required]
-        public int PoojaCategoryId { get; set; } 
+        public int PoojaCategoryId { get; set; }
         [Required]
-        public DateTime DateTime{ get; set; }
+        public DateTime DateTime { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -27,8 +24,5 @@ namespace ModelAccessLayer.Models
         public string Benefits { get; set; }
         public string Procedure { get; set; }
         public string AboutGod { get; set; }
-        public string? Reviews { get; set; }
-
-        public PoojaCategoryModel PoojaCategoryModel { get; set; }
     }
 }

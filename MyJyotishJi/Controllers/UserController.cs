@@ -1,6 +1,8 @@
 ﻿using BusinessAccessLayer.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Host.Mef;
 using ModelAccessLayer.Models;
 
 namespace MyJyotishGApi.Controllers
@@ -49,5 +51,59 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
         }
+        [AllowAnonymous]
+        [HttpGet("GetAstroListCallChat")]
+        public IActionResult GetAstroListCallChat(string ListName)
+        {
+            try {
+                var record = _services.GetAstroListCallChat(ListName); 
+                if (record == null) 
+                {
+                    return BadRequest();
+                }
+                else { return Ok(new {data= record}); }
+            }
+            catch { return BadRequest(); }
+        }
+        [AllowAnonymous]
+        [HttpGet("GetAllPoojaCategory")]
+        public IActionResult GetAllPoojaCategory()
+        {
+            try
+            {
+                var result = _services.GetAllPoojaCategory();
+                if (result == null)
+                { return BadRequest(); }
+                else { return Ok(new { data = result }); }
+            }
+            catch { return BadRequest(); }
+        }
+        [AllowAnonymous]
+        [HttpGet("GetPoojaList")]
+        public IActionResult GetPoojaList(int Id)
+        {
+            try
+            {
+                var result = _services.GetPoojaList(Id);
+                if (result == null)
+                { return BadRequest(); }
+                else { return Ok(new { data = result }); }
+            }
+            catch { return BadRequest(); }
+        }
+        [AllowAnonymous]
+        [HttpGet("GetPoojaDetail")]
+        public IActionResult GetPoojaDetail(int PoojaId)
+        {
+            try
+            {
+                var result = _services.GetPoojaDetail(PoojaId);
+                if (result == null)
+                { return BadRequest(); }
+                else { return Ok(new { data = result }); }
+            }
+            catch { return BadRequest(); }
+        }
+
     }
 }

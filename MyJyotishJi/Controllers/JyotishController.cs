@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ModelAccessLayer.Models;
 using ModelAccessLayer.ViewModels;
 using System.Net;
 
@@ -39,13 +40,7 @@ namespace MyJyotishGApi.Controllers
             var result =_jyotish.AddAppointment(appointment);
             return Ok(new { data = result });
         }
-        /*[HttpPost("AddTeamMember")]
-        public IActionResult AddTeamMember(  TeamMemberViewModel team)
-        {
-            string? path = _environment.ContentRootPath;
-            var records = _jyotish.AddTeamMember(team, path);
-            return Ok(new { data = records });
-        }*/
+
         [AllowAnonymous]
         [HttpPost("AddTeamMember")]
         public IActionResult AddTeamMember()
@@ -115,6 +110,7 @@ namespace MyJyotishGApi.Controllers
             }
             catch { return BadRequest(); }
         }
+        
 
     }
 }

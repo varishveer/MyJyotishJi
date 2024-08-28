@@ -42,11 +42,12 @@ namespace ModelAccessLayer.Models
         public string? Address { get; set; }
         public TimeOnly? TimeTo { get; set; }
         public TimeOnly? TimeFrom { get; set; }
+        public string? Status { get; set; }  
 
 
         public ICollection<CallingModel> CallingModelRecord { get; set; } = new List<CallingModel>();
         public ICollection<ChattingModel> ChattingModelRecord { get; set; } = new List<ChattingModel>();
-        public ICollection<PoojaRecordModel> PoojaModelRecord { get; set; } = new List<PoojaRecordModel>();
+        
         
     }
 
