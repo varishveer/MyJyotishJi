@@ -5,162 +5,718 @@
     ViewData["Title"] = "HomePage";
 }
 
-<br />
-<div class="container" style="height:300px; width: 100%; background-color:yellow " >
-    
-    <img src="https://localhost:7118/Images/astrologer_baba.webp" width="1111" height="300" />
-</div>
-<br />
-<div class="container">
-
-    <div class="d-flex row bg-white">
-        <div class="col g-1 border-1 border-primary" style=" height:270px; Background-color: aqua;">
-            <img src="~/img/Chat.png" height="80px" style="margin:80px;"/>
-            <h4>Chat with Astrologer </h4>
-        </div>
-
-        <div class="col g-1" style=" height:270px; Background-color: grey;">
-            <img src="~/Img/Talk.png" height="80px" style="margin:80px;" />
-            <h4>Talk with Astrologer</h4>
-        </div>
-
-        <div class="col g-1" style=" height:270px; Background-color: aqua;">
-            <img src="~/img/kundli.png" height="80px" style="margin:80px;" />
-            <h4>Free Kundali</h4>
-        </div>
-
-        <div class="col g-1" style=" height:270px; Background-color: grey;">
-            <img src="~/img/kundliMatching.png" height="80px" style="margin:80px;" />
-            <h4>Kundali Matching</h4>
-        </div>
 
 
-    </div>
 
-</div>
+@* <style>
+    .inner-banner
+    {background: linear-gradient(90deg, #f0df20, #fff 50%, #f0df20);
+   /*  padding: 20px 50px 0 60px; */
+    border-radius: 10px;
+    position: relative;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    }
 
-<br />
-<div class="container">
-    <h4 class="text-center"> LATEST FROM BLOG</h4>
-    <div class="d-flex row">
+    .left-side-image-celb {
+        width: 320px;
+        min-width: 320px;
+        height: 300px;
+        overflow: hidden;
+       
+        height: auto;
+        max-width: 100%;
+        vertical-align: middle;
+       
+        overflow-clip-margin: content-box;
+       
+    }
 
-        <div class="col-md-4 g-1 d-block" style=" height:320px; Background-color: aqua;">
-            <img src="~/img/blog1.jpg"  style="width:368px; height:255px;"  />
-            <a href="/Home/BlogDetails">
-                <p>
-                    4 Zodiac Signs Most Likely to Travel the World
-                </p>
-            </a>
-            
-            <p> Jyoti  <strong style="float:right;">June 8, 2024</strong></p>
-        </div>
+    .right-side-content {
+        text-align: left;
+        position: relative;
+    }
 
-        <div class="col-md-4 g-1 d-block" style=" height:320px; Background-color: grey;">
-            <img src="~/img/blog1.jpg" style="width:368px; height:255px;" />
-            <p>
-                4 Zodiac Signs Most Likely to Travel the World
-            </p>
-            <p> Jyoti  <strong style="float:right;">June 8, 2024</strong></p>
-        </div>
-        <div class="col-md-4 g-1 d-block" style=" height:320px; Background-color: aqua;">
-            <img src="~/img/blog1.jpg" style="width:368px ; height:255px;" />
-            <p>
-                4 Zodiac Signs Most Likely to Travel the World
-            </p>
-            <p> Jyoti  <strong style="float:right;">June 8, 2024</strong></p>
-        </div>
-    </div>
-</div>
-<br />
-<div class="container">
-    <h2 class="text-center"> Complimentary astrology services</h2>
-    <div class=" d-flex row text-center">
-        <div class="col-md-3 g-1" style=" height:270px; Background-color: aqua;">
-            <img src="~/img/horoscope.png" height="80px" style="margin-top:30px; margin-left:80px; margin-right:80px;" />
-            <a href="/Home/TodayHoroscope">
-                <h5>Today's Horoscope</h5>
-            </a>
-            <p>
-                Unsure about how your day will unfold? Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!
-            </p>
-        </div>
-        <div class="col-md-3 g-1" style=" height:270px; Background-color: grey;">
-            <img src="~/img/horoscope.png" height="80px" style="margin-top:30px; margin-left:80px; margin-right:80px;" />
-            <a href="/Home/FreeKundli"><h5>Free Kundali</h5></a>
-            <p>
-                Unsure about how your day will unfold? Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!
-            </p>
-        </div>
-        <div class="col-md-3 g-1" style=" height:270px; Background-color: aqua;">
-            <img src="~/img/horoscope.png" height="80px" style="margin-top:30px; margin-left:80px; margin-right:80px;" />
-            <a href="/Home/Compatibility"><h5>Compatibility</h5></a>
-            <p>
-                Unsure about how your day will unfold? Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!
-            </p>
-        </div>
-        <div class="col-md-3 g-1" style=" height:270px; Background-color: grey;">
-            <img src="~/img/horoscope.png" height="80px" style="margin-top:30px; margin-left:80px; margin-right:80px;" />
-            <a href="/Home/IndianCalendarFestivals"><h5>Festival 2024</h5></a>
-            <p>
-                Unsure about how your day will unfold? Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!
-            </p>
-        </div>
-
-    </div>
-</div>
-<br />
-<div class="container">
-    <h4 class="text-center">Our Celebrity Customers</h4>
-    <div class="d-flex row">
+        .right-side-content-p{
+            font-size: 32px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    .btn-contact-astrologer {
+        background-color: #000;
+        padding: 10px 45px;
+        border-radius: 30px;
+        box-shadow: 0 1px 2px 1px #333;
+        display: inline-flex;
+        font-size: 18px;
+        color: #fff;
+        transition: .3s ease-in-out;
+        position: relative;
+    }
+    .outerDiv1{
+        background-image: linear-gradient(#000, #37362af0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         
-        <div class="col g-1" style=" height:250px; Background-color: aqua;">
-            <img src="https://i3.ytimg.com/vi/i1KL9-vcB7w/maxresdefault.jpg" width="368px" class="rounded-2" />
-            <p> Secret of Mandira Bedi's Success</p>
+
+    }
+    .container{
+        max-width:1130px;
+    }
+
+    .new_banner_2 {
+        padding-top: 5px;
+        background-size: contain;
+        background-position: 50%;
+    }
+
+    .col-3 {
+        flex: 0 0 25%; /* Updated to be more explicit */
+        align-items: center;
+    }
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1140px;
+    }
+
+    .astrolger_services {
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+
+    .row {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: calc(-1 * var(--bs-gutter-y));
+        margin-right: calc(-0.5 * var(--bs-gutter-x));
+        margin-left: calc(-0.5 * var(--bs-gutter-x));
+    }
+
+</style>
+
+ *@
+
+
+@* <div class="outerDiv1 justify-content-center">
+    <div class="inner-banner" style="width:1106px;">
+        <div class="left-side-image-celb">
+            <img alt="Baba Ramchandra"
+                 src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/astrologer_baba.webp"
+                 width="320">
+        </div>
+        <div class="right-side-content">
+            <p class="right-side-content-p">
+                200+ Celebs
+                <span class="unbold-class">
+                    recommends
+                </span>
+                Astrotalk
+            </p>
+            <h1>
+                Chat With Astrologer
+            </h1>
+            <a class="btn-contact-astrologer" href="/chat-with-astrologer">
+                Chat Now
+            </a>
+        </div>
+    </div>
+    <br />
+
+
+   
+
+
+
+    <div class="container justify-content-around" style="width:1106px;">
+
+        <div class="d-flex row  g-1">
+
+            <div class="col-md-2 g-1 border-1 border-primary bg-white" style=" height:270px; ">
+                <img src="~/img/Chat.png" height="80px" style="margin:80px;" />
+                <h4>Chat with Astrologer </h4>
+            </div>
+
+            <div class="col-md-2 g-1  bg-white" style=" height:270px;">
+                <img src="~/Img/Talk.png" height="80px" style="margin:80px;" />
+                <h4>Talk with Astrologer</h4>
+            </div>
+
+            <div class="col-md-2 g-1 bg-white" style=" height:270px; ">
+                <img src="~/img/kundli.png" height="80px" style="margin:80px;" />
+                <h4>Free Kundali</h4>
+            </div>
+
+            <div class="col-md-2 g-1 bg-white" style=" height:270px; ">
+                <img src="~/img/kundliMatching.png" height="80px" style="margin:80px;" />
+                <h4>Kundali Matching</h4>
+            </div>
+
+
         </div>
 
-        <div class="col g-1" style=" height:250px; Background-color: aqua;">
-            <img src="https://i3.ytimg.com/vi/i1KL9-vcB7w/maxresdefault.jpg" width="368px" class="rounded-2" />
-            <p> Secret of Mandira Bedi's Success</p>
+    </div>
+
+</div>
+ *@
+
+
+<style>
+    .outerDiv1 {
+        background-image: linear-gradient(#000, #37362af0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .inner-banner {
+        background: linear-gradient(90deg, #f0df20, #fff 50%, #f0df20);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        max-width: 1130px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .left-side-image-celb {
+        width: 320px;
+        height: auto;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+        .left-side-image-celb img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+    .right-side-content {
+        text-align: left;
+        margin-left: 20px;
+    }
+
+    .right-side-content-p {
+        font-size: 32px;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    .btn-contact-astrologer {
+        background-color: #000;
+        padding: 10px 45px;
+        border-radius: 30px;
+        box-shadow: 0 1px 2px 1px #333;
+        font-size: 18px;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .container {
+        max-width: 1130px;
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+    }
+
+    .new_banner_2 {
+        padding-top: 5px;
+        background-size: contain;
+        background-position: 50%;
+    }
+
+    .astrolger_services {
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px 0;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+        justify-content: space-between;
+    }
+
+    .col-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .col-3 img {
+            max-height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .col-3 h4 {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+
+
+    .free_services {
+        padding: 40px 0;
+        
+    }
+
+    .section-headings {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .kundli_heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .diff_font_family {
+        font-family: Arial, sans-serif;
+    }
+
+    .slider {
+        display: flex;
+        
+       
+    }
+
+    .slide {
+        flex: 0 0 auto;
+        
+        width: 260px;
+        margin: 0 10px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .box_section {
+        padding: 20px;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .icon {
+        
+        margin: 0 auto 15px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    /* .daily_horoscope_icon {
+        background-image: url('daily_horoscope_icon.png');
+    }
+
+    .free_kundli_icon {
+        background-image: url('free_kundli_icon.png');
+    }
+
+    .compatibility_icon {
+        background-image: url('compatibility_icon.png');
+    }
+
+    .festival_icon {
+        background-image: url('festival_icon.png');
+    }
+
+    .match_making_icon {
+        background-image: url('match_making_icon.png');
+    }
+
+    .chinese_horoscope_icon {
+        background-image: url('chinese_horoscope_icon.png');
+    }
+
+    .panchang_icon {
+        background-image: url('panchang_icon.png');
+    }
+ */
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        font-size: 14px;
+        color: #666;
+    }
+
+</style>
+<div class="outerDiv1">
+    <div class="inner-banner">
+        <div class="left-side-image-celb">
+            <img alt="Baba Ramchandra"
+                 src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/astrologer_baba.webp"
+                 width="320">
+        </div>
+        <div class="right-side-content">
+            <p class="right-side-content-p">
+                200+ Celebs
+                <span class="unbold-class">recommends</span>
+                Astrotalk
+            </p>
+            <h1>Chat With Astrologer</h1>
+            <a class="btn-contact-astrologer" href="/chat-with-astrologer">
+                Chat Now
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="astrolger_services">
+            <div class="row">
+                <div class="col-3">
+                    <a class="box_item" href="/chat-with-astrologer">
+                        <img src="~/img/Chat.png" alt="Chat with Astrologer" width="100px">
+                        <h4>Chat with Astrologer</h4>
+                    </a>
+                </div>
+
+                <div class="col-3">
+                    <a class="box_item" href="/talk-to-astrologer">
+                        <img src="~/Img/Talk.png" alt="Talk with Astrologer" width="100px">
+                        <h4>Talk with Astrologer</h4>
+                    </a>
+                </div>
+
+                <div class="col-3">
+                    <a class="box_item" href="/shop">
+                        <img src="~/img/kundli.png" alt="Free Kundali" width="100px">
+                        <h4>Free Kundali</h4>
+                    </a>
+                </div>
+
+                <div class="col-3">
+                    <a class="box_item" href="/e-pooja">
+                        <img src="~/img/kundliMatching.png" alt="Kundali Matching" width="100px">
+                        <h4>Kundali Matching</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+
+</div>
+
+@* <div class="container d-flex gap-2 justify-content-around flex-column">
+    <h1 class="d-flex">jhdgefkjdfhkdsj</h1>
+    <div class="row">
+        <div class="col-sm-3 mb-4">
+            <div class="card">
+                <a class="box_section free_service" href="/horoscope/todays-horoscope">
+                    <img src="~/img/horoscope.png" class="card-img-top" alt="Today's Horoscope">
+                    <div class="card-body">
+                        <h5 class="card-title">Today's Horoscope</h5>
+                        <p class="card-text">Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card">
+                <a class="box_section free_service" href="/freekundli">
+                    <img src="~/img/horoscope.png" class="card-img-top" alt="Free Kundli">
+                    <div class="card-body">
+                        <h5 class="card-title">Free Kundli</h5>
+                        <p class="card-text">Generate your free online kundli report. Our Kundli software can help you predict your future by reading the birth chart.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card">
+                <a class="box_section free_service" href="/compatibility">
+                    <img src="~/img/horoscope.png" class="card-img-top" alt="Compatibility">
+                    <div class="card-body">
+                        <h5 class="card-title">Compatibility</h5>
+                        <p class="card-text">Check the compatibility with your partner using our tool and ignite a love that lasts forever.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3 mb-4">
+            <div class="card">
+                <a class="box_section free_service" href="/indian-calendar-festivals-2024">
+                    <img src="~/img/horoscope.png" class="card-img-top" alt="Festival 2024">
+                    <div class="card-body">
+                        <h5 class="card-title">Festival 2024</h5>
+                        <p class="card-text">Explore the diverse world of festivities – a realm of celebration.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+ *@
+
+<section class="free_services rounded-3 " style="background-color:#f9f9f9">
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-12 section-headings">
+                <h2 class="kundli_heading">Complimentary astrology services</h2>
+            </div>
+        </div>
+        <div class="diff_font_family">
+            <div class="slider">
+                <div class="slide">
+                    <a class="box_section free_service" href="/horoscope/todays-horoscope">
+                        <div class="icon daily_horoscope_icon m-auto">
+                            <img src="~/img/horoscope.png"  />
+                        </div>
+                        <div class="title">Today's Horoscope</div>
+                        <div class="description">Get free Aries horoscope online prediction from top astrologer. Read your Aries Zodiac Sign Horoscope today!</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a class="box_section free_service" href="/freekundli">
+                        <div class="icon free_kundli_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Free Kundli</div>
+                        <div class="description">Generate your free online kundli report. Our Kundli software can help you predict your future by reading the birth chart.</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a class="box_section free_service" href="/compatibility">
+                        <div class="icon compatibility_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Compatibility</div>
+                        <div class="description">Check the compatibility with your partner using our tool and ignite a love that lasts forever.</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a class="box_section free_service" href="/indian-calendar-festivals-2024">
+                        <div class="icon festival_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Festival 2024</div>
+                        <div class="description">Explore the diverse world of festivities – a realm of celebration.</div>
+                    </a>
+                </div>
+               @*  <div class="slide">
+                    <a class="box_section free_service" href="/matchmaking">
+                        <div class="icon match_making_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Kundli Matching</div>
+                        <div class="description">Get the best Horoscope and kundli matching predictions today!</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a class="box_section free_service" href="/chinese-astrology">
+                        <div class="icon chinese_horoscope_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Chinese Horoscope</div>
+                        <div class="description">Discover your inner spirit animal with Chinese astrology. Find out now!</div>
+                    </a>
+                </div>
+                <div class="slide">
+                    <a class="box_section free_service" href="/today-panchang">
+                        <div class="icon panchang_icon">
+                            <img src="~/img/horoscope.png" />
+                        </div>
+                        <div class="title">Today Panchang</div>
+                        <div class="description">Panchang enlists a record of auspicious dates and times for any auspicious task.</div>
+                    </a>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<br />
+<style>
+    .custom-card {
+        background-color: #EEEEEE;
+        border-radius: 15px; /* Makes the card corners rounded */
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+
+    }
+
+        .custom-card:hover {
+            transform: scale(1.05); /* Slightly zooms in on hover */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Adds a shadow effect on hover */
+        }
+
+    .card-img-top {
+        height: 255px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+</style>
+
+<div class="container">
+    <h4 class="text-center mb-4">LATEST FROM BLOG</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                
+                <img src="~/img/blogs/blog1.jpg" class="card-img-top" alt="Blog Image 1">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title">Zodiac Signs That Are Destined for Greatness</p>
+                    </a>
+                    <p class="card-text">Jyoti <strong class="float-end">June 8, 2024</strong></p>
+                </div>
+            </div>
         </div>
 
-        <div class="col g-1" style=" height:250px; Background-color: aqua;">
-            <img src="https://i3.ytimg.com/vi/i1KL9-vcB7w/maxresdefault.jpg" width="368px" class="rounded-2" />
-            <p> Secret of Mandira Bedi's Success</p>
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/img/blogs/blog2.jpg" class="card-img-top" alt="Blog Image 2">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title">4 Zodiac Signs That Radiate Positive Vibes</P>
+                    </a>
+                    <p class="card-text">Jyoti <strong class="float-end">June 8, 2024</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/img/blogs/blog3.jpg" class="card-img-top" alt="Blog Image 3">
+                <div class="card-body">
+                    <a href="/Home/BlogDetails" class="card-title text-decoration-none text-dark">
+                        <p class="card-title"> 4 Zodiac Signs That Are Unstoppable in Love</p>
+                    </a>
+                    <p class="card-text">Jyoti <strong class="float-end">June 8, 2024</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br />
+<div class="container">
+    <h4 class="text-center mb-4">Our Celebrity Customers</h4>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/Img/Celebrity/MandiraBedi.jpg" class="card-img-top" alt="Celebrity 1">
+                <div class="card-body">
+                    <p class="card-text text-center">Secret of Mandira Bedi's Success. &#128550;</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/Img/Celebrity/ShwetaTiwari.jpg" class="card-img-top" alt="Celebrity 2">
+                <div class="card-body">
+                    <p class="card-text text-center">Shweta Tiwari has a message for you. &#128550;</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card custom-card">
+                <img src="~/Img/Celebrity/BhartiSingh.jpg" class="card-img-top" alt="Celebrity 3">
+                <div class="card-body">
+                    <p class="card-text text-center">She never thought to come on television. &#128550;</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <br />
-<div class="container">
-    <div class="d-flex row">
-        <h4 class="text-center"> Our Astrologers</h4>
-        <div class="col g-1 text-center" style=" height:250px; Background-color: aqua;">
-            <img src="~/img/astrologer.jpg" />
-            <a href="/Home/JyotishProfile">
-                <h6> Prikshana</h6>
-            </a>
-            <p>Astrologer Expertise</p>
+
+<div style="background-color:#F0DF20;  display: flex; flex-direction: column; align-items: center; padding: 20px;">
+    <div class="container" style="background-color:#F0DF20">
+        <h4 class="text-center mb-4">Our Astrologers</h4>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card custom-card text-center ">
+                    <img src="~/img/Astro/Astro1.jpg" class="card-img-top" alt="Astrologer 1" style="height:150px; width:150px;">
+                    <div class="card-body">
+                        <a href="/Home/JyotishProfile" class="text-decoration-none text-dark">
+                            <h6 class="card-title">Ajay</h6>
+                        </a>
+                        <p class="card-text">Vedic Astrology </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card custom-card text-center">
+                    <img src="~/img/Astro/Astro2.jpg" class="card-img-top" alt="Astrologer 2" style="height:150px; width:150px;">
+                    <div class="card-body">
+                        <h6 class="card-title">Sarika</h6>
+                        <p class="card-text">Vedic Astrology </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card custom-card text-center">
+                    <img src="~/img/Astro/Astro3.jpg" class="card-img-top" alt="Astrologer 3" style="height:150px; width:150px;">
+                    <div class="card-body">
+                        <h6 class="card-title">Rachana</h6>
+                        <p class="card-text">Numerology </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card custom-card text-center">
+                    <img src="~/img/Astro/Astro4.jpg" class="card-img-top" alt="Astrologer 4" style="height:150px; width:150px;">
+                    <div class="card-body">
+                        <h6 class="card-title">Sanjeev</h6>
+                        <p class="card-text">Vedic Astrology </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col g-1 text-center" style=" height:250px; Background-color: grey;">
-            <img src="~/img/astrologer.jpg" />
-            <h6> Prikshana</h6>
-            <p>Astrologer Expertise</p>
-
-        </div>
-        <div class="col g-1 text-center" style=" height:250px; Background-color: aqua;">
-            <img src="~/img/astrologer.jpg" />
-            <h6> Prikshana</h6>
-            <p>Astrologer Expertise</p>
-
-        </div>
-
-        <div class="col g-1 text-center" style=" height:250px; Background-color: grey;">
-            <img src="~/img/astrologer.jpg" />
-            <h6> Prikshana</h6>
-            <p>Astrologer Expertise</p>
-
-        </div>
-
     </div>
-
 </div>
-   
