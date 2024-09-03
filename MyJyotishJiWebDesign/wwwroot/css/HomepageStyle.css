@@ -37,7 +37,8 @@
     border-radius:15px;
 }
 
-@media (max-width:768px){
+@media (max-width:768px)
+{
     .Services-img {
         width:300px;
     }
